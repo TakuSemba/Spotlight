@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode LIBRARY_VERSION_CODE as int
+        versionName LIBRARY_VERSION_NAME
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+}
+
+def getBintrayUserProperty() {
+    return hasProperty('bintrayUser') ? bintrayUser : ""
+}
+
+def getBintrayApiKeyProperty() {
+    return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
+}
+
+publish {
+    userOrg = POM_DEVELOPER_ID
+    groupId = GROUP
+    artifactId = ARTIFACT_ID
+    publishVersion = LIBRARY_VERSION_NAME
+    licences = ['Apache-2.0']
+    desc = POM_DESCRIPTION
+    website = POM_URL
+    issueTracker = ISSUE_URL
+    repository = POM_SCM_URL
+    autoPublish = false
+    bintrayUser = bintrayUserProperty
+    bintrayKey = bintrayApiKeyProperty
+    dryRun = false
+}

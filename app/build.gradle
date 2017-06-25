@@ -1,49 +1,27 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.2"
-  defaultConfig {
-    applicationId "com.takusemba.spotlightapp"
-    minSdkVersion 16
-    targetSdkVersion 25
-    versionCode 1
-    versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
+    defaultConfig {
+        applicationId "com.takusemba.spotlightsample"
+
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode LIBRARY_VERSION_CODE as int
+        versionName LIBRARY_VERSION_NAME
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-  }
-  dataBinding {
-    enabled = true
-  }
-
-  sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
-
-    //テスト用
-    androidTest.java.srcDirs += 'src/androidTest/kotlin'
-  }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  compile 'com.android.support:appcompat-v7:25.3.1'
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
-  // data binding
-  kapt 'com.android.databinding:compiler:2.3.1'
-  testCompile 'junit:junit:4.12'
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-  compile 'com.android.support:support-dynamic-animation:25.3.1'
-}
-repositories {
-  mavenCentral()
+    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    compile project(':spotlight')
 }
