@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -16,8 +17,12 @@ android {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
 }
+
+group = GROUP
+version = LIBRARY_VERSION_NAME
 
 def getBintrayUserProperty() {
     return hasProperty('bintrayUser') ? bintrayUser : ""
@@ -27,18 +32,74 @@ def getBintrayApiKeyProperty() {
     return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
 }
 
-publish {
-    userOrg = POM_DEVELOPER_ID
-    groupId = GROUP
-    artifactId = ARTIFACT_ID
-    publishVersion = LIBRARY_VERSION_NAME
-    licences = ['Apache-2.0']
-    desc = POM_DESCRIPTION
-    website = POM_URL
-    issueTracker = ISSUE_URL
-    repository = POM_SCM_URL
-    autoPublish = false
-    bintrayUser = bintrayUserProperty
-    bintrayKey = bintrayApiKeyProperty
-    dryRun = false
+bintray {
+
+    user = bintrayUserProperty
+    key = bintrayApiKeyProperty
+
+    configurations = ['archives'] //When uploading configuration files
+    pkg {
+        repo = POM_REPO
+        name = POM_NAME
+        desc = POM_DESCRIPTION
+        websiteUrl = POM_URL
+        issueTrackerUrl = ISSUE_URL
+        vcsUrl = POM_SCM_URL
+        licenses = ['Apache-2.0']
+        labels = ['android']
+        publicDownloadNumbers = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name ARTIFACT_ID
+                url POM_URL
+                licenses {
+                    license {
+                        name POM_LICENSE_NAME
+                        url POM_LICENSE_URL
+                    }
+                }
+                developers {
+                    developer {
+                        id POM_DEVELOPER_ID
+                        name POM_DEVELOPER_NAME
+                        email POM_DEVELOPER_EMAIL
+                    }
+                }
+                scm {
+                    connection POM_SCM_CONNECTION
+                    developerConnection POM_SCM_CONNECTION
+                    url POM_URL
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
 }
