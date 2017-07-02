@@ -80,7 +80,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Author
 
-* **Taku Semba** - (https://github.com/takusemba)
+* **Taku Semba**
+    * **Github** - (https://github.com/takusemba)
+    * **Twitter** - (https://twitter.com/takusemba)
+    * **Facebook** - (https://www.facebook.com/takusemba)
 
 ## Licence
 ```
