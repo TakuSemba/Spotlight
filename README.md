@@ -73,7 +73,7 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Change Log
 
-### Version: 1.0
+### Version: 1.0.0
 
   * Initial Build
 
