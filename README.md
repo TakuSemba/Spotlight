@@ -7,7 +7,7 @@
 
 ```groovy
 dependencies {
-    compile 'hogehgoe:1.0.0'
+    compile 'com.github.takusemba:spotlight:1.0.0'
 }
 ```
 
