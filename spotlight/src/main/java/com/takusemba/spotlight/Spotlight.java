@@ -180,7 +180,6 @@ public class Spotlight {
     private void startTarget() {
         if (targets != null && targets.size() > 0) {
             Target target = targets.get(0);
-            target.getView().setId(R.id.main_layout);
             getSpotlightView().removeAllViews();
             getSpotlightView().addView(target.getView());
             getSpotlightView().turnUp(target.getPoint().x, target.getPoint().y, target.getRadius(),
