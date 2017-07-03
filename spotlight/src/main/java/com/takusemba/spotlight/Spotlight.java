@@ -231,7 +231,6 @@ public class Spotlight {
      * hide Spotlight
      */
     private void finishSpotlight() {
-        getSpotlightView().removeView(getSpotlightView().findViewById(R.id.main_layout));
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getSpotlightView(), "alpha", 1f, 0f);
         objectAnimator.setDuration(FINISH_SPOTLIGHT_DURATION);
         objectAnimator.addListener(new Animator.AnimatorListener() {
