@@ -40,7 +40,7 @@ Spotlight.with(this)
 
 if you want to show Spotlight immediately, use `addOnGlobalLayoutListener` to wait until views are drawn.
 
-```
+```java
 view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
     @Override public void onGlobalLayout() {
         view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
