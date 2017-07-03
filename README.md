@@ -38,7 +38,7 @@ Spotlight.with(this)
 
 
 ### Simple Target
-simply set a title and description, these position will automatically be calculated.
+simply set a title and description, these position will be automatically calculated.
 
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" alt="alt text" style="width:200;height:200">
 
