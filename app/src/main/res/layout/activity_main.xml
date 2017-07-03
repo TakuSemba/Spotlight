@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="@color/colorPrimary"
-  >
-  
-  <TextView
-    android:id="@+id/one"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_marginLeft="73dp"
-    android:layout_marginTop="120dp"
-    android:text="@string/one"
-    android:textColor="@android:color/white"
-    android:textSize="36sp"
-    android:textStyle="bold"
-    />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
-  <TextView
-    android:id="@+id/two"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_marginRight="100dp"
-    android:layout_marginTop="36dp"
-    android:text="@string/two"
-    android:textColor="@android:color/white"
-    android:textSize="24sp"
-    android:textStyle="bold"
-    />
+    <TextView
+        android:id="@+id/one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="73dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/one"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
-  <TextView
-    android:id="@+id/three"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_marginRight="140dp"
-    android:layout_marginTop="200dp"
-    android:text="@string/three"
-    android:textColor="@android:color/white"
-    android:textSize="58sp"
-    android:textStyle="bold"
-    />
+    <TextView
+        android:id="@+id/two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/two"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="140dp"
+        android:layout_marginTop="200dp"
+        android:text="@string/three"
+        android:textColor="@android:color/white"
+        android:textSize="58sp"
+        android:textStyle="bold" />
 
 
-  <Button
-    android:id="@+id/start"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="20dp"
-    android:text="@string/start"
-    />
+    <Button
+        android:id="@+id/custom_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/start_custom_target" />
+
+    <Button
+        android:id="@+id/simple_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/custom_target"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/start_simple_target" />
 
 </RelativeLayout>

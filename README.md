@@ -1,3 +1,5 @@
+ [ ![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg) ](https://bintray.com/takusemba/maven/spotlight/_latestVersion) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Spotlight
 #### Android Library that lights items for tutorials or walk-throughs etc...
 
@@ -34,6 +36,17 @@ Spotlight.with(this)
         })
         .start(); // start Spotlight
                         
+```
+
+if you want to show Spotlight immediately, use `addOnGlobalLayoutListener` to wait until views are drawn.
+
+```
+view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    @Override public void onGlobalLayout() {
+        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        Spotlight.with(this)...start();
+    }
+});
 ```
 
 

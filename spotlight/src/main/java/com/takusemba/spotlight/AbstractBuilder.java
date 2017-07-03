@@ -16,7 +16,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     private WeakReference<Activity> contextWeakReference;
     protected float startX = 0f;
     protected float startY = 0f;
-    protected float radius = 0f;
+    protected float radius = 100f;
 
     /**
      * return the builder itself
@@ -69,6 +69,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
 
     /**
      * Sets the initial position of spotlight
+     * Make sure the view already has a fixed position
      *
      * @param view starting position where spotlight reveals
      * @return This Builder
@@ -88,6 +89,9 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
      * @return This Builder
      */
     public T setRadius(float radius) {
+        if (radius <= 0) {
+            throw new IllegalArgumentException("radius must be greater than 0");
+        }
         this.radius = radius;
         return self();
     }

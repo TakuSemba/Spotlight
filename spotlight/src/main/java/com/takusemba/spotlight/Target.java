@@ -9,7 +9,7 @@ import android.view.View;
  * @author takusemba
  * @since 26/06/2017
  **/
-public interface Target {
+interface Target {
 
     /**
      * gets the point of this Target

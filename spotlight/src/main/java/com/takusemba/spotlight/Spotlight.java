@@ -21,7 +21,7 @@ import java.util.Arrays;
  * @author takusemba
  * @since 26/06/2017
  **/
-public class Spotlight implements SpotlightView.OnSpotlightStateChangedListener {
+public class Spotlight {
 
     /**
      * Duration of Spotlight emerging
@@ -86,8 +86,8 @@ public class Spotlight implements SpotlightView.OnSpotlightStateChangedListener 
      * @param targets targets to show
      * @return the SpotlightView
      */
-    public Spotlight setTargets(@NonNull Target... targets) {
-        this.targets = new ArrayList<>(Arrays.asList(targets));
+    public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
+        this.targets = new ArrayList<Target>(Arrays.asList(targets));
         return this;
     }
 
@@ -156,7 +156,21 @@ public class Spotlight implements SpotlightView.OnSpotlightStateChangedListener 
         spotlightView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         ((ViewGroup) decorView).addView(spotlightView);
-        spotlightView.setOnSpotlightStateChangedListener(this);
+        spotlightView.setOnSpotlightStateChangedListener(new SpotlightView.OnSpotlightStateChangedListener() {
+            @Override
+            public void onTargetClosed() {
+                if (targets != null && targets.size() > 0) {
+                    startTarget();
+                } else {
+                    finishSpotlight();
+                }
+            }
+
+            @Override
+            public void onTargetClicked() {
+                finishTarget();
+            }
+        });
         startSpotlight();
     }
 
@@ -245,19 +259,5 @@ public class Spotlight implements SpotlightView.OnSpotlightStateChangedListener 
             }
         });
         objectAnimator.start();
-    }
-
-    @Override
-    public void onTargetClosed() {
-        if (targets != null && targets.size() > 0) {
-            startTarget();
-        } else {
-            finishSpotlight();
-        }
-    }
-
-    @Override
-    public void onTargetClicked() {
-        finishTarget();
     }
 }
