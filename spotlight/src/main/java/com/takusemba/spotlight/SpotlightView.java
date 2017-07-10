@@ -103,7 +103,7 @@ class SpotlightView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(backgroundColor != 0) {
+        if(backgroundColor != -1) {
             paint.setColor(backgroundColor);
         } else {
             paint.setColor(ContextCompat.getColor(getContext(), R.color.background));
