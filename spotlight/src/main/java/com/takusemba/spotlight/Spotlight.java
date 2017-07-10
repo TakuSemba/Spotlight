@@ -44,7 +44,7 @@ public class Spotlight {
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
 
-    private int backgroundColor = 0;
+    private int backgroundColor = -1;
 
     /**
      * Constructor
