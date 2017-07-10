@@ -21,7 +21,7 @@ dependencies {
 Spotlight.with(this)
         .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
         .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
-        .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targes. see below for more info
+        .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targets. see below for more info
         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() { // callback when Spotlight starts
             @Override
             public void onStarted() {
