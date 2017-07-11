@@ -5,11 +5,13 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +32,7 @@ class SpotlightView extends FrameLayout {
     private PointF point = new PointF();
     private ValueAnimator animator;
     private OnSpotlightStateChangedListener listener;
+    private int backgroundColor;
 
     /**
      * Listener to control Target state
@@ -87,6 +90,11 @@ class SpotlightView extends FrameLayout {
         });
     }
 
+    public void setBackgroundColor(@ColorInt int backgroundColor)
+    {
+        this.backgroundColor = backgroundColor;
+    }
+
     /**
      * draws black background and trims a circle
      *
@@ -95,7 +103,12 @@ class SpotlightView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.background));
+        if(backgroundColor != -1) {
+            paint.setColor(backgroundColor);
+        } else {
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.background));
+
+        }
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         if (animator != null) {
             canvas.drawCircle(point.x, point.y, (float) animator.getAnimatedValue(), spotPaint);

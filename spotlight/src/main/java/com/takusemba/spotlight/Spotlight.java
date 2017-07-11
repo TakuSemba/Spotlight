@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,8 @@ public class Spotlight {
     private TimeInterpolator animation = DEFAULT_ANIMATION;
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
+
+    private int backgroundColor = -1;
 
     /**
      * Constructor
@@ -136,6 +139,12 @@ public class Spotlight {
         return this;
     }
 
+    public Spotlight setBackgroundColor(@ColorInt int backgroundColor)
+    {
+        this.backgroundColor = backgroundColor;
+        return this;
+    }
+
     /**
      * Shows {@link SpotlightView}
      */
@@ -152,6 +161,7 @@ public class Spotlight {
         }
         final View decorView = ((Activity) getContext()).getWindow().getDecorView();
         SpotlightView spotlightView = new SpotlightView(getContext());
+        spotlightView.setBackgroundColor(backgroundColor);
         spotlightViewWeakReference = new WeakReference<>(spotlightView);
         spotlightView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
