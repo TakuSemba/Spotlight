@@ -243,7 +243,7 @@ public class Spotlight {
             public void onAnimationEnd(Animator animation) {
                 final View decorView = ((Activity) getContext()).getWindow().getDecorView();
                 ((ViewGroup) decorView).removeView(getSpotlightView());
-                if (startedListener != null) endedListener.onEnded();
+                if (endedListener != null) endedListener.onEnded();
             }
 
             @Override
