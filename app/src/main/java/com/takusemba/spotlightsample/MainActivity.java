@@ -10,8 +10,10 @@ import android.widget.Toast;
 import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
 import com.takusemba.spotlight.OnSpotlightStartedListener;
+import com.takusemba.spotlight.OnTargetStateChangeListener;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
+import com.takusemba.spotlight.Target;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onEnded() {
                                 Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setOnTargetStateChangeListener(new OnTargetStateChangeListener() {
+                            @Override
+                            public void onStarted(int index, Target target) {
+                                Toast.makeText(MainActivity.this, "target " + index + " is started", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+
+                            @Override
+                            public void onEnded(int index, Target target) {
+
                             }
                         })
                         .start();
