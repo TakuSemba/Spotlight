@@ -42,6 +42,8 @@ public class Spotlight {
     private TimeInterpolator animation = DEFAULT_ANIMATION;
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
+    private OnTargetStateChangeListener targetStateChangeListener;
+    private int currentTarget = 0;
 
     /**
      * Constructor
@@ -126,6 +128,15 @@ public class Spotlight {
     }
 
     /**
+     * listener for target turned up or turned down.
+     */
+    public Spotlight setOnTargetStateChangeListener(
+            @NonNull final OnTargetStateChangeListener listener) {
+        targetStateChangeListener = listener;
+        return this;
+    }
+
+    /**
      * Sets Spotlight end Listener to Spotlight
      *
      * @param listener OnSpotlightEndedListener of Spotlight
@@ -171,6 +182,7 @@ public class Spotlight {
                 finishTarget();
             }
         });
+        currentTarget = 0;
         startSpotlight();
     }
 
@@ -184,6 +196,9 @@ public class Spotlight {
             getSpotlightView().addView(target.getView());
             getSpotlightView().turnUp(target.getPoint().x, target.getPoint().y, target.getRadius(),
                     duration, animation);
+            if (targetStateChangeListener != null) {
+                targetStateChangeListener.onStarted(currentTarget, target);
+            }
         }
     }
 
@@ -224,6 +239,9 @@ public class Spotlight {
         if (targets != null && targets.size() > 0) {
             Target target = targets.remove(0);
             getSpotlightView().turnDown(target.getRadius(), duration, animation);
+            if (targetStateChangeListener != null) {
+                targetStateChangeListener.onEnded(currentTarget++, target);
+            }
         }
     }
 
