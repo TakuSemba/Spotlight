@@ -9,7 +9,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.0.1'
+    compile 'com.github.takusemba:spotlight:1.0.2'
 }
 ```
 
