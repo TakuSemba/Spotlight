@@ -9,7 +9,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.0.2'
+    compile 'com.github.takusemba:spotlight:1.0.3'
 }
 ```
 
@@ -62,6 +62,16 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setRadius(80f) // radius of the Target
     .setTitle("the title") // title
     .setDescription("the description") // description
+    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+        @Override
+        public void onStarted(SimpleTarget target) {
+            Toast.makeText(context, "target is started", Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onEnded(SimpleTarget target) {
+            Toast.makeText(context, "target is ended", Toast.LENGTH_SHORT).show();
+        }
+    })
     .build();
 
 ```
@@ -77,6 +87,16 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
     .setRadius(80f) // radius of the Target
     .setView(R.layout.layout_target) // custom view
+    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
+        @Override
+        public void onStarted(CustomTarget target) {
+            Toast.makeText(context, "target is started", Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onEnded(CustomTarget target) {
+            Toast.makeText(context, "target is ended", Toast.LENGTH_SHORT).show();
+        }
+    })
     .build();
 
 ```
@@ -85,6 +105,15 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
 
 ## Change Log
+
+### Version: 1.0.3
+
+  * add listener to target
+
+
+### Version: 1.0.1, 1.0.2
+
+  * bug fix
 
 ### Version: 1.0.0
 
