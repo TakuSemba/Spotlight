@@ -16,14 +16,16 @@ public class CustomTarget implements Target {
     private PointF point;
     private float radius;
     private View view;
+    private OnTargetStateChangedListener listener;
 
     /**
      * Constructor
      */
-    private CustomTarget(PointF point, float radius, View view) {
+    private CustomTarget(PointF point, float radius, View view, OnTargetStateChangedListener listener) {
         this.point = point;
         this.radius = radius;
         this.view = view;
+        this.listener = listener;
     }
 
     @Override
@@ -39,6 +41,11 @@ public class CustomTarget implements Target {
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public OnTargetStateChangedListener getListener() {
+        return listener;
     }
 
     /**
@@ -93,7 +100,7 @@ public class CustomTarget implements Target {
         @Override
         public CustomTarget build() {
             PointF point = new PointF(startX, startY);
-            return new CustomTarget(point, radius, view);
+            return new CustomTarget(point, radius, view, listener);
         }
     }
 }

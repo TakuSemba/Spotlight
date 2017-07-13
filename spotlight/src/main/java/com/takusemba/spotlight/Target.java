@@ -33,6 +33,13 @@ interface Target {
     View getView();
 
     /**
+     * gets the listener of this Target
+     *
+     * @return the listener of this Target
+     */
+    OnTargetStateChangedListener getListener();
+
+    /**
      * default target
      */
     Target DEFAULT = new Target() {
@@ -48,6 +55,11 @@ interface Target {
 
         @Override
         public View getView() {
+            return null;
+        }
+
+        @Override
+        public OnTargetStateChangedListener getListener() {
             return null;
         }
     };

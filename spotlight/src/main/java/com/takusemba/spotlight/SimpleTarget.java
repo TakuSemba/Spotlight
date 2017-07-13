@@ -22,14 +22,16 @@ public class SimpleTarget implements Target {
     private PointF point;
     private float radius;
     private View view;
+    private OnTargetStateChangedListener listener;
 
     /**
      * Constructor
      */
-    private SimpleTarget(PointF point, float radius, View view) {
+    private SimpleTarget(PointF point, float radius, View view, OnTargetStateChangedListener listener) {
         this.point = point;
         this.radius = radius;
         this.view = view;
+        this.listener = listener;
     }
 
     @Override
@@ -45,6 +47,11 @@ public class SimpleTarget implements Target {
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public OnTargetStateChangedListener getListener() {
+        return listener;
     }
 
     /**
@@ -107,7 +114,7 @@ public class SimpleTarget implements Target {
             ((TextView) view.findViewById(R.id.description)).setText(description);
             PointF point = new PointF(startX, startY);
             calculatePosition(point, radius, view);
-            return new SimpleTarget(point, radius, view);
+            return new SimpleTarget(point, radius, view, listener);
         }
 
         /**

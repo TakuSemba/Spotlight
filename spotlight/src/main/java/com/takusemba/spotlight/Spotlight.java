@@ -37,7 +37,7 @@ public class Spotlight {
 
     private static WeakReference<SpotlightView> spotlightViewWeakReference;
     private static WeakReference<Activity> contextWeakReference;
-    private ArrayList<Target> targets;
+    private ArrayList<? extends Target> targets;
     private long duration = DEFAULT_DURATION;
     private TimeInterpolator animation = DEFAULT_ANIMATION;
     private OnSpotlightStartedListener startedListener;
@@ -87,7 +87,7 @@ public class Spotlight {
      * @return the SpotlightView
      */
     public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
-        this.targets = new ArrayList<Target>(Arrays.asList(targets));
+        this.targets = new ArrayList<>(Arrays.asList(targets));
         return this;
     }
 
@@ -146,6 +146,7 @@ public class Spotlight {
     /**
      * Creates the spotlight view and starts
      */
+    @SuppressWarnings("unchecked")
     private void spotlightView() {
         if (getContext() == null) {
             throw new RuntimeException("context is null");
@@ -159,10 +160,14 @@ public class Spotlight {
         spotlightView.setOnSpotlightStateChangedListener(new SpotlightView.OnSpotlightStateChangedListener() {
             @Override
             public void onTargetClosed() {
-                if (targets != null && targets.size() > 0) {
-                    startTarget();
-                } else {
-                    finishSpotlight();
+                if (!targets.isEmpty()) {
+                    Target target = targets.remove(0);
+                    if (target.getListener() != null) target.getListener().onEnded(target);
+                    if (targets.size() > 0) {
+                        startTarget();
+                    } else {
+                        finishSpotlight();
+                    }
                 }
             }
 
@@ -177,6 +182,7 @@ public class Spotlight {
     /**
      * show Target
      */
+    @SuppressWarnings("unchecked")
     private void startTarget() {
         if (targets != null && targets.size() > 0) {
             Target target = targets.get(0);
@@ -184,6 +190,7 @@ public class Spotlight {
             getSpotlightView().addView(target.getView());
             getSpotlightView().turnUp(target.getPoint().x, target.getPoint().y, target.getRadius(),
                     duration, animation);
+            if (target.getListener() != null) target.getListener().onStarted(target);
         }
     }
 
@@ -222,7 +229,7 @@ public class Spotlight {
      */
     private void finishTarget() {
         if (targets != null && targets.size() > 0) {
-            Target target = targets.remove(0);
+            Target target = targets.get(0);
             getSpotlightView().turnDown(target.getRadius(), duration, animation);
         }
     }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
 import com.takusemba.spotlight.OnSpotlightStartedListener;
+import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 
@@ -46,12 +47,30 @@ public class MainActivity extends AppCompatActivity {
                         .setRadius(80f)
                         .setTitle("second title")
                         .setDescription("second description")
+                        .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
+                            @Override
+                            public void onStarted(SimpleTarget target) {
+                                Toast.makeText(MainActivity.this, "target is started", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onEnded(SimpleTarget target) {
+                                Toast.makeText(MainActivity.this, "target is ended", Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .build();
+
+                SimpleTarget thirdTarget =
+                        new SimpleTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
+                                .setRadius(200f)
+                                .setTitle("third title")
+                                .setDescription("third description")
+                                .build();
 
                 Spotlight.with(MainActivity.this)
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
-                        .setTargets(firstTarget, secondTarget)
+                        .setTargets(firstTarget, secondTarget, thirdTarget)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
                             public void onStarted() {

@@ -14,6 +14,7 @@ import java.lang.ref.WeakReference;
 abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target> {
 
     private WeakReference<Activity> contextWeakReference;
+    protected OnTargetStateChangedListener listener;
     protected float startX = 0f;
     protected float startY = 0f;
     protected float radius = 100f;
@@ -45,7 +46,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     }
 
     /**
-     * Sets the initial position of spotlight
+     * Sets the initial position of target
      *
      * @param y starting position of y where spotlight reveals
      * @param x starting position of x where spotlight reveals
@@ -58,7 +59,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     }
 
     /**
-     * Sets the initial position of spotlight
+     * Sets the initial position of target
      *
      * @param point starting position where spotlight reveals
      * @return This Builder
@@ -68,7 +69,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     }
 
     /**
-     * Sets the initial position of spotlight
+     * Sets the initial position of target
      * Make sure the view already has a fixed position
      *
      * @param view starting position where spotlight reveals
@@ -83,9 +84,9 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     }
 
     /**
-     * Sets the radius of spotlight
+     * Sets the radius of target
      *
-     * @param radius radius of spotlight
+     * @param radius radius of target
      * @return This Builder
      */
     public T setRadius(float radius) {
@@ -93,6 +94,17 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
             throw new IllegalArgumentException("radius must be greater than 0");
         }
         this.radius = radius;
+        return self();
+    }
+
+    /**
+     * Sets Target state changed Listener to target
+     *
+     * @param listener OnTargetStateChangedListener of target
+     * @return This Builder
+     */
+    public T setOnSpotlightStartedListener(@NonNull final OnTargetStateChangedListener<S> listener) {
+        this.listener = listener;
         return self();
     }
 }
