@@ -1,4 +1,7 @@
- [ ![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg) ](https://bintray.com/takusemba/maven/spotlight/_latestVersion) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
+![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg)
+![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
+![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
 
 # Spotlight
 #### Android Library that lights items for tutorials or walk-throughs etc...
