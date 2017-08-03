@@ -67,22 +67,24 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
-            Toast.makeText(context, "target is started", Toast.LENGTH_SHORT).show();
+            // do something
         }
         @Override
         public void onEnded(SimpleTarget target) {
-            Toast.makeText(context, "target is ended", Toast.LENGTH_SHORT).show();
+            // do something
         }
     })
     .build();
 
 ```
 
+<br/>
+<br/>
 
-### Custom Target
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="300">
+
+## Custom Target
 use your own custom view.
-
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" alt="alt text" style="width:200;height:200">
 
 ```java
 
@@ -93,16 +95,19 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
-            Toast.makeText(context, "target is started", Toast.LENGTH_SHORT).show();
+            // do something
         }
         @Override
         public void onEnded(CustomTarget target) {
-            Toast.makeText(context, "target is ended", Toast.LENGTH_SHORT).show();
+            // do something
         }
     })
     .build();
 
 ```
+
+<br/>
+<br/>
 
 ### Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
