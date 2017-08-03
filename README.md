@@ -52,6 +52,9 @@ view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlob
 });
 ```
 
+<br/>
+<br/>
+
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="300">
 
 ## Simple Target
@@ -80,6 +83,7 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 
 <br/>
 <br/>
+<br/>
 
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="300">
 
@@ -106,6 +110,7 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 
 ```
 
+<br/>
 <br/>
 <br/>
 
