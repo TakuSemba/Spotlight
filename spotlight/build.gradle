@@ -11,13 +11,10 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode LIBRARY_VERSION_CODE as int
         versionName LIBRARY_VERSION_NAME
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
 }
 
