@@ -2,6 +2,7 @@ package com.takusemba.spotlightsample;
 
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                                 .build();
 
                 Spotlight.with(MainActivity.this)
+                        .setColor(ContextCompat.getColor(MainActivity.this, R.color.background_light))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(firstTarget, secondTarget, thirdTarget)
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                                 .build();
 
                 Spotlight.with(MainActivity.this)
+                        .setColor(ContextCompat.getColor(MainActivity.this, R.color.background_light))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(thirdTarget)
