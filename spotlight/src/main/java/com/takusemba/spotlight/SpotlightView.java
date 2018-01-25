@@ -10,6 +10,7 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -30,28 +31,9 @@ class SpotlightView extends FrameLayout {
     private PointF point = new PointF();
     private ValueAnimator animator;
     private OnSpotlightStateChangedListener listener;
+    private int spotlightColor;
+    private boolean userDefinedColor = false;
 
-    /**
-     * Listener to control Target state
-     */
-    interface OnSpotlightStateChangedListener {
-        /**
-         * Called when Target closed completely
-         */
-        void onTargetClosed();
-
-        /**
-         * Called when Target is Clicked
-         */
-        void onTargetClicked();
-    }
-
-    /**
-     * sets listener to {@link SpotlightView}
-     */
-    public void setOnSpotlightStateChangedListener(OnSpotlightStateChangedListener l) {
-        this.listener = l;
-    }
 
     public SpotlightView(@NonNull Context context) {
         super(context, null);
@@ -63,10 +45,26 @@ class SpotlightView extends FrameLayout {
         init();
     }
 
-    public SpotlightView(@NonNull Context context, @Nullable AttributeSet attrs,
-                         @AttrRes int defStyleAttr) {
+    public SpotlightView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+    }
+
+    /**
+     * sets listener to {@link SpotlightView}
+     */
+    public void setOnSpotlightStateChangedListener(OnSpotlightStateChangedListener l) {
+        this.listener = l;
+    }
+
+    /**
+     * sets the spotlight color
+     *
+     * @param color the color that will be used for the spotlight overlay
+     */
+    public void setSpotlightColor(@ColorInt int color) {
+        this.spotlightColor = color;
+        userDefinedColor = true;
     }
 
     /**
@@ -95,7 +93,7 @@ class SpotlightView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.background));
+        paint.setColor(userDefinedColor ? spotlightColor : ContextCompat.getColor(getContext(), R.color.background));
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         if (animator != null) {
             canvas.drawCircle(point.x, point.y, (float) animator.getAnimatedValue(), spotPaint);
@@ -164,5 +162,20 @@ class SpotlightView extends FrameLayout {
         animator.setInterpolator(animation);
         animator.setDuration(duration);
         animator.start();
+    }
+
+    /**
+     * Listener to control Target state
+     */
+    interface OnSpotlightStateChangedListener {
+        /**
+         * Called when Target closed completely
+         */
+        void onTargetClosed();
+
+        /**
+         * Called when Target is Clicked
+         */
+        void onTargetClicked();
     }
 }
