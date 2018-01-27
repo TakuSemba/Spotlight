@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class Spotlight {
     private TimeInterpolator animation = DEFAULT_ANIMATION;
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
+    private int color;
 
     /**
      * Constructor
@@ -84,7 +86,7 @@ public class Spotlight {
      * sets {@link Target}s to Spotlight
      *
      * @param targets targets to show
-     * @return the SpotlightView
+     * @return the Spotlight
      */
     public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
         this.targets = new ArrayList<>(Arrays.asList(targets));
@@ -92,10 +94,21 @@ public class Spotlight {
     }
 
     /**
+     * sets spotlight background color to Spotlight
+     *
+     * @param color background color to be used for the spotlight overlay
+     * @return the Spotlight
+     */
+    public Spotlight setColor(@ColorInt int color) {
+        this.color = color;
+        return this;
+    }
+
+    /**
      * sets duration to {@link Target} Animation
      *
      * @param duration duration of Target Animation
-     * @return the SpotlightView
+     * @return the Spotlight
      */
     public Spotlight setDuration(long duration) {
         this.duration = duration;
@@ -106,7 +119,7 @@ public class Spotlight {
      * sets duration to {@link Target} Animation
      *
      * @param animation type of Target Animation
-     * @return the SpotlightView
+     * @return the Spotlight
      */
     public Spotlight setAnimation(TimeInterpolator animation) {
         this.animation = animation;
@@ -154,8 +167,8 @@ public class Spotlight {
         final View decorView = ((Activity) getContext()).getWindow().getDecorView();
         SpotlightView spotlightView = new SpotlightView(getContext());
         spotlightViewWeakReference = new WeakReference<>(spotlightView);
-        spotlightView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        spotlightView.setSpotlightColor(color);
+        spotlightView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         ((ViewGroup) decorView).addView(spotlightView);
         spotlightView.setOnSpotlightStateChangedListener(new SpotlightView.OnSpotlightStateChangedListener() {
             @Override
