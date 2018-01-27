@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                                 .build();
 
                 Spotlight.with(MainActivity.this)
-                        .setColor(ContextCompat.getColor(MainActivity.this, R.color.background_light))
+                        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(firstTarget, secondTarget, thirdTarget)
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                                 .build();
 
                 Spotlight.with(MainActivity.this)
-                        .setColor(ContextCompat.getColor(MainActivity.this, R.color.background_light))
+                        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(thirdTarget)

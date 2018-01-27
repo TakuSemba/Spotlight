@@ -32,6 +32,11 @@ public class Spotlight {
      * Duration of Spotlight disappearing
      */
     private static final long FINISH_SPOTLIGHT_DURATION = 500L;
+    /**
+     * Default of Spotlight overlay color
+     */
+    @ColorInt
+    private static final int DEFAULT_OVERLAY_COLOR = R.color.background;
 
     private static final long DEFAULT_DURATION = 1000L;
     private static final TimeInterpolator DEFAULT_ANIMATION = new DecelerateInterpolator(2f);
@@ -43,7 +48,7 @@ public class Spotlight {
     private TimeInterpolator animation = DEFAULT_ANIMATION;
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
-    private int color;
+    private int overlayColor = DEFAULT_OVERLAY_COLOR;
 
     /**
      * Constructor
@@ -96,11 +101,11 @@ public class Spotlight {
     /**
      * sets spotlight background color to Spotlight
      *
-     * @param color background color to be used for the spotlight overlay
+     * @param overlayColor background color to be used for the spotlight overlay
      * @return the Spotlight
      */
-    public Spotlight setColor(@ColorInt int color) {
-        this.color = color;
+    public Spotlight setOverlayColor(@ColorInt int overlayColor) {
+        this.overlayColor = overlayColor;
         return this;
     }
 
@@ -167,7 +172,7 @@ public class Spotlight {
         final View decorView = ((Activity) getContext()).getWindow().getDecorView();
         SpotlightView spotlightView = new SpotlightView(getContext());
         spotlightViewWeakReference = new WeakReference<>(spotlightView);
-        spotlightView.setSpotlightColor(color);
+        spotlightView.setOverlayColor(overlayColor);
         spotlightView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         ((ViewGroup) decorView).addView(spotlightView);
         spotlightView.setOnSpotlightStateChangedListener(new SpotlightView.OnSpotlightStateChangedListener() {

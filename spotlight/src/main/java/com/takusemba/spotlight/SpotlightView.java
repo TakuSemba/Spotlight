@@ -31,8 +31,7 @@ class SpotlightView extends FrameLayout {
     private PointF point = new PointF();
     private ValueAnimator animator;
     private OnSpotlightStateChangedListener listener;
-    private int spotlightColor;
-    private boolean userDefinedColor = false;
+    private int overlayColor;
 
 
     public SpotlightView(@NonNull Context context) {
@@ -60,11 +59,10 @@ class SpotlightView extends FrameLayout {
     /**
      * sets the spotlight color
      *
-     * @param color the color that will be used for the spotlight overlay
+     * @param overlayColor the color that will be used for the spotlight overlay
      */
-    public void setSpotlightColor(@ColorInt int color) {
-        this.spotlightColor = color;
-        userDefinedColor = true;
+    public void setOverlayColor(@ColorInt int overlayColor) {
+        this.overlayColor = overlayColor;
     }
 
     /**
@@ -93,7 +91,7 @@ class SpotlightView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(userDefinedColor ? spotlightColor : ContextCompat.getColor(getContext(), R.color.background));
+        paint.setColor(overlayColor);
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         if (animator != null) {
             canvas.drawCircle(point.x, point.y, (float) animator.getAnimatedValue(), spotPaint);
