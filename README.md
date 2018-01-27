@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.1.3'
+    compile 'com.github.takusemba:spotlight:1.2.0'
 }
 ```
 
@@ -21,6 +21,7 @@ dependencies {
 ```java
 
 Spotlight.with(this)
+        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background)) // background overlay color
         .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
         .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
         .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targets. see below for more info
