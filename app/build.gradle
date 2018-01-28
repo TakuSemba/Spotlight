@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
-    compile project(':spotlight')
+    implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    implementation project(':spotlight')
 }

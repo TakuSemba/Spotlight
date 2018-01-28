@@ -15,7 +15,7 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
 }
 
 group = GROUP
