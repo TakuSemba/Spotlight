@@ -34,7 +34,7 @@ bintray {
     user = bintrayUserProperty
     key = bintrayApiKeyProperty
 
-    configurations = ['archives'] //When uploading configuration files
+    configurations = ['archives']
     pkg {
         repo = POM_REPO
         name = POM_NAME
