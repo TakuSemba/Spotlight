@@ -121,6 +121,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Change Log
 
+### Version: 1.2.0
+
+  * overlay color added
+
 ### Version: 1.0.3
 
   * add listener to target
@@ -129,10 +133,6 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 ### Version: 1.0.1, 1.0.2
 
   * bug fix
-
-### Version: 1.0.0
-
-  * Initial Build
 
 
 ## Author
