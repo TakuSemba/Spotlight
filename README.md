@@ -55,7 +55,7 @@ view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlob
 <br/>
 <br/>
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="30%">
 
 ## Simple Target
 simply set a title and description, these position will be automatically calculated.
@@ -86,7 +86,7 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 <br/>
 <br/>
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="30%">
 
 ## Custom Target
 use your own custom view.
