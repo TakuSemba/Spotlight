@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.2.0'
+    compile 'com.github.takusemba:spotlight:1.3.0'
 }
 ```
 
@@ -67,6 +67,7 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setRadius(80f) // radius of the Target
     .setTitle("the title") // title
     .setDescription("the description") // description
+    .setCloseOnTouchOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -96,7 +97,8 @@ use your own custom view.
 CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
     .setRadius(80f) // radius of the Target
-    .setView(R.layout.layout_target) // custom view
+    .setView(view) // custom view
+    .setCloseOnTouchOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
@@ -120,6 +122,10 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
 
 ## Change Log
+
+### Version: 1.3.0
+
+  * click handling added
 
 ### Version: 1.2.0
 
