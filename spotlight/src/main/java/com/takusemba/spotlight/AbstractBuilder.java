@@ -8,9 +8,11 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by takusemba on 2017/06/28.
- */
-
+ * Position Target
+ *
+ * @author takusemba
+ * @since 26/06/2017
+ **/
 abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target> {
 
     private WeakReference<Activity> contextWeakReference;
