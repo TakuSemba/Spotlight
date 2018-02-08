@@ -55,7 +55,7 @@ view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlob
 <br/>
 <br/>
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="30%">
 
 ## Simple Target
 simply set a title and description, these position will be automatically calculated.
@@ -86,7 +86,7 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 <br/>
 <br/>
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="30%">
 
 ## Custom Target
 use your own custom view.
@@ -121,6 +121,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Change Log
 
+### Version: 1.2.0
+
+  * overlay color added
+
 ### Version: 1.0.3
 
   * add listener to target
@@ -129,10 +133,6 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 ### Version: 1.0.1, 1.0.2
 
   * bug fix
-
-### Version: 1.0.0
-
-  * Initial Build
 
 
 ## Author
