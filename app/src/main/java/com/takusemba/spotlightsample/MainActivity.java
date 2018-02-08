@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(firstTarget, secondTarget, thirdTarget)
-                        .setCloseOnTouchOutside(true)
+                        .setClosedOnTouchedOutside(true)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
                             public void onStarted() {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(thirdTarget)
-                        .setCloseOnTouchOutside(false)
+                        .setClosedOnTouchedOutside(false)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
                             public void onStarted() {

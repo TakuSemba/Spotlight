@@ -171,7 +171,7 @@ public class Spotlight {
      * @param isClosedOnTouchedOutside OnSpotlightEndedListener of Spotlight
      * @return This Spotlight
      */
-    public Spotlight setCloseOnTouchOutside(boolean isClosedOnTouchedOutside) {
+    public Spotlight setClosedOnTouchedOutside(boolean isClosedOnTouchedOutside) {
         this.isClosedOnTouchedOutside = isClosedOnTouchedOutside;
         return this;
     }
