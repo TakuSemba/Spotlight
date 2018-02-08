@@ -4,6 +4,7 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(firstTarget, secondTarget, thirdTarget)
+                        .setCloseOnTouchOutside(true)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
                             public void onStarted() {
@@ -94,18 +96,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                View view = inflater.inflate(R.layout.layout_target, null);
+
                 // make an target
-                CustomTarget thirdTarget =
+                final CustomTarget thirdTarget =
                         new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
                                 .setRadius(200f)
-                                .setView(R.layout.layout_target)
+                                .setView(view)
                                 .build();
+
+                view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        thirdTarget.closeTarget();
+                    }
+                });
 
                 Spotlight.with(MainActivity.this)
                         .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
                         .setTargets(thirdTarget)
+                        .setCloseOnTouchOutside(false)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
                             public void onStarted() {

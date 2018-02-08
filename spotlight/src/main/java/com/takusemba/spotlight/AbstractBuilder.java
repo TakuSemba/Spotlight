@@ -16,10 +16,11 @@ import java.lang.ref.WeakReference;
 abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target> {
 
     private WeakReference<Activity> contextWeakReference;
-    protected OnTargetStateChangedListener listener;
-    protected float startX = 0f;
-    protected float startY = 0f;
-    protected float radius = 100f;
+
+    OnTargetStateChangedListener listener;
+    float startX = 0f;
+    float startY = 0f;
+    float radius = 100f;
 
     /**
      * return the builder itself
@@ -36,14 +37,14 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
      *
      * @return the activity
      */
-    protected Activity getContext() {
+    Activity getContext() {
         return contextWeakReference.get();
     }
 
     /**
      * Constructor
      */
-    protected AbstractBuilder(@NonNull Activity context) {
+    AbstractBuilder(@NonNull Activity context) {
         contextWeakReference = new WeakReference<>(context);
     }
 

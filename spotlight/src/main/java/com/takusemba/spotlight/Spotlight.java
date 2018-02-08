@@ -49,6 +49,7 @@ public class Spotlight {
     private OnSpotlightStartedListener startedListener;
     private OnSpotlightEndedListener endedListener;
     private int overlayColor = DEFAULT_OVERLAY_COLOR;
+    private boolean isCloseOnTouchOutside = true;
 
     /**
      * Constructor
@@ -95,6 +96,16 @@ public class Spotlight {
      */
     public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
         this.targets = new ArrayList<>(Arrays.asList(targets));
+        for (final Target target : targets) {
+            if (target instanceof CustomTarget) {
+                ((CustomTarget) target).setOnTargetActionListener(new CustomTarget.OnTargetActionListener() {
+                    @Override
+                    public void closeRequested() {
+                        finishTarget();
+                    }
+                });
+            }
+        }
         return this;
     }
 
@@ -155,6 +166,17 @@ public class Spotlight {
     }
 
     /**
+     * Sets if Spotlight closes Target if touched outside
+     *
+     * @param isCloseOnTouchOutside OnSpotlightEndedListener of Spotlight
+     * @return This Spotlight
+     */
+    public Spotlight setCloseOnTouchOutside(boolean isCloseOnTouchOutside) {
+        this.isCloseOnTouchOutside = isCloseOnTouchOutside;
+        return this;
+    }
+
+    /**
      * Shows {@link SpotlightView}
      */
     public void start() {
@@ -191,7 +213,9 @@ public class Spotlight {
 
             @Override
             public void onTargetClicked() {
-                finishTarget();
+                if (isCloseOnTouchOutside) {
+                    finishTarget();
+                }
             }
         });
         startSpotlight();
