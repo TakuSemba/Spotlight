@@ -67,8 +67,8 @@ public class SimpleTarget implements Target {
         private static final int ABOVE_SPOTLIGHT = 0;
         private static final int BELOW_SPOTLIGHT = 1;
 
-        private String title;
-        private String description;
+        private CharSequence title;
+        private CharSequence description;
 
         /**
          * Constructor
@@ -83,7 +83,7 @@ public class SimpleTarget implements Target {
          * @param title title shown on Spotlight
          * @return This Builder
          */
-        public Builder setTitle(String title) {
+        public Builder setTitle(CharSequence title) {
             this.title = title;
             return this;
         }
@@ -94,7 +94,7 @@ public class SimpleTarget implements Target {
          * @param description title shown on Spotlight
          * @return This Builder
          */
-        public Builder setDescription(String description) {
+        public Builder setDescription(CharSequence description) {
             this.description = description;
             return this;
         }
@@ -136,7 +136,7 @@ public class SimpleTarget implements Target {
                 largest = BELOW_SPOTLIGHT;
             }
 
-            final LinearLayout layout = ((LinearLayout) spotlightView.findViewById(R.id.container));
+            final LinearLayout layout = spotlightView.findViewById(R.id.container);
             layout.setPadding(100, 0, 100, 0);
             switch (largest) {
                 case ABOVE_SPOTLIGHT:
