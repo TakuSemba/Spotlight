@@ -67,7 +67,7 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setRadius(80f) // radius of the Target
     .setTitle("the title") // title
     .setDescription("the description") // description
-    .setCloseOnTouchOutside(false) // set if target is closed when touched outside
+    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -98,7 +98,7 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
     .setRadius(80f) // radius of the Target
     .setView(view) // custom view
-    .setCloseOnTouchOutside(false) // set if target is closed when touched outside
+    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
