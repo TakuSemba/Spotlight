@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.3.0'
+    compile 'com.github.takusemba:spotlight:1.3.1'
 }
 ```
 
