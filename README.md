@@ -25,6 +25,7 @@ Spotlight.with(this)
         .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
         .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
         .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targets. see below for more info
+        .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() { // callback when Spotlight starts
             @Override
             public void onStarted() {
@@ -67,7 +68,6 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setRadius(80f) // radius of the Target
     .setTitle("the title") // title
     .setDescription("the description") // description
-    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -98,7 +98,6 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
     .setRadius(80f) // radius of the Target
     .setView(view) // custom view
-    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
