@@ -9,7 +9,7 @@ import android.view.View;
 public abstract class Shape {
 	protected PointF mPoint = new PointF(0f, 0f);
 
-	abstract void draw(Canvas canvas, float animValue, Paint paint);
+	public abstract void draw(Canvas canvas, float animValue, Paint paint);
 
 	protected void setPoint(View view) {
 		int[] location = new int[2];
