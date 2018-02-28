@@ -314,7 +314,4 @@ public class Spotlight {
         objectAnimator.start();
     }
 
-    public boolean isSpotlightAvailable() {
-        return getSpotlightView() != null;
-    }
 }
