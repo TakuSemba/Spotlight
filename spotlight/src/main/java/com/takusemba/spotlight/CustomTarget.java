@@ -42,7 +42,7 @@ public class CustomTarget implements Target {
 
     @Override
     public PointF getPoint() {
-        return shape.mPoint;
+        return shape.getPoint();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class SimpleTarget implements Target {
 
 	@Override
 	public PointF getPoint() {
-		return shape.mPoint;
+		return shape.getPoint();
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class SimpleTarget implements Target {
 			View view = getContext().getLayoutInflater().inflate(R.layout.layout_spotlight, null);
 			((TextView) view.findViewById(R.id.title)).setText(title);
 			((TextView) view.findViewById(R.id.description)).setText(description);
-			calculatePosition(shape.mPoint, view.getPivotY(), view);
+			calculatePosition(shape.getPoint(), view.getPivotY(), view);
 			return new SimpleTarget(shape, view, listener);
 		}
 
