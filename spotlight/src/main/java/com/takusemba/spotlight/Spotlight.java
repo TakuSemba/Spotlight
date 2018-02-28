@@ -229,9 +229,12 @@ public class Spotlight {
 	private void startTarget() {
 		if (targets != null && targets.size() > 0) {
 			Target target = targets.get(0);
-			getSpotlightView().removeAllViews();
-			getSpotlightView().addView(target.getView());
-			getSpotlightView().turnUp(target.getPoint().x, target.getPoint().y, target.getRadius(),
+			SpotlightView spotlightView = getSpotlightView();
+
+			spotlightView.removeAllViews();
+			spotlightView.addView(target.getView());
+			spotlightView.setShape(target.getShape());
+			spotlightView.turnUp(target.getPoint().x, target.getPoint().y,
 					duration, animation);
 			if (target.getListener() != null) target.getListener().onStarted(target);
 		}
@@ -272,8 +275,7 @@ public class Spotlight {
 	 */
 	private void finishTarget() {
 		if (targets != null && targets.size() > 0) {
-			Target target = targets.get(0);
-			getSpotlightView().turnDown(target.getRadius(), duration, animation);
+			getSpotlightView().turnDown(duration, animation);
 		}
 	}
 

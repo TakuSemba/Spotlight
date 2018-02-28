@@ -12,19 +12,16 @@ import android.view.View;
  * @since 26/06/2017
  **/
 public class CustomTarget implements Target {
-
-    private PointF point;
-    private float radius;
     private View view;
     private OnTargetStateChangedListener stateListener;
     private OnTargetActionListener actionListener;
+    private Shape shape;
 
     /**
      * Constructor
      */
-    private CustomTarget(PointF point, float radius, View view, OnTargetStateChangedListener listener) {
-        this.point = point;
-        this.radius = radius;
+    private CustomTarget(Shape shape, View view, OnTargetStateChangedListener listener) {
+        this.shape = shape;
         this.view = view;
         this.stateListener = listener;
     }
@@ -43,17 +40,17 @@ public class CustomTarget implements Target {
 
     @Override
     public PointF getPoint() {
-        return point;
-    }
-
-    @Override
-    public float getRadius() {
-        return radius;
+        return shape.mPoint;
     }
 
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public Shape getShape() {
+        return shape;
     }
 
     @Override
@@ -112,8 +109,7 @@ public class CustomTarget implements Target {
          */
         @Override
         public CustomTarget build() {
-            PointF point = new PointF(startX, startY);
-            return new CustomTarget(point, radius, view, listener);
+            return new CustomTarget(shape, view, listener);
         }
     }
 }
