@@ -1,4 +1,4 @@
-package com.takusemba.spotlight;
+package com.takusemba.spotlight.shapes;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
