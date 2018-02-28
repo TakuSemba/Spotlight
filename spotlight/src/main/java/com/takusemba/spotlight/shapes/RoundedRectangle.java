@@ -12,9 +12,6 @@ public class RoundedRectangle extends Shape {
 	private float mHalfHeight;
 	private float mRadius;
 
-	private float mAnimWidth;
-	private float mAnimHeight;
-
 	public RoundedRectangle(View view, float radius) {
 		this(view, 0, radius);
 	}
@@ -34,9 +31,9 @@ public class RoundedRectangle extends Shape {
 	}
 
 	@Override
-	void draw(Canvas canvas, float animValue, Paint paint) {
-		mAnimWidth = mHalfWidth * animValue;
-		mAnimHeight = mHalfHeight * animValue;
+	public void draw(Canvas canvas, float animValue, Paint paint) {
+		float mAnimWidth = mHalfWidth * animValue;
+		float mAnimHeight = mHalfHeight * animValue;
 
 		canvas.drawRoundRect(mPoint.x - mAnimWidth,
 				mPoint.y - mAnimHeight,
