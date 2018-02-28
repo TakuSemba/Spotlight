@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import com.takusemba.spotlight.Circle;
+import com.takusemba.spotlight.shapes.Circle;
 import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
 import com.takusemba.spotlight.OnSpotlightStartedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
-import com.takusemba.spotlight.RoundedRectangle;
+import com.takusemba.spotlight.shapes.RoundedRectangle;
 import com.takusemba.spotlight.SimpleTarget;
 import com.takusemba.spotlight.Spotlight;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 				if (Build.VERSION.SDK_INT >= 21)
 					thirdTarget =
 							new SimpleTarget.Builder(MainActivity.this)
-									.setShape(new RoundedRectangle(findViewById(R.id.three), 20f))
+									.setShape(new RoundedRectangle(findViewById(R.id.three), 40f, 20f))
 									.setTitle("third title")
 									.setDescription("third description")
 									.build();

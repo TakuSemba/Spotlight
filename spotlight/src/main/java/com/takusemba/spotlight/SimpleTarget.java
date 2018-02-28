@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.takusemba.spotlight.shapes.Shape;
+
 /**
  * Position Target
  *

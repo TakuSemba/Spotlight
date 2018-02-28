@@ -3,6 +3,9 @@ package com.takusemba.spotlight;
 import android.graphics.PointF;
 import android.view.View;
 
+import com.takusemba.spotlight.shapes.Circle;
+import com.takusemba.spotlight.shapes.Shape;
+
 /**
  * Target
  *

@@ -1,4 +1,4 @@
-package com.takusemba.spotlight;
+package com.takusemba.spotlight.shapes;
 
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;

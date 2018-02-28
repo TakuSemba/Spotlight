@@ -1,4 +1,4 @@
-package com.takusemba.spotlight;
+package com.takusemba.spotlight.shapes;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,9 +16,13 @@ public class RoundedRectangle extends Shape {
 	private float mAnimHeight;
 
 	public RoundedRectangle(View view, float radius) {
+		this(view, 0, radius);
+	}
+
+	public RoundedRectangle(View view, float offset, float radius) {
 		setPoint(view);
-		this.mHalfHeight = view.getHeight() / 2;
-		this.mHalfWidth = view.getWidth() / 2;
+		this.mHalfHeight = view.getHeight() / 2 + offset;
+		this.mHalfWidth = view.getWidth() / 2 + offset;
 		this.mRadius = radius;
 	}
 

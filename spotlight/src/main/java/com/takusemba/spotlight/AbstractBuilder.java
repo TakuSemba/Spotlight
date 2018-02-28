@@ -5,6 +5,9 @@ import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.takusemba.spotlight.shapes.Circle;
+import com.takusemba.spotlight.shapes.Shape;
+
 import java.lang.ref.WeakReference;
 
 /**
