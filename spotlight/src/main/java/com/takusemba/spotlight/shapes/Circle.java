@@ -9,8 +9,12 @@ public class Circle extends Shape {
 	private float mRadius;
 
 	public Circle(View view) {
+		this(view, (float) Math.sqrt(Math.pow(view.getWidth(), 2) + Math.pow(view.getHeight(), 2)));
+	}
+
+	public Circle(View view, float radius) {
 		setPoint(view);
-		this.mRadius = (float) Math.sqrt(Math.pow(view.getWidth(), 2) + Math.pow(view.getHeight(), 2));
+		this.mRadius = radius;
 	}
 
 	public Circle(PointF point, float radius) {
