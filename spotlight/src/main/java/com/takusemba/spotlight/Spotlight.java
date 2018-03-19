@@ -242,8 +242,7 @@ public class Spotlight {
      * show Spotlight
      */
     private void startSpotlight() {
-        if (getSpotlightView() == null)
-            return;
+        if (getSpotlightView() == null) return;
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getSpotlightView(), "alpha", 0f, 1f);
         objectAnimator.setDuration(START_SPOTLIGHT_DURATION);
         objectAnimator.addListener(new Animator.AnimatorListener() {
@@ -283,9 +282,8 @@ public class Spotlight {
     /**
      * hide Spotlight
      */
-    public void finishSpotlight() {
-        if (getSpotlightView() == null)
-            return;
+    private void finishSpotlight() {
+        if (getSpotlightView() == null) return;
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getSpotlightView(), "alpha", 1f, 0f);
         objectAnimator.setDuration(FINISH_SPOTLIGHT_DURATION);
         objectAnimator.addListener(new Animator.AnimatorListener() {
