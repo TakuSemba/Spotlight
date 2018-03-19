@@ -33,13 +33,7 @@ interface Target {
      *
      * @return shape of this Target
      */
-    Shape getForegroundShape();
-
-	/**
-	 * gets background shape of this Target
-	 * @return background shape of this Target
-	 */
-	Shape getBackgroundShape();
+    Shape getShape();
 
     /**
      * gets the listener of this Target
@@ -63,10 +57,7 @@ interface Target {
         }
 
         @Override
-        public Shape getForegroundShape() {return new Circle(getPoint(), 100f);}
-
-	    @Override
-	    public Shape getBackgroundShape() {return new Circle(getPoint(), 100f);}
+        public Shape getShape() {return new Circle(getPoint(), 100f);}
 
         @Override
         public OnTargetStateChangedListener getListener() {

@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
 				if (Build.VERSION.SDK_INT >= 21)
 					thirdTarget =
 							new SimpleTarget.Builder(MainActivity.this)
-									.setForegroundShape(new RoundedRectangle(findViewById(R.id.three), 40f, 20f))
+									.setShape(new RoundedRectangle(findViewById(R.id.three), 40f, 20f))
 									.setTitle("third title")
 									.setDescription("third description")
 									.build();
 				else
 					thirdTarget =
 							new SimpleTarget.Builder(MainActivity.this)
-									.setForegroundShape(new Circle(findViewById(R.id.three)))
+									.setShape(new Circle(findViewById(R.id.three)))
 									.setTitle("third title")
 									.setDescription("third description")
 									.build();

@@ -21,10 +21,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
 	private WeakReference<Activity> contextWeakReference;
 
 	OnTargetStateChangedListener listener;
-
-	private Shape foregroundShape = new Circle(new PointF(0f, 0f), 100f);
-
-	private Shape backgroundShape = new Circle(new PointF(0f, 0f), 100f);
+	Shape shape = new Circle(new PointF(0f, 0f), 100f);
 
 	/**
 	 * return the builder itself
@@ -70,7 +67,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
 	 * @return This Builder
 	 */
 	public T setPoint(@NonNull PointF point) {
-		foregroundShape.setPoint(point);
+		shape.setPoint(point);
 		return self();
 	}
 
@@ -92,13 +89,13 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
 	/**
 	 * Sets shape of the target
 	 *
-	 * @param foregroundShape shape of the target
+	 * @param shape shape of the target
 	 * @return This Builder
 	 */
-	public T setForegroundShape(Shape foregroundShape) {
-		if (foregroundShape == null)
+	public T setShape(Shape shape) {
+		if (shape == null)
 			throw new IllegalArgumentException("Shape cannot be null");
-		this.foregroundShape = foregroundShape;
+		this.shape = shape;
 		return self();
 	}
 
