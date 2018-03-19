@@ -233,7 +233,7 @@ public class Spotlight {
 
 			spotlightView.removeAllViews();
 			spotlightView.addView(target.getView());
-			spotlightView.setShape(target.getShape());
+			spotlightView.setShape(target.getForegroundShape());
 			spotlightView.turnUp(target.getPoint().x, target.getPoint().y,
 					duration, animation);
 			if (target.getListener() != null) target.getListener().onStarted(target);

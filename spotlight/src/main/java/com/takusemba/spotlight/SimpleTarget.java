@@ -44,7 +44,7 @@ public class SimpleTarget implements Target {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getForegroundShape() {
 		return shape;
 	}
 

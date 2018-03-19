@@ -51,7 +51,7 @@ public class CustomTarget implements Target {
     }
 
     @Override
-    public Shape getShape() {
+    public Shape getForegroundShape() {
         return shape;
     }
 
