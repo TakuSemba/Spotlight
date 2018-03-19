@@ -1,6 +1,6 @@
 # Spotlight
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/logo.png" alt="alt text" style="width:200;height:200">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/logo_yello.png" alt="alt text" style="width:200;height:200">
 
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 ![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg)
