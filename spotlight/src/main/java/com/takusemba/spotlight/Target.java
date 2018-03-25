@@ -12,7 +12,7 @@ import com.takusemba.spotlight.shapes.Shape;
  * @author takusemba
  * @since 26/06/2017
  **/
-interface Target {
+public interface Target {
 
     /**
      * gets the point of this Target

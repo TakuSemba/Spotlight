@@ -1,6 +1,6 @@
 # Spotlight
 
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/logo.png" alt="alt text" style="width:200;height:200">
+<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/logo_yello.png" alt="alt text" style="width:200;height:200">
 
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 ![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg)
@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.github.takusemba:spotlight:1.3.1'
+    implementation 'com.github.takusemba:spotlight:1.3.3'
 }
 ```
 
@@ -25,6 +25,7 @@ Spotlight.with(this)
         .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
         .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
         .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targets. see below for more info
+        .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() { // callback when Spotlight starts
             @Override
             public void onStarted() {
@@ -67,7 +68,6 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setRadius(80f) // radius of the Target
     .setTitle("the title") // title
     .setDescription("the description") // description
-    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -98,7 +98,6 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
     .setRadius(80f) // radius of the Target
     .setView(view) // custom view
-    .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {

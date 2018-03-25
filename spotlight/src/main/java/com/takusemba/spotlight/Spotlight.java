@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -24,7 +25,6 @@ import java.util.Arrays;
  * @since 26/06/2017
  **/
 public class Spotlight {
-
 	/**
 	 * Duration of Spotlight emerging
 	 */
@@ -85,6 +85,7 @@ public class Spotlight {
 	 *
 	 * @return the SpotlightView
 	 */
+	@Nullable
 	private static SpotlightView getSpotlightView() {
 		return spotlightViewWeakReference.get();
 	}
@@ -227,7 +228,7 @@ public class Spotlight {
 	 */
 	@SuppressWarnings("unchecked")
 	private void startTarget() {
-		if (targets != null && targets.size() > 0) {
+		if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
 			Target target = targets.get(0);
 			SpotlightView spotlightView = getSpotlightView();
 
@@ -244,6 +245,7 @@ public class Spotlight {
 	 * show Spotlight
 	 */
 	private void startSpotlight() {
+		if (getSpotlightView() == null) return;
 		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getSpotlightView(), "alpha", 0f, 1f);
 		objectAnimator.setDuration(START_SPOTLIGHT_DURATION);
 		objectAnimator.addListener(new Animator.AnimatorListener() {
@@ -274,7 +276,7 @@ public class Spotlight {
 	 * hide Target
 	 */
 	private void finishTarget() {
-		if (targets != null && targets.size() > 0) {
+		if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
 			getSpotlightView().turnDown(duration, animation);
 		}
 	}
@@ -283,6 +285,7 @@ public class Spotlight {
 	 * hide Spotlight
 	 */
 	private void finishSpotlight() {
+		if (getSpotlightView() == null) return;
 		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getSpotlightView(), "alpha", 1f, 0f);
 		objectAnimator.setDuration(FINISH_SPOTLIGHT_DURATION);
 		objectAnimator.addListener(new Animator.AnimatorListener() {
