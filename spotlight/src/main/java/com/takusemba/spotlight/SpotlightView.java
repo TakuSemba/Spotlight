@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -61,7 +62,7 @@ class SpotlightView extends FrameLayout {
      *
      * @param overlayColor the color that will be used for the spotlight overlay
      */
-    public void setOverlayColor(@ColorInt int overlayColor) {
+    public void setOverlayColor(@ColorRes int overlayColor) {
         this.overlayColor = overlayColor;
     }
 

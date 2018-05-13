@@ -89,7 +89,7 @@ abstract class AbstractBuilder<T extends AbstractBuilder<T, S>, S extends Target
     /**
      * Sets the radius of target
      *
-     * @param radius radius of target
+     * @param radius radius of target in px
      * @return This Builder
      */
     public T setRadius(float radius) {
