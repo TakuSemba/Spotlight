@@ -37,7 +37,7 @@ public class Spotlight {
 	/**
 	 * Default of Spotlight overlay color
 	 */
-	@ColorRes
+	@ColorInt
 	private static final int DEFAULT_OVERLAY_COLOR = Color.parseColor("#E6000000");
 
 	private static final long DEFAULT_DURATION = 1000L;
