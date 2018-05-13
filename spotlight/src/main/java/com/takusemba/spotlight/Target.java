@@ -2,7 +2,6 @@ package com.takusemba.spotlight;
 
 import android.graphics.PointF;
 import android.view.View;
-
 import com.takusemba.spotlight.shapes.Circle;
 import com.takusemba.spotlight.shapes.Shape;
 
@@ -57,7 +56,9 @@ public interface Target {
         }
 
         @Override
-        public Shape getShape() {return new Circle(getPoint(), 100f);}
+        public Shape getShape() {
+            return new Circle(getPoint(), 100f);
+        }
 
         @Override
         public OnTargetStateChangedListener getListener() {
