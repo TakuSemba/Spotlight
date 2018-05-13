@@ -24,7 +24,7 @@ public class RoundedRectangle extends Shape {
 	}
 
 	public RoundedRectangle(PointF pointF, float width, float height, float radius) {
-		this.mPoint = pointF;
+		this.point = pointF;
 		this.mHalfWidth = width / 2;
 		this.mHalfHeight = height / 2;
 		this.mRadius = radius;
@@ -35,10 +35,10 @@ public class RoundedRectangle extends Shape {
 		float mAnimWidth = mHalfWidth * animValue;
 		float mAnimHeight = mHalfHeight * animValue;
 
-		canvas.drawRoundRect(mPoint.x - mAnimWidth,
-				mPoint.y - mAnimHeight,
-				mPoint.x + mAnimWidth,
-				mPoint.y + mAnimHeight, mRadius,
+		canvas.drawRoundRect(point.x - mAnimWidth,
+				point.y - mAnimHeight,
+				point.x + mAnimWidth,
+				point.y + mAnimHeight, mRadius,
 				mRadius,
 				paint);
 	}

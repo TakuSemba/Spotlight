@@ -18,12 +18,12 @@ public class Circle extends Shape {
 	}
 
 	public Circle(PointF point, float radius) {
-		this.mPoint = point;
+		this.point = point;
 		this.mRadius = radius;
 	}
 
 	@Override
 	public void draw(Canvas canvas, float animValue, Paint paint) {
-		canvas.drawCircle(mPoint.x, mPoint.y, animValue * mRadius, paint);
+		canvas.drawCircle(point.x, point.y, animValue * mRadius, paint);
 	}
 }

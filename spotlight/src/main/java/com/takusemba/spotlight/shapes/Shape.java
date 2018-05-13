@@ -1,13 +1,12 @@
 package com.takusemba.spotlight.shapes;
 
-import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.View;
 
 public abstract class Shape {
-	protected PointF mPoint = new PointF(0f, 0f);
+	protected PointF point = new PointF(0f, 0f);
 
 	public abstract void draw(Canvas canvas, float animValue, Paint paint);
 
@@ -20,14 +19,14 @@ public abstract class Shape {
 	}
 
 	public void setPoint(PointF point) {
-		this.mPoint = point;
+		this.point = point;
 	}
 
 	public void setPoint(float x, float y) {
-		this.mPoint = new PointF(x, y);
+		this.point = new PointF(x, y);
 	}
 
 	public PointF getPoint() {
-		return mPoint;
+		return point;
 	}
 }
