@@ -20,15 +20,15 @@ import com.takusemba.spotlight.shapes.Shape;
  * @since 26/06/2017
  **/
 public class SimpleTarget implements Target {
-	private View view;
+	private View overlay;
 	private OnTargetStateChangedListener listener;
 	private Shape shape;
 
 	/**
 	 * Constructor
 	 */
-	private SimpleTarget(Shape shape, View view, OnTargetStateChangedListener listener) {
-		this.view = view;
+	private SimpleTarget(Shape shape, View overlay, OnTargetStateChangedListener listener) {
+		this.overlay = overlay;
 		this.listener = listener;
 		this.shape = shape;
 	}
@@ -39,8 +39,8 @@ public class SimpleTarget implements Target {
 	}
 
 	@Override
-	public View getView() {
-		return view;
+	public View getOverlay() {
+		return overlay;
 	}
 
 	@Override

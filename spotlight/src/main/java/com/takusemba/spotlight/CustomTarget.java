@@ -14,30 +14,17 @@ import com.takusemba.spotlight.shapes.Shape;
  * @since 26/06/2017
  **/
 public class CustomTarget implements Target {
-    private View view;
+    private View overlay;
     private OnTargetStateChangedListener stateListener;
-    private OnTargetActionListener actionListener;
     private Shape shape;
 
     /**
      * Constructor
      */
-    private CustomTarget(Shape shape, View view, OnTargetStateChangedListener listener) {
+    private CustomTarget(Shape shape, View overlay, OnTargetStateChangedListener listener) {
         this.shape = shape;
-        this.view = view;
+        this.overlay = overlay;
         this.stateListener = listener;
-    }
-
-    interface OnTargetActionListener {
-        void closeRequested();
-    }
-
-    void setOnTargetActionListener(OnTargetActionListener listener) {
-        this.actionListener = listener;
-    }
-
-    public void closeTarget() {
-        actionListener.closeRequested();
     }
 
     @Override
@@ -46,8 +33,8 @@ public class CustomTarget implements Target {
     }
 
     @Override
-    public View getView() {
-        return view;
+    public View getOverlay() {
+        return overlay;
     }
 
     @Override
@@ -70,7 +57,7 @@ public class CustomTarget implements Target {
             return this;
         }
 
-        private View view;
+        private View overlay;
 
         /**
          * Constructor
@@ -85,22 +72,22 @@ public class CustomTarget implements Target {
          * @param layoutId layout id shown on Spotlight
          * @return This Builder
          */
-        public Builder setView(@LayoutRes int layoutId) {
+        public Builder setOverlay(@LayoutRes int layoutId) {
             if (getContext() == null) {
                 throw new RuntimeException("context is null");
             }
-            this.view = getContext().getLayoutInflater().inflate(layoutId, null);
+            this.overlay = getContext().getLayoutInflater().inflate(layoutId, null);
             return this;
         }
 
         /**
          * Set the custom view shown on Spotlight
          *
-         * @param view view shown on Spotlight
+         * @param overlay the overlay view shown on Spotlight
          * @return This Builder
          */
-        public Builder setView(View view) {
-            this.view = view;
+        public Builder setOverlay(View overlay) {
+            this.overlay = overlay;
             return this;
         }
 
@@ -111,7 +98,7 @@ public class CustomTarget implements Target {
          */
         @Override
         public CustomTarget build() {
-            return new CustomTarget(shape, view, listener);
+            return new CustomTarget(shape, overlay, listener);
         }
     }
 }

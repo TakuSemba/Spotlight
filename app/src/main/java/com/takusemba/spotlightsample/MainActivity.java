@@ -108,43 +108,74 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 
-				LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-				View view = inflater.inflate(R.layout.layout_target, null);
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 
-				// make an target
-				final CustomTarget thirdTarget =
-						new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
-								.setView(view)
-								.build();
 
-				view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						thirdTarget.closeTarget();
-					}
-				});
+                // make an target
+                View first = inflater.inflate(R.layout.layout_target, null);
+                final CustomTarget firstTarget =
+                        new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.one))
+                                .setShape(new Circle(findViewById(R.id.one)))
+                                .setOverlay(first)
+                                .build();
 
-				Spotlight.with(MainActivity.this)
-						.setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
-						.setDuration(1000L)
-						.setAnimation(new DecelerateInterpolator(2f))
-						.setTargets(thirdTarget)
-						.setClosedOnTouchedOutside(false)
-						.setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
-							@Override
-							public void onStarted() {
-								Toast.makeText(MainActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
-										.show();
-							}
-						})
-						.setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
-							@Override
-							public void onEnded() {
-								Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
-							}
-						})
-						.start();
-			}
-		});
-	}
+                View second = inflater.inflate(R.layout.layout_target, null);
+                final CustomTarget secondTarget =
+                        new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.two))
+		                        .setShape(new Circle(findViewById(R.id.two)))
+                                .setOverlay(second)
+                                .build();
+
+                View third = inflater.inflate(R.layout.layout_target, null);
+                final CustomTarget thirdTarget =
+                        new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
+		                        .setShape(new Circle(findViewById(R.id.three)))
+                                .setOverlay(third)
+                                .build();
+
+                final Spotlight spotlight =
+
+                Spotlight.with(MainActivity.this)
+                        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
+                        .setDuration(1000L)
+                        .setAnimation(new DecelerateInterpolator(2f))
+                        .setTargets(firstTarget, secondTarget,thirdTarget)
+                        .setClosedOnTouchedOutside(false)
+                        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
+                            @Override
+                            public void onStarted() {
+                                Toast.makeText(MainActivity.this, "spotlight is started", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() {
+                            @Override
+                            public void onEnded() {
+                                Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        spotlight.start();View.OnClickListener closeTarget = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        spotlight.closeCurrentTarget();
+                    }
+                };
+
+                View.OnClickListener closeSpotlight = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        spotlight.closeSpotlight();
+                    }
+                };
+
+                first.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+                second.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+                third.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+
+                first.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+                second.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+                third.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+            }
+        });
+    }
 }

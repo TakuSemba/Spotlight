@@ -26,7 +26,7 @@ public interface Target {
      *
      * @return the view of this Target
      */
-    View getView();
+    View getOverlay();
 
     /**
      * gets shape of this Target
@@ -52,7 +52,7 @@ public interface Target {
         }
 
         @Override
-        public View getView() {
+        public View getOverlay() {
             return null;
         }
 

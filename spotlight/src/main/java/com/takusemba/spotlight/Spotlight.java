@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -36,7 +37,7 @@ public class Spotlight {
 	/**
 	 * Default of Spotlight overlay color
 	 */
-	@ColorInt
+	@ColorRes
 	private static final int DEFAULT_OVERLAY_COLOR = Color.parseColor("#E6000000");
 
 	private static final long DEFAULT_DURATION = 1000L;
@@ -90,26 +91,17 @@ public class Spotlight {
 		return spotlightViewWeakReference.get();
 	}
 
-	/**
-	 * sets {@link Target}s to Spotlight
-	 *
-	 * @param targets targets to show
-	 * @return the Spotlight
-	 */
-	public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
-		this.targets = new ArrayList<>(Arrays.asList(targets));
-		for (final Target target : targets) {
-			if (target instanceof CustomTarget) {
-				((CustomTarget) target).setOnTargetActionListener(new CustomTarget.OnTargetActionListener() {
-					@Override
-					public void closeRequested() {
-						finishTarget();
-					}
-				});
-			}
-		}
-		return this;
-	}
+    /**
+     * sets {@link Target}s to Spotlight
+     *
+     * @param targets targets to show
+     * @return the Spotlight
+     */
+    public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
+        this.targets = new ArrayList<>(Arrays.asList(targets));
+
+        return this;
+    }
 
 	/**
 	 * sets spotlight background color to Spotlight
@@ -186,6 +178,20 @@ public class Spotlight {
 	}
 
 	/**
+     * close the current {@link Target}
+     */
+    public void closeCurrentTarget() {
+        finishTarget();
+    }
+
+    /**
+     * close the {@link Spotlight}
+     */
+    public void closeSpotlight() {
+        finishSpotlight();
+    }
+
+    /**
 	 * Creates the spotlight view and starts
 	 */
 	@SuppressWarnings("unchecked")
@@ -233,7 +239,7 @@ public class Spotlight {
 			SpotlightView spotlightView = getSpotlightView();
 
 			spotlightView.removeAllViews();
-			spotlightView.addView(target.getView());
+			spotlightView.addView(target.getOverlay());
 			spotlightView.setShape(target.getShape());
 			spotlightView.turnUp(target.getPoint().x, target.getPoint().y,
 					duration, animation);

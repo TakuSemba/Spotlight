@@ -7,4 +7,5 @@
     <string name="two">2</string>
     <string name="three">3</string>
     <string name="close_target">Close Target</string>
+    <string name="close_spotlight">Close Spotlight</string>
 </resources>
