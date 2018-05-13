@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 final CustomTarget thirdTarget =
                         new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
                                 .setRadius(200f)
-                                .setView(view)
+                                .setOverlay(view)
                                 .build();
 
                 view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {

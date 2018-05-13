@@ -15,17 +15,18 @@ public class CustomTarget implements Target {
 
     private PointF point;
     private float radius;
-    private View view;
+    private View overlay;
     private OnTargetStateChangedListener stateListener;
     private OnTargetActionListener actionListener;
 
     /**
      * Constructor
      */
-    private CustomTarget(PointF point, float radius, View view, OnTargetStateChangedListener listener) {
+    private CustomTarget(PointF point, float radius, View overlay,
+                         OnTargetStateChangedListener listener) {
         this.point = point;
         this.radius = radius;
-        this.view = view;
+        this.overlay = overlay;
         this.stateListener = listener;
     }
 
@@ -52,8 +53,8 @@ public class CustomTarget implements Target {
     }
 
     @Override
-    public View getView() {
-        return view;
+    public View getOverlay() {
+        return overlay;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class CustomTarget implements Target {
             return this;
         }
 
-        private View view;
+        private View overlay;
 
         /**
          * Constructor
@@ -86,22 +87,22 @@ public class CustomTarget implements Target {
          * @param layoutId layout id shown on Spotlight
          * @return This Builder
          */
-        public Builder setView(@LayoutRes int layoutId) {
+        public Builder setOverlay(@LayoutRes int layoutId) {
             if (getContext() == null) {
                 throw new RuntimeException("context is null");
             }
-            this.view = getContext().getLayoutInflater().inflate(layoutId, null);
+            this.overlay = getContext().getLayoutInflater().inflate(layoutId, null);
             return this;
         }
 
         /**
          * Set the custom view shown on Spotlight
          *
-         * @param view view shown on Spotlight
+         * @param overlay the overlay view shown on Spotlight
          * @return This Builder
          */
-        public Builder setView(View view) {
-            this.view = view;
+        public Builder setOverlay(View overlay) {
+            this.overlay = overlay;
             return this;
         }
 
@@ -113,7 +114,7 @@ public class CustomTarget implements Target {
         @Override
         public CustomTarget build() {
             PointF point = new PointF(startX, startY);
-            return new CustomTarget(point, radius, view, listener);
+            return new CustomTarget(point, radius, overlay, listener);
         }
     }
 }

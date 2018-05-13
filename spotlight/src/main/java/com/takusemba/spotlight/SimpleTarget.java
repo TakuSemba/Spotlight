@@ -21,16 +21,16 @@ public class SimpleTarget implements Target {
 
     private PointF point;
     private float radius;
-    private View view;
+    private View overlay;
     private OnTargetStateChangedListener listener;
 
     /**
      * Constructor
      */
-    private SimpleTarget(PointF point, float radius, View view, OnTargetStateChangedListener listener) {
+    private SimpleTarget(PointF point, float radius, View overlay, OnTargetStateChangedListener listener) {
         this.point = point;
         this.radius = radius;
-        this.view = view;
+        this.overlay = overlay;
         this.listener = listener;
     }
 
@@ -45,8 +45,8 @@ public class SimpleTarget implements Target {
     }
 
     @Override
-    public View getView() {
-        return view;
+    public View getOverlay() {
+        return overlay;
     }
 
     @Override

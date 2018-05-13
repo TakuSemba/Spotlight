@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -36,7 +37,7 @@ public class Spotlight {
     /**
      * Default of Spotlight overlay color
      */
-    @ColorInt
+    @ColorRes
     private static final int DEFAULT_OVERLAY_COLOR = R.color.background;
 
     private static final long DEFAULT_DURATION = 1000L;
@@ -231,7 +232,7 @@ public class Spotlight {
         if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
             Target target = targets.get(0);
             getSpotlightView().removeAllViews();
-            getSpotlightView().addView(target.getView());
+            getSpotlightView().addView(target.getOverlay());
             getSpotlightView().turnUp(target.getPoint().x, target.getPoint().y, target.getRadius(),
                     duration, animation);
             if (target.getListener() != null) target.getListener().onStarted(target);
