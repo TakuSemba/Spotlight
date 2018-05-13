@@ -1,18 +1,22 @@
 package com.takusemba.spotlight;
 
-import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.*;
-import android.support.annotation.AttrRes;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.takusemba.spotlight.shapes.Shape;
+
+import com.takusemba.spotlight.target.Target;
 
 /**
  * Spotlight View
@@ -20,65 +24,24 @@ import com.takusemba.spotlight.shapes.Shape;
  * @author takusemba
  * @since 26/06/2017
  **/
+@SuppressLint("ViewConstructor")
 class SpotlightView extends FrameLayout {
 
     private final Paint paint = new Paint();
     private final Paint spotPaint = new Paint();
-    private PointF point = new PointF();
     private ValueAnimator animator;
-    private OnSpotlightStateChangedListener listener;
+    @ColorRes
     private int overlayColor;
-    private Shape shape;
+    private Target currentTarget;
 
-
-    public SpotlightView(@NonNull Context context) {
+    public SpotlightView(@NonNull Context context, @ColorRes int overlayColor, final OnSpotlightListener listener) {
         super(context, null);
-        init();
-    }
-
-    public SpotlightView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, 0);
-        init();
-    }
-
-    public SpotlightView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    /**
-     * sets listener to {@link SpotlightView}
-     */
-    public void setOnSpotlightStateChangedListener(OnSpotlightStateChangedListener l) {
-        this.listener = l;
-    }
-
-    /**
-     * sets the spotlight color
-     *
-     * @param overlayColor the color that will be used for the spotlight overlay
-     */
-    public void setOverlayColor(@ColorRes int overlayColor) {
         this.overlayColor = overlayColor;
-    }
-
-    /**
-     * sets the shape
-     *
-     * @param shape shape that will be used to draw
-     */
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
-    /**
-     * prepares to show this Spotlight
-     */
-    private void init() {
         bringToFront();
         setWillNotDraw(false);
         setLayerType(View.LAYER_TYPE_HARDWARE, null);
         spotPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,31 +52,34 @@ class SpotlightView extends FrameLayout {
         });
     }
 
-    /**
-     * draws black background and trims a circle
-     *
-     * @param canvas the canvas on which the background will be drawn
-     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(overlayColor);
+        paint.setColor(ContextCompat.getColor(getContext(), overlayColor));
         canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
-        if (animator != null) {
-            shape.draw(canvas, (float) animator.getAnimatedValue(), spotPaint);
+        if (animator != null && currentTarget != null) {
+            currentTarget.getShape().draw(canvas, currentTarget.getPoint(), (float) animator.getAnimatedValue(), spotPaint);
         }
     }
 
-    /**
-     * starts an animation to show a circle
-     *
-     * @param x         initial position x where the shape is showing up
-     * @param y         initial position y where the shape is showing up
-     * @param duration  duration of the animation
-     * @param animation type of the animation
-     */
-    void turnUp(float x, float y, long duration, TimeInterpolator animation) {
-        this.point.set(x, y);
+    void startSpotlight(long duration, TimeInterpolator animation, AbstractAnimatorListener listener) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f);
+        objectAnimator.setDuration(duration);
+        objectAnimator.setInterpolator(animation);
+        objectAnimator.addListener(listener);
+        objectAnimator.start();
+    }
+
+    void finishSpotlight(long duration, TimeInterpolator animation, AbstractAnimatorListener listener) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f);
+        objectAnimator.setDuration(duration);
+        objectAnimator.setInterpolator(animation);
+        objectAnimator.addListener(listener);
+        objectAnimator.start();
+    }
+
+    void turnUp(Target target, AbstractAnimatorListener listener) {
+        currentTarget = target;
         animator = ValueAnimator.ofFloat(0f, 1f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -121,18 +87,13 @@ class SpotlightView extends FrameLayout {
                 SpotlightView.this.invalidate();
             }
         });
-        animator.setInterpolator(animation);
-        animator.setDuration(duration);
+        animator.setInterpolator(target.getAnimation());
+        animator.setDuration(target.getDuration());
+        animator.addListener(listener);
         animator.start();
     }
 
-    /**
-     * starts an animation to close the shape
-     *
-     * @param duration  duration of the animation
-     * @param animation type of the animation
-     */
-    void turnDown(long duration, TimeInterpolator animation) {
+    void turnDown(AbstractAnimatorListener listener) {
         animator = ValueAnimator.ofFloat(1f, 0f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -140,44 +101,9 @@ class SpotlightView extends FrameLayout {
                 SpotlightView.this.invalidate();
             }
         });
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (listener != null) listener.onTargetClosed();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        animator.setInterpolator(animation);
-        animator.setDuration(duration);
+        animator.addListener(listener);
+        animator.setInterpolator(currentTarget.getAnimation());
+        animator.setDuration(currentTarget.getDuration());
         animator.start();
-    }
-
-    /**
-     * Listener to control Target state
-     */
-    interface OnSpotlightStateChangedListener {
-        /**
-         * Called when Target closed completely
-         */
-        void onTargetClosed();
-
-        /**
-         * Called when Target is Clicked
-         */
-        void onTargetClicked();
     }
 }

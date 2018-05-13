@@ -1,5 +1,7 @@
 package com.takusemba.spotlight;
 
+import com.takusemba.spotlight.target.Target;
+
 /**
  * On Target State Changed Listener
  *
