@@ -187,6 +187,17 @@ public class Spotlight {
     }
 
     /**
+     * Shows {@link SpotlightView}
+     */
+    public Target getCurrentTarget() {
+        if (targets.size() > 0) {
+            return targets.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Creates the spotlight view and starts
      */
     @SuppressWarnings("unchecked")
