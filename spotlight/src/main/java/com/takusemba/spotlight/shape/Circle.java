@@ -19,11 +19,11 @@ public class Circle implements Shape {
 
     @Override
     public int getHeight() {
-        return (int) radius;
+        return (int) radius * 2;
     }
 
     @Override
     public int getWidth() {
-        return (int) radius;
+        return (int) radius * 2;
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -81,13 +82,19 @@ public class SimpleTarget extends Target {
 
             final LinearLayout layout = overlay.findViewById(R.id.container);
             layout.setPadding(100, 0, 100, 0);
-            int maxSize = Math.max(shape.getHeight(), shape.getWidth());
             switch (largest) {
                 case ABOVE_SPOTLIGHT:
-                    layout.setY(point.y - maxSize - 100 - layout.getHeight());
+                    // use viewTreeObserver to use layout.getHeight()
+                    layout.getViewTreeObserver()
+                            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+                                    layout.setY(point.y - (shape.getHeight() / 2) - 100 - layout.getHeight());
+                                }
+                            });
                     break;
                 case BELOW_SPOTLIGHT:
-                    layout.setY((int) (point.y + maxSize + 100));
+                    layout.setY((int) (point.y + (shape.getHeight() / 2) + 100));
                     break;
             }
         }
