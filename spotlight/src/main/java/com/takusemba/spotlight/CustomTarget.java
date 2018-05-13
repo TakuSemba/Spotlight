@@ -17,7 +17,6 @@ public class CustomTarget implements Target {
     private float radius;
     private View overlay;
     private OnTargetStateChangedListener stateListener;
-    private OnTargetActionListener actionListener;
 
     /**
      * Constructor
@@ -28,18 +27,6 @@ public class CustomTarget implements Target {
         this.radius = radius;
         this.overlay = overlay;
         this.stateListener = listener;
-    }
-
-    interface OnTargetActionListener {
-        void closeRequested();
-    }
-
-    void setOnTargetActionListener(OnTargetActionListener listener) {
-        this.actionListener = listener;
-    }
-
-    public void closeTarget() {
-        actionListener.closeRequested();
     }
 
     @Override

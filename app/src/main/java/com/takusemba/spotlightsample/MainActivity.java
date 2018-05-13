@@ -96,28 +96,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-                View view = inflater.inflate(R.layout.layout_target, null);
 
                 // make an target
+                View first = inflater.inflate(R.layout.layout_target, null);
+                final CustomTarget firstTarget =
+                        new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.one))
+                                .setRadius(200f)
+                                .setOverlay(first)
+                                .build();
+
+                View second = inflater.inflate(R.layout.layout_target, null);
+                final CustomTarget secondTarget =
+                        new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.two))
+                                .setRadius(200f)
+                                .setOverlay(second)
+                                .build();
+
+                View third = inflater.inflate(R.layout.layout_target, null);
                 final CustomTarget thirdTarget =
                         new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.three))
                                 .setRadius(200f)
-                                .setOverlay(view)
+                                .setOverlay(third)
                                 .build();
 
-                view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        thirdTarget.closeTarget();
-                    }
-                });
-
-                Spotlight.with(MainActivity.this)
+                final Spotlight spotlight = Spotlight.with(MainActivity.this)
                         .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
                         .setDuration(1000L)
                         .setAnimation(new DecelerateInterpolator(2f))
-                        .setTargets(thirdTarget)
+                        .setTargets(firstTarget, secondTarget, thirdTarget)
                         .setClosedOnTouchedOutside(false)
                         .setOnSpotlightStartedListener(new OnSpotlightStartedListener() {
                             @Override
@@ -131,8 +139,30 @@ public class MainActivity extends AppCompatActivity {
                             public void onEnded() {
                                 Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
                             }
-                        })
-                        .start();
+                        });
+                spotlight.start();
+
+                View.OnClickListener closeTarget = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        spotlight.closeCurrentTarget();
+                    }
+                };
+
+                View.OnClickListener closeSpotlight = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        spotlight.closeSpotlight();
+                    }
+                };
+
+                first.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+                second.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+                third.findViewById(R.id.close_target).setOnClickListener(closeTarget);
+
+                first.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+                second.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
+                third.findViewById(R.id.close_spotlight).setOnClickListener(closeSpotlight);
             }
         });
     }

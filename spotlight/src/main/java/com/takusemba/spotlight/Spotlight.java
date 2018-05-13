@@ -99,16 +99,6 @@ public class Spotlight {
      */
     public <T extends Target> Spotlight setTargets(@NonNull T... targets) {
         this.targets = new ArrayList<>(Arrays.asList(targets));
-        for (final Target target : targets) {
-            if (target instanceof CustomTarget) {
-                ((CustomTarget) target).setOnTargetActionListener(new CustomTarget.OnTargetActionListener() {
-                    @Override
-                    public void closeRequested() {
-                        finishTarget();
-                    }
-                });
-            }
-        }
         return this;
     }
 
@@ -187,14 +177,17 @@ public class Spotlight {
     }
 
     /**
-     * Shows {@link SpotlightView}
+     * close the current {@link Target}
      */
-    public Target getCurrentTarget() {
-        if (targets.size() > 0) {
-            return targets.get(0);
-        } else {
-            return null;
-        }
+    public void closeCurrentTarget() {
+        finishTarget();
+    }
+
+    /**
+     * close the {@link Spotlight}
+     */
+    public void closeSpotlight() {
+        finishSpotlight();
     }
 
     /**
