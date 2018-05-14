@@ -8,6 +8,8 @@ public interface Shape {
 
     /**
      * draw the Shape
+     *
+     * @param value the animated value from 0 to 1
      */
     void draw(Canvas canvas, PointF point, float value, Paint paint);
 
