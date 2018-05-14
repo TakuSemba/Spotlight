@@ -83,8 +83,6 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 
 <br/>
 <br/>
-<br/>
-<br/>
 
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="30%">
 
@@ -110,6 +108,10 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .build();
 
 ```
+
+
+<br/>
+<br/>
 
 ## skip target, skip spotlight
 
