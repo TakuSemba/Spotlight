@@ -113,7 +113,7 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 <br/>
 <br/>
 
-## skip target, skip spotlight
+## Skip Target, Skip Spotlight
 
 you can skip the current target or skip the all comming targets.
 
@@ -125,7 +125,7 @@ spotlight.closeCurrentTarget();
 spotlight.closeSpotlight();
 ```
 
-## custom shape
+## Custom Shape
 custom shape is available implementing Shape interface
 
 
