@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    implementation 'com.github.takusemba:spotlight:1.3.3'
+    implementation 'com.github.takusemba:spotlight:1.5.0'
 }
 ```
 
@@ -21,24 +21,23 @@ dependencies {
 ```java
 
 Spotlight.with(this)
-        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background)) // background overlay color
-        .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
-        .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
-        .setTargets(firstTarget, secondTarget, thirdTarget ...) // set targets. see below for more info
-        .setClosedOnTouchedOutside(false) // set if target is closed when touched outside
-        .setOnSpotlightStartedListener(new OnSpotlightStartedListener() { // callback when Spotlight starts
+        .setOverlayColor(ContextCompat.getColor(MainActivity.this, R.color.background))
+        .setDuration(1000L)
+        .setAnimation(new DecelerateInterpolator(2f))
+        .setTargets(firstTarget, secondTarget, thirdTarget ...)
+        .setClosedOnTouchedOutside(false)
+        .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
             @Override
             public void onStarted() {
-                Toast.makeText(context, "spotlight is started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "spotlight is started", Toast.LENGTH_SHORT).show();
             }
-        })
-        .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
+
             @Override
             public void onEnded() {
-                Toast.makeText(context, "spotlight is ended", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
             }
-        })
-        .start(); // start Spotlight
+        });
+        .start();
                         
 ```
 
@@ -64,10 +63,10 @@ simply set a title and description, these position will be automatically calcula
 ```java
 
 SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
-    .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-    .setRadius(80f) // radius of the Target
-    .setTitle("the title") // title
-    .setDescription("the description") // description
+    .setPoint(100f, 340f)
+    .setShape(new Circle(200f))
+    .setTitle("the title")
+    .setDescription("the description")
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -95,9 +94,9 @@ use your own custom view.
 ```java
 
 CustomTarget customTarget = new CustomTarget.Builder(this)
-    .setPoint(100f, 340f) // position of the Target. setPoint(Point point), setPoint(View view) will work too.
-    .setRadius(80f) // radius of the Target
-    .setView(view) // custom view
+    .setPoint(100f, 340f)
+    .setShape(new Circle(200f))
+    .setView(view)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
@@ -112,6 +111,42 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 
 ```
 
+## skip target, skip spotlight
+
+you can skip the current target or skip the all comming targets.
+
+```java
+Spotlight spotlight = Spotlight.with(this)...start();
+
+spotlight.closeCurrentTarget();
+
+spotlight.closeSpotlight();
+```
+
+## custom shape
+custom shape is available implementing Shape interface
+
+
+```java
+public class RoundRectangle implements Shape {
+
+    private float width;
+    private float height;
+
+    public RoundRectangle(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public void draw(Canvas canvas, PointF point, float value, Paint paint) {
+        // draw your shape using canvas.
+    }
+    ...
+}
+
+```
+
 <br/>
 <br/>
 <br/>
@@ -122,6 +157,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Change Log
 
+### Version: 1.5.0
+
+  * custom shapes, skip feature
+  
 ### Version: 1.3.0
 
   * click handling added
@@ -129,16 +168,6 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 ### Version: 1.2.0
 
   * overlay color added
-
-### Version: 1.0.3
-
-  * add listener to target
-
-
-### Version: 1.0.1, 1.0.2
-
-  * bug fix
-
 
 ## Author
 
