@@ -150,9 +150,6 @@ public class RoundRectangle implements Shape {
 ```
 
 <br/>
-<br/>
-<br/>
-<br/>
 
 ### Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
