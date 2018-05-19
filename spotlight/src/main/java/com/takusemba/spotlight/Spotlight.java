@@ -70,6 +70,18 @@ public class Spotlight {
     }
 
     /**
+     * sets {@link Target}s to Spotlight
+     *
+     * @param targets targets as Arrayist to show
+     * @return the Spotlight
+     */
+    public final <T extends Target> Spotlight setTargets(@NonNull ArrayList<T> targets) {
+        this.targets = targets;
+
+        return this;
+    }
+
+    /**
      * sets spotlight background color to Spotlight
      *
      * @param overlayColor background color to be used for the spotlight overlay
