@@ -14,8 +14,11 @@ import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.target.CustomTarget;
 import com.takusemba.spotlight.target.SimpleTarget;
+import com.takusemba.spotlight.target.Target;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class  MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
                 LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 
+                ArrayList<Target> targets = new ArrayList<>();
 
                 // make an target
                 View first = inflater.inflate(R.layout.layout_target, null);
@@ -106,12 +110,16 @@ public class MainActivity extends AppCompatActivity {
                                 .setOverlay(first)
                                 .build();
 
+                targets.add(firstTarget);
+
                 View second = inflater.inflate(R.layout.layout_target, null);
                 final CustomTarget secondTarget =
                         new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.two))
                                 .setShape(new Circle(800f))
                                 .setOverlay(second)
                                 .build();
+
+                targets.add(secondTarget);
 
                 View third = inflater.inflate(R.layout.layout_target, null);
                 final CustomTarget thirdTarget =
@@ -120,13 +128,15 @@ public class MainActivity extends AppCompatActivity {
                                 .setOverlay(third)
                                 .build();
 
+                targets.add(thirdTarget);
+
                 final Spotlight spotlight =
 
                         Spotlight.with(MainActivity.this)
                                 .setOverlayColor(R.color.background)
                                 .setDuration(1000L)
                                 .setAnimation(new DecelerateInterpolator(2f))
-                                .setTargets(firstTarget, secondTarget, thirdTarget)
+                                .setTargets(targets)
                                 .setClosedOnTouchedOutside(false)
                                 .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
                                     @Override
