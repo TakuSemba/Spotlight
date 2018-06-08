@@ -22,7 +22,7 @@ public abstract class Target {
     private TimeInterpolator animation;
     private OnTargetStateChangedListener listener;
 
-    Target(Shape shape, PointF point, View overlay, long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
+    public Target(Shape shape, PointF point, View overlay, long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
         this.shape = shape;
         this.point = point;
         this.overlay = overlay;
