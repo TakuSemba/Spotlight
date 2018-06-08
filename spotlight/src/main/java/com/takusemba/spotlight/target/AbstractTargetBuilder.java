@@ -37,7 +37,7 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
 
     protected abstract S build();
 
-    Activity getContext() {
+    protected Activity getContext() {
         return contextWeakReference.get();
     }
 
