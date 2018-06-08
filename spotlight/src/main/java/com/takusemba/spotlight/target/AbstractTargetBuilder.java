@@ -27,11 +27,11 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
     private static final Shape DEFAULT_SHAPE = new Circle(100);
     private WeakReference<Activity> contextWeakReference;
 
-    PointF point = DEFAULT_POINT;
-    Shape shape = DEFAULT_SHAPE;
-    long duration = DEFAULT_DURATION;
-    TimeInterpolator animation = DEFAULT_ANIMATION;
-    OnTargetStateChangedListener listener = null;
+    protected PointF point = DEFAULT_POINT;
+    protected Shape shape = DEFAULT_SHAPE;
+    protected long duration = DEFAULT_DURATION;
+    protected TimeInterpolator animation = DEFAULT_ANIMATION;
+    protected OnTargetStateChangedListener listener = null;
 
     protected abstract T self();
 
