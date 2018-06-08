@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
  * @author takusemba
  * @since 26/06/2017
  **/
-abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S extends Target> {
+public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S extends Target> {
 
     private static final PointF DEFAULT_POINT = new PointF(0, 0);
     private static final long DEFAULT_DURATION = 1000L;
@@ -41,7 +41,7 @@ abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S ex
         return contextWeakReference.get();
     }
 
-    AbstractTargetBuilder(@NonNull Activity context) {
+    public AbstractTargetBuilder(@NonNull Activity context) {
         contextWeakReference = new WeakReference<>(context);
     }
 
