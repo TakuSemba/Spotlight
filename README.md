@@ -94,7 +94,7 @@ use your own custom view.
 CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f)
     .setShape(new Circle(200f))
-    .setView(view)
+    .setOverlay(view)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
