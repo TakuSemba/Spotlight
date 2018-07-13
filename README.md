@@ -11,7 +11,7 @@
 
 ```groovy
 dependencies {
-    implementation 'com.github.takusemba:spotlight:1.6.0'
+    implementation 'com.github.takusemba:spotlight:x.x.x'
 }
 ```
 
