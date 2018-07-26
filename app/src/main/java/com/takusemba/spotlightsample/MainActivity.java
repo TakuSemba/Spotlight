@@ -12,13 +12,14 @@ import com.takusemba.spotlight.OnSpotlightStateChangedListener;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.Spotlight;
 import com.takusemba.spotlight.shape.Circle;
+import com.takusemba.spotlight.shape.Square;
 import com.takusemba.spotlight.target.CustomTarget;
 import com.takusemba.spotlight.target.SimpleTarget;
 import com.takusemba.spotlight.target.Target;
 
 import java.util.ArrayList;
 
-public class  MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,9 @@ public class  MainActivity extends AppCompatActivity {
                         new PointF(twoLocation[0] + two.getWidth() / 2f, twoLocation[1] + two.getHeight() / 2f);
                 // make an target
                 SimpleTarget secondTarget = new SimpleTarget.Builder(MainActivity.this).setPoint(point)
-                        .setShape(new Circle(80f))
-                        .setTitle("second title")
-                        .setDescription("second description")
+                        .setShape(new Square(findViewById(R.id.two), 6, 6))
+//                        .setTitle("second title")
+//                        .setDescription("second description")
                         .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                             @Override
                             public void onStarted(SimpleTarget target) {
@@ -115,7 +116,7 @@ public class  MainActivity extends AppCompatActivity {
                 View second = inflater.inflate(R.layout.layout_target, null);
                 final CustomTarget secondTarget =
                         new CustomTarget.Builder(MainActivity.this).setPoint(findViewById(R.id.two))
-                                .setShape(new Circle(800f))
+                                .setShape(new Square(findViewById(R.id.two)))
                                 .setOverlay(second)
                                 .build();
 
