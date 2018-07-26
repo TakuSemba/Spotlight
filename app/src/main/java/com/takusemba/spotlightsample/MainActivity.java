@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 // make an target
                 SimpleTarget secondTarget = new SimpleTarget.Builder(MainActivity.this).setPoint(point)
                         .setShape(new Square(findViewById(R.id.two), 6, 6))
-//                        .setTitle("second title")
-//                        .setDescription("second description")
+                        .setTitle("second title")
+                        .setDescription("second description")
                         .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
                             @Override
                             public void onStarted(SimpleTarget target) {
