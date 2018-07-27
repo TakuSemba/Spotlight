@@ -14,24 +14,24 @@ import android.view.View;
  */
 public class Square implements Shape {
 
-    private int width = 0;
-    private int height = 0;
-    private int radiusX = 0;
-    private int radiusY = 0;
+    private float width = 0;
+    private float height = 0;
+    private float radiusX = 0;
+    private float radiusY = 0;
 
-    public Square(int width, int height) {
+    public Square(float width, float height) {
         this.width = width;
         this.height = height;
     }
 
-    public Square(int width, int height, int radiusX, int radiusY) {
+    public Square(float width, float height, float radiusX, float radiusY) {
         this.width = width;
         this.height = height;
         this.radiusX = radiusX;
         this.radiusY = radiusY;
     }
 
-    public Square(@NonNull View view, int radiusX, int radiusY) {
+    public Square(@NonNull View view, float radiusX, float radiusY) {
         this.radiusX = radiusX;
         this.radiusY = radiusY;
         measureView(view);
@@ -60,27 +60,27 @@ public class Square implements Shape {
 
     @Override
     public void draw(Canvas canvas, PointF point, float value, Paint paint) {
-        int halfWidth = (int) (value * (int) (value * width / 2));
-        int halfHeight = (int) (value * (int) (value * height / 2));
-        int left = (int) (point.x - halfWidth);
-        int top = (int) (point.y - halfHeight);
-        int right = (int) (point.x + halfWidth);
-        int bottom = (int) (point.y + halfHeight);
+        float halfWidth = (value * (value * width / 2));
+        float halfHeight = (value * (int) (value * height / 2));
+        float left = (point.x - halfWidth);
+        float top = (point.y - halfHeight);
+        float right = (point.x + halfWidth);
+        float bottom = (point.y + halfHeight);
         if (this.radiusX > 0 || this.radiusY > 0) {
             canvas.drawRoundRect(new RectF(left, top, right, bottom), value * this.radiusX, value * this.radiusY, paint);
         } else {
-            canvas.drawRect(new Rect(left, top, right, bottom), paint);
+            canvas.drawRect(new Rect((int) left, (int) top, (int) right, (int) bottom), paint);
         }
 
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return (int) height;
     }
 
     @Override
     public int getWidth() {
-        return width;
+        return (int) width;
     }
 }
