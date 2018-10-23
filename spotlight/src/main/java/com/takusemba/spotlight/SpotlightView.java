@@ -63,19 +63,27 @@ class SpotlightView extends FrameLayout {
     }
 
     void startSpotlight(long duration, TimeInterpolator animation, AbstractAnimatorListener listener) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f);
-        objectAnimator.setDuration(duration);
-        objectAnimator.setInterpolator(animation);
-        objectAnimator.addListener(listener);
-        objectAnimator.start();
+        try{
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f);
+            objectAnimator.setDuration(duration);
+            objectAnimator.setInterpolator(animation);
+            objectAnimator.addListener(listener);
+            objectAnimator.start();
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     void finishSpotlight(long duration, TimeInterpolator animation, AbstractAnimatorListener listener) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f);
-        objectAnimator.setDuration(duration);
-        objectAnimator.setInterpolator(animation);
-        objectAnimator.addListener(listener);
-        objectAnimator.start();
+        try{
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f);
+            objectAnimator.setDuration(duration);
+            objectAnimator.setInterpolator(animation);
+            objectAnimator.addListener(listener);
+            objectAnimator.start();
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     void turnUp(Target target, AbstractAnimatorListener listener) {
