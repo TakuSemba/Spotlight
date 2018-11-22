@@ -3,7 +3,7 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 

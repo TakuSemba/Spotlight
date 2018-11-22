@@ -3,7 +3,7 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.takusemba.spotlight.OnTargetStateChangedListener;
