@@ -4,9 +4,6 @@ import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.Context;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -16,6 +13,10 @@ import com.takusemba.spotlight.target.Target;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Spotlight
@@ -72,7 +73,7 @@ public class Spotlight {
     /**
      * sets {@link Target}s to Spotlight
      *
-     * @param targets targets as Arrayist to show
+     * @param targets targets as ArrayList to show
      * @return the Spotlight
      */
     public final <T extends Target> Spotlight setTargets(@NonNull ArrayList<T> targets) {
@@ -104,7 +105,7 @@ public class Spotlight {
     }
 
     /**
-     * sets duration to {@link Target} Animation
+     * sets interpolator to {@link Target} Animation
      *
      * @param animation type of Target Animation
      * @return the Spotlight
