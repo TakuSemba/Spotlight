@@ -247,9 +247,12 @@ public class Spotlight {
         getSpotlightView().finishSpotlight(duration, animation, new AbstractAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                final View decorView = ((Activity) getContext()).getWindow().getDecorView();
-                ((ViewGroup) decorView).removeView(getSpotlightView());
-                if (spotlightListener != null) spotlightListener.onEnded();
+                Activity activity = (Activity) getContext();
+                if (activity != null) {
+                    final View decorView = activity.getWindow().getDecorView();
+                    ((ViewGroup) decorView).removeView(getSpotlightView());
+                    if (spotlightListener != null) spotlightListener.onEnded();
+                }
             }
         });
     }
