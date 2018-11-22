@@ -94,6 +94,10 @@ class SpotlightView extends FrameLayout {
     }
 
     void turnDown(AbstractAnimatorListener listener) {
+        if (currentTarget == null) {
+            return;
+        }
+
         animator = ValueAnimator.ofFloat(1f, 0f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
