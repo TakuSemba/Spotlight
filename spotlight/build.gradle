@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
-        versionCode LIBRARY_VERSION_CODE as int
-        versionName LIBRARY_VERSION_NAME
     }
 }
 
