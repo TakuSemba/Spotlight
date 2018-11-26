@@ -9,20 +9,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import com.takusemba.spotlight.target.Target;
 
 /**
- * Spotlight View
- *
- * @author takusemba
- * @since 26/06/2017
+ * Spotlight View which holds a current {@link Target} and show it properly.
  **/
 @SuppressLint("ViewConstructor")
 class SpotlightView extends FrameLayout {
@@ -46,7 +42,7 @@ class SpotlightView extends FrameLayout {
             @Override
             public void onClick(View v) {
                 if (animator != null && !animator.isRunning() && (float) animator.getAnimatedValue() > 0) {
-                    if (listener != null) listener.onTargetClicked();
+                    if (listener != null) listener.onSpotlightViewClicked();
                 }
             }
         });

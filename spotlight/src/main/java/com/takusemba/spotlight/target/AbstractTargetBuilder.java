@@ -3,10 +3,9 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-
+import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.shape.Shape;
@@ -14,10 +13,9 @@ import com.takusemba.spotlight.shape.Shape;
 import java.lang.ref.WeakReference;
 
 /**
- * Position Target
- *
- * @author takusemba
- * @since 26/06/2017
+ * Abstraction layer of Target Builder containing all of the required params.
+ * When creating a target from a builder, this class should be used.
+ * T is a actual Builder class, S a actual Target class created from the builder
  **/
 public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S extends Target> {
 

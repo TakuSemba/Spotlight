@@ -3,17 +3,14 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
-import androidx.annotation.LayoutRes;
 import android.view.View;
-
+import androidx.annotation.LayoutRes;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.shape.Shape;
 
 /**
- * Target
- *
- * @author takusemba
- * @since 26/06/2017
+ * CustomTarget can set your own custom view for a overlay.
+ * If you do not care about much about a overlay, consider using {@link SimpleTarget} instead.
  **/
 public class CustomTarget extends Target {
 

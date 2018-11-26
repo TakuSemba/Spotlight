@@ -7,22 +7,18 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.takusemba.spotlight.target.Target;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 /**
- * Spotlight
- *
- * @author takusemba
- * @since 26/06/2017
+ * Spotlight that holds all the {@link Target}s and show and hide {@link Target} properly,
+ * and show and hide {@link SpotlightView} properly.
  **/
 public class Spotlight {
 
@@ -169,7 +165,7 @@ public class Spotlight {
         final View decorView = ((Activity) getContext()).getWindow().getDecorView();
         SpotlightView spotlightView = new SpotlightView(getContext(), overlayColor, new OnSpotlightListener() {
             @Override
-            public void onTargetClicked() {
+            public void onSpotlightViewClicked() {
                 if (isClosedOnTouchedOutside) {
                     finishTarget();
                 }

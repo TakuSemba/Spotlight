@@ -4,6 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
+/**
+ * Circle shape of a target.
+ * Radius is configurable.
+ */
 public class Circle implements Shape {
 
     private float radius;

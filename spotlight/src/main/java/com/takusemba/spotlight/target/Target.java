@@ -3,15 +3,14 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.graphics.PointF;
 import android.view.View;
-
 import com.takusemba.spotlight.OnTargetStateChangedListener;
+import com.takusemba.spotlight.shape.Circle;
 import com.takusemba.spotlight.shape.Shape;
 
 /**
- * Target
- *
- * @author takusemba
- * @since 26/06/2017
+ * Target is used to light up a certain area.
+ * The shape of the Target is customizable using {@link Shape} class.
+ * If you want to show circle shape of a Target, set {@link Circle} class.
  **/
 public abstract class Target {
 

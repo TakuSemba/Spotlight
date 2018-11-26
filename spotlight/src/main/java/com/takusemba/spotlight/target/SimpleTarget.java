@@ -5,22 +5,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.R;
 import com.takusemba.spotlight.shape.Shape;
 
 /**
- * Position Target
- *
- * @author takusemba
- * @since 26/06/2017
+ * SimpleTarget will set a simple overlay.
+ * If you set your customized overlay, consider using {@link CustomTarget} instead.
  **/
 public class SimpleTarget extends Target {
 
