@@ -2,12 +2,10 @@ package com.takusemba.spotlight.target;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -32,11 +30,9 @@ public class SimpleTarget extends Target {
             return this;
         }
 
-        private static final int ABOVE_SPOTLIGHT = 0;
-        private static final int BELOW_SPOTLIGHT = 1;
-
         private CharSequence title;
         private CharSequence description;
+        private PointF overlayPoint;
 
         public Builder(@NonNull Activity context) {
             super(context);
@@ -52,48 +48,34 @@ public class SimpleTarget extends Target {
             return this;
         }
 
-        @Override
-        public SimpleTarget build() {
-            View overlay = getContext().getLayoutInflater().inflate(R.layout.layout_spotlight, null);
-            ((TextView) overlay.findViewById(R.id.title)).setText(title);
-            ((TextView) overlay.findViewById(R.id.description)).setText(description);
-            calculatePosition(point, shape, overlay);
-            return new SimpleTarget(shape, point, overlay, duration, animation, listener);
+        public Builder setOverlayPoint(PointF overlayPoint) {
+            this.overlayPoint = overlayPoint;
+            return this;
         }
 
-        private void calculatePosition(final PointF point, final Shape shape, View overlay) {
-            float[] areas = new float[2];
-            Point screenSize = new Point();
-            ((WindowManager) overlay.getContext()
-                    .getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(screenSize);
+        public Builder setOverlayPoint(float x, float y) {
+            this.overlayPoint = new PointF(x, y);
+            return this;
+        }
 
-            areas[ABOVE_SPOTLIGHT] = point.y / screenSize.y;
-            areas[BELOW_SPOTLIGHT] = (screenSize.y - point.y) / screenSize.y;
-
-            int largest;
-            if (areas[ABOVE_SPOTLIGHT] > areas[BELOW_SPOTLIGHT]) {
-                largest = ABOVE_SPOTLIGHT;
-            } else {
-                largest = BELOW_SPOTLIGHT;
+        @Override
+        public SimpleTarget build() {
+            ViewGroup root = new FrameLayout(getContext());
+            View overlay = getContext().getLayoutInflater().inflate(R.layout.layout_spotlight, root);
+            TextView titleView = overlay.findViewById(R.id.title);
+            TextView descriptionView = overlay.findViewById(R.id.description);
+            LinearLayout layout = overlay.findViewById(R.id.container);
+            if (title != null) {
+                titleView.setText(title);
             }
-
-            final LinearLayout layout = overlay.findViewById(R.id.container);
-            layout.setPadding(100, 0, 100, 0);
-            switch (largest) {
-                case ABOVE_SPOTLIGHT:
-                    // use viewTreeObserver to use layout.getHeight()
-                    layout.getViewTreeObserver()
-                            .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                @Override
-                                public void onGlobalLayout() {
-                                    layout.setY(point.y - (shape.getHeight() / 2) - 100 - layout.getHeight());
-                                }
-                            });
-                    break;
-                case BELOW_SPOTLIGHT:
-                    layout.setY((int) (point.y + (shape.getHeight() / 2) + 100));
-                    break;
+            if (description != null) {
+                descriptionView.setText(description);
             }
+            if (overlayPoint != null) {
+                layout.setX(overlayPoint.x);
+                layout.setY(overlayPoint.y);
+            }
+            return new SimpleTarget(shape, point, overlay, duration, animation, listener);
         }
     }
 }

@@ -20,14 +20,4 @@ public class Circle implements Shape {
     public void draw(Canvas canvas, PointF point, float value, Paint paint) {
         canvas.drawCircle(point.x, point.y, value * radius, paint);
     }
-
-    @Override
-    public int getHeight() {
-        return (int) radius * 2;
-    }
-
-    @Override
-    public int getWidth() {
-        return (int) radius * 2;
-    }
 }
