@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
       // create spotlight
       Spotlight.with(this@MainActivity)
           .setOverlayColor(R.color.background)
-          .setDuration(100L)
+          .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
           .setTargets(firstTarget, secondTarget, thirdTarget)
           .setClosedOnTouchedOutside(true)
