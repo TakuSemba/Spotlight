@@ -7,8 +7,8 @@ import com.takusemba.spotlight.target.Target;
  */
 interface OnSpotlightListener {
 
-    /**
-     * called when SpotlightView is clicked
-     */
-    void onSpotlightViewClicked();
+  /**
+   * called when SpotlightView is clicked
+   */
+  void onSpotlightViewClicked();
 }

@@ -11,22 +11,25 @@ import android.graphics.RectF;
  */
 public class RoundedRectangle implements Shape {
 
-    private float height;
-    private float width;
-    private float radius;
+  private float height;
+  private float width;
+  private float radius;
 
-    public RoundedRectangle(float height, float width, float radius) {
-        this.height = height;
-        this.width = width;
-        this.radius = radius;
-    }
+  public RoundedRectangle(float height, float width, float radius) {
+    this.height = height;
+    this.width = width;
+    this.radius = radius;
+  }
 
-    @Override
-    public void draw(Canvas canvas, PointF point, float value, Paint paint) {
-        float halfWidth = width / 2 * value;
-        float halfHeight = height / 2 * value;
-        RectF rect = new RectF(point.x - halfWidth, point.y - halfHeight, point.x + halfWidth, point.y + halfHeight);
-        canvas.drawRoundRect(rect, radius, radius, paint);
-    }
+  @Override public void draw(Canvas canvas, PointF point, float value, Paint paint) {
+    float halfWidth = width / 2 * value;
+    float halfHeight = height / 2 * value;
+    float left = point.x - halfWidth;
+    float top = point.y - halfHeight;
+    float right = point.x + halfWidth;
+    float bottom = point.y + halfHeight;
+    RectF rect = new RectF(left, top, right, bottom);
+    canvas.drawRoundRect(rect, radius, radius, paint);
+  }
 }
 

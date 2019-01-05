@@ -14,36 +14,35 @@ import com.takusemba.spotlight.shape.Shape;
  **/
 public class CustomTarget extends Target {
 
-    private CustomTarget(Shape shape, PointF point, View overlay, long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
-        super(shape, point, overlay, duration, animation, listener);
+  private CustomTarget(Shape shape, PointF point, View overlay, long duration,
+      TimeInterpolator animation, OnTargetStateChangedListener listener) {
+    super(shape, point, overlay, duration, animation, listener);
+  }
+
+  public static class Builder extends AbstractTargetBuilder<Builder, CustomTarget> {
+
+    @Override protected Builder self() {
+      return this;
     }
 
-    public static class Builder extends AbstractTargetBuilder<Builder, CustomTarget> {
+    private View overlay;
 
-        @Override
-        protected Builder self() {
-            return this;
-        }
-
-        private View overlay;
-
-        public Builder(Activity context) {
-            super(context);
-        }
-
-        public Builder setOverlay(@LayoutRes int layoutId) {
-            this.overlay = getContext().getLayoutInflater().inflate(layoutId, null);
-            return this;
-        }
-
-        public Builder setOverlay(View overlay) {
-            this.overlay = overlay;
-            return this;
-        }
-
-        @Override
-        public CustomTarget build() {
-            return new CustomTarget(shape, point, overlay, duration, animation, listener);
-        }
+    public Builder(Activity context) {
+      super(context);
     }
+
+    public Builder setOverlay(@LayoutRes int layoutId) {
+      this.overlay = getContext().getLayoutInflater().inflate(layoutId, null);
+      return this;
+    }
+
+    public Builder setOverlay(View overlay) {
+      this.overlay = overlay;
+      return this;
+    }
+
+    @Override public CustomTarget build() {
+      return new CustomTarget(shape, point, overlay, duration, animation, listener);
+    }
+  }
 }
