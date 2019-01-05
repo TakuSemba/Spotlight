@@ -12,6 +12,7 @@ import com.takusemba.spotlight.OnSpotlightStateChangedListener
 import com.takusemba.spotlight.OnTargetStateChangedListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.target.CustomTarget
 import com.takusemba.spotlight.target.SimpleTarget
 import com.takusemba.spotlight.target.Target
@@ -64,16 +65,20 @@ class MainActivity : AppCompatActivity() {
                     })
                     .build()
 
-            val threeRadius = 200f
+            val threeWidth = 300f
+            val threeHeight = 300f
             val threeView = findViewById<View>(R.id.three)
+            val location = IntArray(2)
+            threeView.getLocationInWindow(location)
+            val y = location[1] + threeView.height / 2
 
             // third target
             val thirdTarget = SimpleTarget.Builder(this@MainActivity)
                     .setPoint(threeView)
-                    .setShape(Circle(threeRadius))
+                    .setShape(RoundedRectangle(threeWidth, threeHeight, 25f))
                     .setTitle("third title")
                     .setDescription("third description")
-                    .setOverlayPoint(100f, threeView.y - threeRadius - 100f)
+                    .setOverlayPoint(100f, y - threeHeight - 300)
                     .build()
 
             // create spotlight
