@@ -2,11 +2,12 @@ package com.takusemba.spotlightsample
 
 import android.graphics.PointF
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.spotlight.OnSpotlightStateChangedListener
 import com.takusemba.spotlight.OnTargetStateChangedListener
 import com.takusemba.spotlight.Spotlight
@@ -28,26 +29,30 @@ class MainActivity : AppCompatActivity() {
             one.getLocationInWindow(oneLocation)
             val oneX = oneLocation[0] + one.width / 2f
             val oneY = oneLocation[1] + one.height / 2f
+            val oneRadius = 100f
 
             // first target
             val firstTarget = SimpleTarget.Builder(this@MainActivity)
                     .setPoint(oneX, oneY)
-                    .setShape(Circle(100f))
+                    .setShape(Circle(oneRadius))
                     .setTitle("first title")
                     .setDescription("first description")
+                    .setOverlayPoint(100f, oneY + oneRadius + 100f)
                     .build()
 
             val two = findViewById<View>(R.id.two)
             val twoLocation = IntArray(2)
             two.getLocationInWindow(twoLocation)
-            val point = PointF(twoLocation[0] + two.width / 2f, twoLocation[1] + two.height / 2f)
+            val twoPoint = PointF(twoLocation[0] + two.width / 2f, twoLocation[1] + two.height / 2f)
+            val twoRadius = 100f
 
             // second target
             val secondTarget = SimpleTarget.Builder(this@MainActivity)
-                    .setPoint(point)
-                    .setShape(Circle(80f))
+                    .setPoint(twoPoint)
+                    .setShape(Circle(twoRadius))
                     .setTitle("second title")
                     .setDescription("second description")
+                    .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
                     .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
                         override fun onStarted(target: SimpleTarget) {
                             Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
@@ -59,12 +64,16 @@ class MainActivity : AppCompatActivity() {
                     })
                     .build()
 
+            val threeRadius = 200f
+            val threeView = findViewById<View>(R.id.three)
+
             // third target
             val thirdTarget = SimpleTarget.Builder(this@MainActivity)
-                    .setPoint(findViewById<View>(R.id.three))
-                    .setShape(Circle(200f))
+                    .setPoint(threeView)
+                    .setShape(Circle(threeRadius))
                     .setTitle("third title")
                     .setDescription("third description")
+                    .setOverlayPoint(100f, threeView.y - threeRadius - 100f)
                     .build()
 
             // create spotlight
@@ -93,7 +102,8 @@ class MainActivity : AppCompatActivity() {
             val targets = ArrayList<Target>()
 
             // first target
-            val first = inflater.inflate(R.layout.layout_target, null)
+            val firstRoot = FrameLayout(this)
+            val first = inflater.inflate(R.layout.layout_target, firstRoot)
             val firstTarget = CustomTarget.Builder(this@MainActivity)
                     .setPoint(findViewById<View>(R.id.one))
                     .setShape(Circle(100f))
@@ -103,17 +113,19 @@ class MainActivity : AppCompatActivity() {
             targets.add(firstTarget)
 
             // second target
-            val second = inflater.inflate(R.layout.layout_target, null)
+            val secondRoot = FrameLayout(this)
+            val second = inflater.inflate(R.layout.layout_target, secondRoot)
             val secondTarget = CustomTarget.Builder(this@MainActivity)
                     .setPoint(findViewById<View>(R.id.two))
-                    .setShape(Circle(800f))
+                    .setShape(Circle(300f))
                     .setOverlay(second)
                     .build()
 
             targets.add(secondTarget)
 
             // third target
-            val third = inflater.inflate(R.layout.layout_target, null)
+            val thirdRoot = FrameLayout(this)
+            val third = inflater.inflate(R.layout.layout_target, thirdRoot)
             val thirdTarget = CustomTarget.Builder(this@MainActivity)
                     .setPoint(findViewById<View>(R.id.three))
                     .setShape(Circle(200f))
