@@ -52,7 +52,7 @@ class SpotlightView extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setColor(ContextCompat.getColor(getContext(), overlayColor));
-        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
         if (animator != null && currentTarget != null) {
             currentTarget.getShape().draw(canvas, currentTarget.getPoint(), (float) animator.getAnimatedValue(), spotPaint);
         }
