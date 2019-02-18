@@ -178,14 +178,35 @@ public class Spotlight {
   @SuppressWarnings("unchecked") private void startTarget() {
     if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
       final Target target = targets.get(0);
-      SpotlightView spotlightView = getSpotlightView();
-      spotlightView.removeAllViews();
-      spotlightView.addView(target.getOverlay());
-      spotlightView.turnUp(target, new AbstractAnimatorListener() {
-        @Override public void onAnimationStart(Animator animation) {
-          if (target.getListener() != null) target.getListener().onStarted(target);
-        }
-      });
+      if (target != null) {
+        SpotlightView spotlightView = getSpotlightView();
+        spotlightView.removeAllViews();
+        spotlightView.addView(target.getOverlay());
+        spotlightView.turnUp(target, new AbstractAnimatorListener() {
+          @Override
+          public void onAnimationStart(Animator animation) {
+            if (target.getListener() != null) target.getListener().onStarted(target);
+          }
+        });
+      }
+      else{
+        skipTarget();
+      }
+    }
+  }
+
+  /**
+   * skip Target
+   */
+  @SuppressWarnings("unchcked") private void skipTarget(){
+    if(targets != null && targets.size() > 0){
+      targets.remove(0);
+      if(targets.size() > 0){
+        startTarget();
+      }
+      else{
+        finishSpotlight();
+      }
     }
   }
 
