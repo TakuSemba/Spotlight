@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -230,13 +231,16 @@ public class Spotlight {
    * hide Spotlight
    */
   private void finishSpotlight() {
-    if (getSpotlightView() == null) return;
-    getSpotlightView().finishSpotlight(duration, animation, new AbstractAnimatorListener() {
+    final SpotlightView spotlightView = getSpotlightView();
+    if (spotlightView == null) return;
+      spotlightView.finishSpotlight(duration, animation, new AbstractAnimatorListener() {
       @Override public void onAnimationEnd(Animator animation) {
         Activity activity = (Activity) getContext();
         if (activity != null) {
-          final View decorView = activity.getWindow().getDecorView();
-          ((ViewGroup) decorView).removeView(getSpotlightView());
+            ViewParent parent = spotlightView.getParent();
+            if (parent instanceof ViewGroup){
+                ((ViewGroup) parent).removeView(spotlightView);
+            }
           if (spotlightListener != null) spotlightListener.onEnded();
         }
       }
