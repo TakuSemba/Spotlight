@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class Spotlight {
 
   private static WeakReference<SpotlightView> spotlightViewWeakReference;
   private static WeakReference<Activity> contextWeakReference;
+  private static WeakReference<Window> windowWeakReference;
   private ArrayList<? extends Target> targets;
   private long duration = DEFAULT_DURATION;
   private TimeInterpolator animation = DEFAULT_ANIMATION;
@@ -34,16 +36,25 @@ public class Spotlight {
   private int overlayColor = DEFAULT_OVERLAY_COLOR;
   private boolean isClosedOnTouchedOutside = true;
 
-  private Spotlight(Activity activity) {
+  private Spotlight(Activity activity, Window window) {
     contextWeakReference = new WeakReference<>(activity);
+    windowWeakReference = new WeakReference<>(window);
   }
 
   public static Spotlight with(@NonNull Activity activity) {
-    return new Spotlight(activity);
+    return new Spotlight(activity, activity.getWindow());
+  }
+
+  public static Spotlight with(@NonNull Activity activity, @NonNull Window window) {
+    return new Spotlight(activity, window);
   }
 
   private static Context getContext() {
     return contextWeakReference.get();
+  }
+
+  private static Window getWindow() {
+    return windowWeakReference.get();
   }
 
   @Nullable private static SpotlightView getSpotlightView() {
@@ -155,10 +166,10 @@ public class Spotlight {
    * Creates the spotlight view and starts
    */
   @SuppressWarnings("unchecked") private void spotlightView() {
-    if (getContext() == null) {
+    if (getWindow() == null) {
       throw new RuntimeException("context is null");
     }
-    final View decorView = ((Activity) getContext()).getWindow().getDecorView();
+    final View decorView = getWindow().getDecorView();
     SpotlightView spotlightView =
         new SpotlightView(getContext(), overlayColor, new OnSpotlightListener() {
           @Override public void onSpotlightViewClicked() {
@@ -233,9 +244,9 @@ public class Spotlight {
     if (getSpotlightView() == null) return;
     getSpotlightView().finishSpotlight(duration, animation, new AbstractAnimatorListener() {
       @Override public void onAnimationEnd(Animator animation) {
-        Activity activity = (Activity) getContext();
-        if (activity != null) {
-          final View decorView = activity.getWindow().getDecorView();
+        Window window = getWindow();
+        if (window != null) {
+          final View decorView = window.getDecorView();
           ((ViewGroup) decorView).removeView(getSpotlightView());
           if (spotlightListener != null) spotlightListener.onEnded();
         }
