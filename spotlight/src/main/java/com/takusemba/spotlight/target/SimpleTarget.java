@@ -42,12 +42,22 @@ public class SimpleTarget extends Target {
       this.title = title;
       return this;
     }
+    
+    public Builder setTitle(int title) {
+      this.title = getContext().getString(title);
+      return this;
+    }
 
     public Builder setDescription(CharSequence description) {
       this.description = description;
       return this;
     }
 
+    public Builder setDescription(int description) {
+      this.description = getContext().getString(description);
+      return this;
+    }
+    
     public Builder setOverlayPoint(PointF overlayPoint) {
       this.overlayPoint = overlayPoint;
       return this;
