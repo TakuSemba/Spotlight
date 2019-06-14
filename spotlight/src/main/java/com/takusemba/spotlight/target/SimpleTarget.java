@@ -33,6 +33,7 @@ public class SimpleTarget extends Target {
     private CharSequence title;
     private CharSequence description;
     private PointF overlayPoint;
+    private int overlayForeground;
 
     public Builder(@NonNull Activity context) {
       super(context);
@@ -67,6 +68,11 @@ public class SimpleTarget extends Target {
       this.overlayPoint = new PointF(x, y);
       return this;
     }
+    
+    public Builder setOverlayForeground(int overlayForeground) {
+      this.overlayForeground = overlayForeground;
+      return this;
+    }
 
     @Override public SimpleTarget build() {
       ViewGroup root = new FrameLayout(getContext());
@@ -74,6 +80,10 @@ public class SimpleTarget extends Target {
       TextView titleView = overlay.findViewById(R.id.title);
       TextView descriptionView = overlay.findViewById(R.id.description);
       LinearLayout layout = overlay.findViewById(R.id.container);
+      if (overlayForeground != 0) {
+        titleView.setTextColor(overlayForeground);
+        descriptionView.setTextColor(overlayForeground);
+      }
       if (title != null) {
         titleView.setText(title);
       }
