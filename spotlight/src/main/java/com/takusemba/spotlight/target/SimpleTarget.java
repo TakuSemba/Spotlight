@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.R;
@@ -32,6 +33,8 @@ public class SimpleTarget extends Target {
 
     private CharSequence title;
     private CharSequence description;
+    private int titleColor;
+    private int descriptionColor;
     private PointF overlayPoint;
 
     public Builder(@NonNull Activity context) {
@@ -45,6 +48,16 @@ public class SimpleTarget extends Target {
 
     public Builder setDescription(CharSequence description) {
       this.description = description;
+      return this;
+    }
+
+    public Builder setTitleColor(@ColorInt int titleColor) {
+      this.titleColor = titleColor;
+      return this;
+    }
+
+    public Builder setDescriptionColor(@ColorInt int descriptionColor) {
+      this.descriptionColor = descriptionColor;
       return this;
     }
 
@@ -69,6 +82,12 @@ public class SimpleTarget extends Target {
       }
       if (description != null) {
         descriptionView.setText(description);
+      }
+      if (titleColor != 0){
+        titleView.setTextColor(titleColor);
+      }
+      if (descriptionColor != 0){
+        descriptionView.setTextColor(descriptionColor);
       }
       if (overlayPoint != null) {
         layout.setX(overlayPoint.x);

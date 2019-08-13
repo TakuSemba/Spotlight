@@ -1,5 +1,6 @@
 package com.takusemba.spotlightsample
 
+import android.graphics.Color
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
           .setShape(Circle(twoRadius))
           .setTitle("second title")
           .setDescription("second description")
+          .setTitleColor(Color.rgb(27,167,28))
           .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
           .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
             override fun onStarted(target: SimpleTarget) {
@@ -78,6 +80,7 @@ class MainActivity : AppCompatActivity() {
           .setShape(RoundedRectangle(threeWidth, threeHeight, 25f))
           .setTitle("third title")
           .setDescription("third description")
+          .setDescriptionColor(resources.getColor(R.color.colorPrimary))
           .setOverlayPoint(100f, y - threeHeight - 300)
           .build()
 
