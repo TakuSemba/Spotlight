@@ -84,4 +84,13 @@ public abstract class Target {
   public OnTargetStateChangedListener getListener() {
     return listener;
   }
+
+ /**
+   * checks if point is contained within this Target
+   *
+   * @return target contains point
+   */
+  public boolean contains(float x, float y) {
+    return shape.contains(point, x, y);
+  }
 }

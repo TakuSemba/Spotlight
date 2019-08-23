@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -39,11 +40,23 @@ class SpotlightView extends FrameLayout {
     spotPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT));
-    setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        if (animator != null && !animator.isRunning() && (float) animator.getAnimatedValue() > 0) {
-          if (listener != null) listener.onSpotlightViewClicked();
+    setOnTouchListener(new FrameLayout.OnTouchListener() {
+      @Override
+      public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (listener.canClickThroughTarget() &&
+            currentTarget.contains(motionEvent.getX(), motionEvent.getY())) {
+
+          return false;
         }
+
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+          view.performClick();
+          if (animator != null && !animator.isRunning() && (float) animator.getAnimatedValue() > 0) {
+            if (listener != null) listener.onSpotlightViewClicked();
+          }
+        }
+
+        return true;
       }
     });
   }

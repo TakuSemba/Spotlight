@@ -17,4 +17,12 @@ public interface Shape {
    * @param value the animated value from 0 to 1
    */
   void draw(Canvas canvas, PointF point, float value, Paint paint);
+
+
+  /**
+   * check if point is contained within the Shape
+   *
+   * @param point center of the Shape
+   */
+  boolean contains(PointF point, float x, float y);
 }

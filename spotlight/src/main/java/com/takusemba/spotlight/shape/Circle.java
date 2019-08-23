@@ -19,4 +19,9 @@ public class Circle implements Shape {
   @Override public void draw(Canvas canvas, PointF point, float value, Paint paint) {
     canvas.drawCircle(point.x, point.y, value * radius, paint);
   }
+
+  @Override public boolean contains(PointF point, float x, float y) {
+    double dist = Math.hypot(point.x - x, point.y - y);
+    return dist < radius;
+  }
 }

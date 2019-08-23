@@ -31,5 +31,15 @@ public class RoundedRectangle implements Shape {
     RectF rect = new RectF(left, top, right, bottom);
     canvas.drawRoundRect(rect, radius, radius, paint);
   }
+
+  @Override public boolean contains(PointF point, float x, float y) {
+    float halfWidth = width / 2;
+    float halfHeight = height / 2;
+    float left = point.x - halfWidth;
+    float top = point.y - halfHeight;
+    float right = point.x + halfWidth;
+    float bottom = point.y + halfHeight;
+    return (x > left && x < right) && (y > top && y < bottom);
+  }
 }
 

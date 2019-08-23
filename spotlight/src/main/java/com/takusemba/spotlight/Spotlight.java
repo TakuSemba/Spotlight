@@ -33,6 +33,7 @@ public class Spotlight {
   private OnSpotlightStateChangedListener spotlightListener;
   private int overlayColor = DEFAULT_OVERLAY_COLOR;
   private boolean isClosedOnTouchedOutside = true;
+  private boolean canClickThroughTarget = true;
 
   private Spotlight(Activity activity) {
     contextWeakReference = new WeakReference<>(activity);
@@ -131,6 +132,17 @@ public class Spotlight {
   }
 
   /**
+   * Sets if touch events pass through Target
+   *
+   * @param canClickThroughTarget can touch events pass through target
+   * @return This Spotlight
+   */
+  public Spotlight setClickThroughTarget(boolean canClickThroughTarget) {
+    this.canClickThroughTarget = canClickThroughTarget;
+    return this;
+  }
+
+  /**
    * Shows {@link SpotlightView}
    */
   public void start() {
@@ -165,6 +177,10 @@ public class Spotlight {
             if (isClosedOnTouchedOutside) {
               finishTarget();
             }
+          }
+
+          @Override public boolean canClickThroughTarget() {
+            return canClickThroughTarget;
           }
         });
     spotlightViewWeakReference = new WeakReference<>(spotlightView);
