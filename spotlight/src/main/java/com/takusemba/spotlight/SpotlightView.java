@@ -44,6 +44,7 @@ class SpotlightView extends FrameLayout {
       @Override
       public boolean onTouch(View view, MotionEvent motionEvent) {
         if (listener.canClickThroughTarget() &&
+            currentTarget != null &&
             currentTarget.contains(motionEvent.getX(), motionEvent.getY())) {
 
           return false;
