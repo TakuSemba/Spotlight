@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -158,7 +159,6 @@ public class Spotlight {
     if (getContext() == null) {
       throw new RuntimeException("context is null");
     }
-    final View decorView = ((Activity) getContext()).getWindow().getDecorView();
     SpotlightView spotlightView =
         new SpotlightView(getContext(), overlayColor, new OnSpotlightListener() {
           @Override public void onSpotlightViewClicked() {
@@ -168,7 +168,8 @@ public class Spotlight {
           }
         });
     spotlightViewWeakReference = new WeakReference<>(spotlightView);
-    ((ViewGroup) decorView).addView(spotlightView);
+    FrameLayout root = ((Activity) getContext()).findViewById(android.R.id.content);
+    root.addView(spotlightView);
     startSpotlight();
   }
 
@@ -235,8 +236,8 @@ public class Spotlight {
       @Override public void onAnimationEnd(Animator animation) {
         Activity activity = (Activity) getContext();
         if (activity != null) {
-          final View decorView = activity.getWindow().getDecorView();
-          ((ViewGroup) decorView).removeView(getSpotlightView());
+          View root = ((Activity) getContext()).findViewById(android.R.id.content);
+          ((ViewGroup) root).removeView(getSpotlightView());
           if (spotlightListener != null) spotlightListener.onEnded();
         }
       }
