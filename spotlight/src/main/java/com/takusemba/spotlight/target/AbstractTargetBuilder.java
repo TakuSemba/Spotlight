@@ -3,7 +3,9 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
@@ -43,10 +45,12 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
   }
 
   public T setPoint(@NonNull View view) {
-    int[] location = new int[2];
-    view.getLocationInWindow(location);
-    int x = location[0] + view.getWidth() / 2;
-    int y = location[1] + view.getHeight() / 2;
+    Rect offsetViewBounds = new Rect();
+    view.getDrawingRect(offsetViewBounds);
+    ViewGroup root = getContext().findViewById(android.R.id.content);
+    root.offsetDescendantRectToMyCoords(view, offsetViewBounds);
+    int x = offsetViewBounds.left + view.getWidth() / 2;
+    int y = offsetViewBounds.top + view.getHeight() / 2;
     return setPoint(x, y);
   }
 

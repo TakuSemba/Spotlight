@@ -17,19 +17,23 @@ import com.takusemba.spotlight.target.CustomTarget
 import com.takusemba.spotlight.target.SimpleTarget
 import com.takusemba.spotlight.target.Target
 import java.util.ArrayList
+import android.graphics.Rect
+import android.view.ViewGroup
 
 class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    val rootView = findViewById<ViewGroup>(android.R.id.content)
+    val offsetViewBounds = Rect()
 
     findViewById<View>(R.id.simple_target).setOnClickListener {
       val one = findViewById<View>(R.id.one)
-      val oneLocation = IntArray(2)
-      one.getLocationInWindow(oneLocation)
-      val oneX = oneLocation[0] + one.width / 2f
-      val oneY = oneLocation[1] + one.height / 2f
+      one.getDrawingRect(offsetViewBounds)
+      rootView.offsetDescendantRectToMyCoords(one, offsetViewBounds)
+      val oneX = offsetViewBounds.left + one.width / 2f
+      val oneY = offsetViewBounds.top + one.height / 2f
       val oneRadius = 100f
 
       // first target
@@ -42,9 +46,9 @@ class MainActivity : AppCompatActivity() {
           .build()
 
       val two = findViewById<View>(R.id.two)
-      val twoLocation = IntArray(2)
-      two.getLocationInWindow(twoLocation)
-      val twoPoint = PointF(twoLocation[0] + two.width / 2f, twoLocation[1] + two.height / 2f)
+      two.getDrawingRect(offsetViewBounds)
+      rootView.offsetDescendantRectToMyCoords(two, offsetViewBounds)
+      val twoPoint = PointF(offsetViewBounds.left + two.width / 2f, offsetViewBounds.top + two.height / 2f)
       val twoRadius = 100f
 
       // second target
@@ -68,9 +72,9 @@ class MainActivity : AppCompatActivity() {
       val threeWidth = 300f
       val threeHeight = 300f
       val threeView = findViewById<View>(R.id.three)
-      val location = IntArray(2)
-      threeView.getLocationInWindow(location)
-      val y = location[1] + threeView.height / 2
+      threeView.getDrawingRect(offsetViewBounds)
+      rootView.offsetDescendantRectToMyCoords(threeView, offsetViewBounds)
+      val y = offsetViewBounds.top + threeView.height / 2
 
       // third target
       val thirdTarget = SimpleTarget.Builder(this@MainActivity)
