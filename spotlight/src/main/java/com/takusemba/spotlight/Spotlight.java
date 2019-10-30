@@ -21,7 +21,7 @@ import java.util.Arrays;
  **/
 public class Spotlight {
 
-  @ColorRes private static final int DEFAULT_OVERLAY_COLOR = R.color.background;
+  @ColorRes private static final int DEFAULT_OVERLAY_COLOR = R.color.spotlight_background;
   private static final long DEFAULT_DURATION = 1000L;
   private static final TimeInterpolator DEFAULT_ANIMATION = new DecelerateInterpolator(2f);
 

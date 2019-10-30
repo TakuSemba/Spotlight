@@ -21,7 +21,7 @@ dependencies {
 ```java
 
 Spotlight.with(this)
-        .setOverlayColor(R.color.background)
+        .setOverlayColor(R.color.spotlight_background)
         .setDuration(1000L)
         .setAnimation(new DecelerateInterpolator(2f))
         .setTargets(firstTarget, secondTarget, thirdTarget ...)
