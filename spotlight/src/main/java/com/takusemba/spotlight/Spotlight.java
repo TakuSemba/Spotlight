@@ -3,9 +3,6 @@ package com.takusemba.spotlight;
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -181,7 +178,7 @@ public class Spotlight {
   @SuppressWarnings("unchecked") private void startTarget() {
     if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
       final Target target = targets.get(0);
-      target.setPoint();
+      target.setRect();
       SpotlightView spotlightView = getSpotlightView();
       spotlightView.removeAllViews();
       spotlightView.addView(target.getOverlay());

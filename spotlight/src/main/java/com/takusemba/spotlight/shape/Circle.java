@@ -2,7 +2,7 @@ package com.takusemba.spotlight.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
+import android.graphics.Rect;
 
 /**
  * Circle shape of a target.
@@ -10,13 +10,14 @@ import android.graphics.PointF;
  */
 public class Circle implements Shape {
 
-  private float radius;
+  private float padding;
 
-  public Circle(float radius) {
-    this.radius = radius;
+  public Circle(int padding) {
+    this.padding = padding;
   }
 
-  @Override public void draw(Canvas canvas, PointF point, float value, Paint paint) {
-    canvas.drawCircle(point.x, point.y, value * radius, paint);
+  @Override public void draw(Canvas canvas, Rect rect, float value, Paint paint) {
+    canvas.drawCircle(rect.left + rect.width() / 2, rect.top + rect.height() / 2,
+        value * (rect.width() + padding), paint);
   }
 }

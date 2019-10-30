@@ -54,7 +54,7 @@ class SpotlightView extends FrameLayout {
     canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
     if (animator != null && currentTarget != null) {
       currentTarget.getShape()
-          .draw(canvas, currentTarget.getPoint(), (float) animator.getAnimatedValue(), spotPaint);
+          .draw(canvas, currentTarget.getRect(), (float) animator.getAnimatedValue(), spotPaint);
     }
   }
 

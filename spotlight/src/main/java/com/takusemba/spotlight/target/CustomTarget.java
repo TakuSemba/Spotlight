@@ -2,7 +2,7 @@ package com.takusemba.spotlight.target;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.graphics.PointF;
+import android.graphics.Rect;
 import android.view.View;
 import androidx.annotation.LayoutRes;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
@@ -14,9 +14,9 @@ import com.takusemba.spotlight.shape.Shape;
  **/
 public class CustomTarget extends Target {
 
-  private CustomTarget(Shape shape, PointF point, PointSupplier deferredPointSupplier, View overlay,
+  private CustomTarget(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
       long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
-    super(shape, point, deferredPointSupplier, overlay, duration, animation, listener);
+    super(shape, rect, deferredRectSupplier, overlay, duration, animation, listener);
   }
 
   public static class Builder extends AbstractTargetBuilder<Builder, CustomTarget> {
@@ -42,7 +42,7 @@ public class CustomTarget extends Target {
     }
 
     @Override public CustomTarget build() {
-      return new CustomTarget(shape, point, deferredPointSupplier, overlay, duration, animation,
+      return new CustomTarget(shape, rect, deferredRectSupplier, overlay, duration, animation,
           listener);
     }
   }

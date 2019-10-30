@@ -1,9 +1,11 @@
 package com.takusemba.spotlightsample
 
 import android.graphics.PointF
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -12,13 +14,12 @@ import com.takusemba.spotlight.OnSpotlightStateChangedListener
 import com.takusemba.spotlight.OnTargetStateChangedListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.Padding
 import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.target.CustomTarget
 import com.takusemba.spotlight.target.SimpleTarget
 import com.takusemba.spotlight.target.Target
 import java.util.ArrayList
-import android.graphics.Rect
-import android.view.ViewGroup
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,39 +27,33 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     val rootView = findViewById<ViewGroup>(android.R.id.content)
-    val offsetViewBounds = Rect()
 
     findViewById<View>(R.id.simple_target).setOnClickListener {
       val one = findViewById<View>(R.id.one)
-      one.getDrawingRect(offsetViewBounds)
-      rootView.offsetDescendantRectToMyCoords(one, offsetViewBounds)
-      val oneX = offsetViewBounds.left + one.width / 2f
-      val oneY = offsetViewBounds.top + one.height / 2f
-      val oneRadius = 100f
+      val viewOneBounds = Rect()
+      one.getDrawingRect(viewOneBounds)
+      rootView.offsetDescendantRectToMyCoords(one, viewOneBounds)
 
       // first target
       val firstTarget = SimpleTarget.Builder(this@MainActivity)
-          .setPoint(oneX, oneY)
-          .setShape(Circle(oneRadius))
+          .setRect(viewOneBounds)
           .setTitle("first title")
           .setDescription("first description")
-          .setOverlayPoint(100f, oneY + oneRadius + 100f)
+          .setOverlayPoint(100f, viewOneBounds.top + 100f)
           .build()
 
       val two = findViewById<View>(R.id.two)
-      two.getDrawingRect(offsetViewBounds)
-      rootView.offsetDescendantRectToMyCoords(two, offsetViewBounds)
-      val twoPoint = PointF(offsetViewBounds.left + two.width / 2f,
-          offsetViewBounds.top + two.height / 2f)
-      val twoRadius = 100f
+      val viewTwoBounds = Rect()
+      two.getDrawingRect(viewTwoBounds)
+      rootView.offsetDescendantRectToMyCoords(two, viewTwoBounds)
 
       // second target
       val secondTarget = SimpleTarget.Builder(this@MainActivity)
-          .setPoint(twoPoint)
-          .setShape(Circle(twoRadius))
+          .setRect(viewTwoBounds)
+          .setShape(Circle(50))
           .setTitle("second title")
           .setDescription("second description")
-          .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
+          .setOverlayPoint(PointF(100f, viewTwoBounds.bottom + 100f))
           .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
             override fun onStarted(target: SimpleTarget) {
               Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
@@ -70,20 +65,18 @@ class MainActivity : AppCompatActivity() {
           })
           .build()
 
-      val threeWidth = 300f
-      val threeHeight = 300f
       val threeView = findViewById<View>(R.id.three)
-      threeView.getDrawingRect(offsetViewBounds)
-      rootView.offsetDescendantRectToMyCoords(threeView, offsetViewBounds)
-      val y = offsetViewBounds.top + threeView.height / 2
+      val viewThreeBounds = Rect()
+      threeView.getDrawingRect(viewThreeBounds)
+      rootView.offsetDescendantRectToMyCoords(threeView, viewThreeBounds)
 
       // third target
       val thirdTarget = SimpleTarget.Builder(this@MainActivity)
-          .setPoint(threeView)
-          .setShape(RoundedRectangle(threeWidth, threeHeight, 25f))
+          .setRectFromView(threeView)
+          .setShape(RoundedRectangle(Padding(50, 10), 25f))
           .setTitle("third title")
           .setDescription("third description")
-          .setOverlayPoint(100f, y - threeHeight - 300)
+          .setOverlayPoint(100f, viewThreeBounds.top - 300f)
           .build()
 
       // create spotlight
@@ -115,16 +108,16 @@ class MainActivity : AppCompatActivity() {
       val firstRoot = FrameLayout(this)
       val first = inflater.inflate(R.layout.layout_target, firstRoot)
       val firstTarget = CustomTarget.Builder(this@MainActivity)
-          .setPointSupplier {  //Defer point calculation until target starts
+          .setRectSupplier {
+            //Defer rect calculation until target starts
             val view = findViewById<View>(R.id.one)
-            view.getDrawingRect(offsetViewBounds)
+            val viewBounds = Rect()
+            view.getDrawingRect(viewBounds)
             val root = findViewById<ViewGroup>(android.R.id.content)
-            root.offsetDescendantRectToMyCoords(view, offsetViewBounds)
-            val x = offsetViewBounds.left + view.width / 2
-            val y = offsetViewBounds.top + view.height / 2
-            PointF(x.toFloat(), y.toFloat())
+            root.offsetDescendantRectToMyCoords(view, viewBounds)
+            viewBounds
           }
-          .setShape(Circle(100f))
+          .setShape(RoundedRectangle(Padding(50, 50), 10f))
           .setOverlay(first)
           .build()
 
@@ -134,8 +127,9 @@ class MainActivity : AppCompatActivity() {
       val secondRoot = FrameLayout(this)
       val second = inflater.inflate(R.layout.layout_target, secondRoot)
       val secondTarget = CustomTarget.Builder(this@MainActivity)
-          .setPointSupplierFromView(R.id.two) // Defer point calculation until target starts, using Resource ID
-          .setShape(Circle(300f))
+          .setRectSupplierFromView(
+              R.id.two) // Defer rect calculation until target starts, using Resource ID
+          .setShape(Circle(30))
           .setOverlay(second)
           .build()
 
@@ -145,8 +139,9 @@ class MainActivity : AppCompatActivity() {
       val thirdRoot = FrameLayout(this)
       val third = inflater.inflate(R.layout.layout_target, thirdRoot)
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
-          .setPointSupplierFromView(findViewById<View>(R.id.three)) // Defer point calculation until target start, using View
-          .setShape(Circle(200f))
+          .setRectSupplierFromView(findViewById<View>(
+              R.id.three)) // Defer rect calculation until target start, using View
+          .setShape(Circle(10))
           .setOverlay(third)
           .build()
 

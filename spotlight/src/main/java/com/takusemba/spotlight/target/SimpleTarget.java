@@ -3,6 +3,7 @@ package com.takusemba.spotlight.target;
 import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -19,9 +20,10 @@ import com.takusemba.spotlight.shape.Shape;
  **/
 public class SimpleTarget extends Target {
 
-  private SimpleTarget(Shape shape, PointF point, PointSupplier deferredPointSupplier,View overlay, long duration,
+  private SimpleTarget(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
+      long duration,
       TimeInterpolator animation, OnTargetStateChangedListener listener) {
-    super(shape, point, deferredPointSupplier, overlay, duration, animation, listener);
+    super(shape, rect, deferredRectSupplier, overlay, duration, animation, listener);
   }
 
   public static class Builder extends AbstractTargetBuilder<Builder, SimpleTarget> {
@@ -74,7 +76,8 @@ public class SimpleTarget extends Target {
         layout.setX(overlayPoint.x);
         layout.setY(overlayPoint.y);
       }
-      return new SimpleTarget(shape, point, deferredPointSupplier, overlay, duration, animation, listener);
+      return new SimpleTarget(shape, rect, deferredRectSupplier, overlay, duration, animation,
+          listener);
     }
   }
 }

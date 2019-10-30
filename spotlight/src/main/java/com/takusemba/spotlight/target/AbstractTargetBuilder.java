@@ -2,7 +2,6 @@ package com.takusemba.spotlight.target;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +20,14 @@ import java.lang.ref.WeakReference;
  **/
 public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S extends Target> {
 
-  private static final PointF DEFAULT_POINT = new PointF(0, 0);
+  private static final Rect DEFAULT_POINT = new Rect(0, 0, 100, 100);
   private static final long DEFAULT_DURATION = 1000L;
   private static final TimeInterpolator DEFAULT_ANIMATION = new DecelerateInterpolator(2f);
-  private static final Shape DEFAULT_SHAPE = new Circle(100);
+  private static final Shape DEFAULT_SHAPE = new Circle(10);
   private WeakReference<Activity> contextWeakReference;
 
-  protected PointF point = DEFAULT_POINT;
-  protected PointSupplier deferredPointSupplier = null;
+  protected Rect rect = DEFAULT_POINT;
+  protected RectSupplier deferredRectSupplier = null;
   protected Shape shape = DEFAULT_SHAPE;
   protected long duration = DEFAULT_DURATION;
   protected TimeInterpolator animation = DEFAULT_ANIMATION;
@@ -46,40 +45,40 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
     contextWeakReference = new WeakReference<>(context);
   }
 
-  public T setPointSupplier(@NonNull PointSupplier deferredPointSupplier) {
-    this.deferredPointSupplier = deferredPointSupplier;
+  public T setRectSupplier(@NonNull RectSupplier deferredRectSupplier) {
+    this.deferredRectSupplier = deferredRectSupplier;
     return self();
   }
 
-  public T setPointSupplierFromView(@IdRes final int viewId) {
-    this.deferredPointSupplier = new PointSupplier() {
-      @Override public PointF get() {
+  public T setRectSupplierFromView(@IdRes final int viewId) {
+    this.deferredRectSupplier = new RectSupplier() {
+      @Override public Rect get() {
         return getRelativeViewPosition(viewId, getContext());
       }
     };
     return self();
   }
 
-  public T setPointSupplierFromView(@NonNull final View view) {
-    this.deferredPointSupplier = new PointSupplier() {
-      @Override public PointF get() {
+  public T setRectSupplierFromView(@NonNull final View view) {
+    this.deferredRectSupplier = new RectSupplier() {
+      @Override public Rect get() {
         return getRelativeViewPosition(view, getContext());
       }
     };
     return self();
   }
 
-  public T setPoint(@NonNull View view) {
-    return setPoint(getRelativeViewPosition(view, getContext()));
+  public T setRectFromView(@NonNull View view) {
+    return setRect(getRelativeViewPosition(view, getContext()));
   }
 
-  public T setPoint(float x, float y) {
-    setPoint(new PointF(x, y));
+  public T setRect(int left, int top, int right, int bottom) {
+    setRect(new Rect(left, top, right, bottom));
     return self();
   }
 
-  public T setPoint(@NonNull PointF point) {
-    this.point = point;
+  public T setRect(@NonNull Rect rect) {
+    this.rect = rect;
     return self();
   }
 
@@ -106,18 +105,16 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
     return self();
   }
 
-  private PointF getRelativeViewPosition(int viewId, Activity context) {
+  private Rect getRelativeViewPosition(int viewId, Activity context) {
     View view = context.findViewById(viewId);
     return getRelativeViewPosition(view, context);
   }
 
-  private PointF getRelativeViewPosition(View view, Activity context) {
+  private Rect getRelativeViewPosition(View view, Activity context) {
     Rect offsetViewBounds = new Rect();
     view.getDrawingRect(offsetViewBounds);
     ViewGroup root = context.findViewById(android.R.id.content);
     root.offsetDescendantRectToMyCoords(view, offsetViewBounds);
-    int x = offsetViewBounds.left + view.getWidth() / 2;
-    int y = offsetViewBounds.top + view.getHeight() / 2;
-    return new PointF(x, y);
+    return offsetViewBounds;
   }
 }

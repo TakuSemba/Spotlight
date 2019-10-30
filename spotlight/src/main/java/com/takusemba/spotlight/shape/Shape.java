@@ -2,7 +2,7 @@ package com.takusemba.spotlight.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
+import android.graphics.Rect;
 import com.takusemba.spotlight.target.Target;
 
 /**
@@ -16,5 +16,5 @@ public interface Shape {
    *
    * @param value the animated value from 0 to 1
    */
-  void draw(Canvas canvas, PointF point, float value, Paint paint);
+  void draw(Canvas canvas, Rect rect, float value, Paint paint);
 }

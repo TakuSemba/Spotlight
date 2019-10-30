@@ -2,7 +2,7 @@ package com.takusemba.spotlight.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
@@ -11,25 +11,22 @@ import android.graphics.RectF;
  */
 public class RoundedRectangle implements Shape {
 
-  private float height;
-  private float width;
+  private Padding padding;
   private float radius;
 
-  public RoundedRectangle(float height, float width, float radius) {
-    this.height = height;
-    this.width = width;
+  public RoundedRectangle(Padding padding, float radius) {
+    this.padding = padding;
     this.radius = radius;
   }
 
-  @Override public void draw(Canvas canvas, PointF point, float value, Paint paint) {
-    float halfWidth = width / 2 * value;
-    float halfHeight = height / 2 * value;
-    float left = point.x - halfWidth;
-    float top = point.y - halfHeight;
-    float right = point.x + halfWidth;
-    float bottom = point.y + halfHeight;
-    RectF rect = new RectF(left, top, right, bottom);
-    canvas.drawRoundRect(rect, radius, radius, paint);
+  @Override public void draw(Canvas canvas, Rect rect, float value, Paint paint) {
+    RectF rectF = new RectF(rect.left - padding.getX(), rect.top - padding.getY(),
+        rect.right + padding.getX(), rect.bottom + padding.getY());
+    float deltaX = (rectF.width() - (rectF.width() * value)) / 2;
+    float deltaY = (rectF.height() - (rectF.height() * value)) / 2;
+    RectF rectFScaled = new RectF(rectF.left + deltaX, rectF.top + deltaY, rectF.right - deltaX,
+        rectF.bottom - deltaY);
+    canvas.drawRoundRect(rectFScaled, radius, radius, paint);
   }
 }
 

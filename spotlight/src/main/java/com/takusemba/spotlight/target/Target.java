@@ -1,7 +1,7 @@
 package com.takusemba.spotlight.target;
 
 import android.animation.TimeInterpolator;
-import android.graphics.PointF;
+import android.graphics.Rect;
 import android.view.View;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.shape.Circle;
@@ -15,37 +15,37 @@ import com.takusemba.spotlight.shape.Shape;
 public abstract class Target {
 
   private Shape shape;
-  private PointF point;
-  private PointSupplier deferredPointSupplier;
+  private Rect rect;
+  private RectSupplier deferredRectSupplier;
   private View overlay;
   private long duration;
   private TimeInterpolator animation;
   private OnTargetStateChangedListener listener;
 
-  public Target(Shape shape, PointF point, PointSupplier deferredPointSupplier,View overlay,
+  public Target(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
       long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
     this.shape = shape;
-    this.point = point;
-    this.deferredPointSupplier = deferredPointSupplier;
+    this.rect = rect;
+    this.deferredRectSupplier = deferredRectSupplier;
     this.overlay = overlay;
     this.duration = duration;
     this.animation = animation;
     this.listener = listener;
   }
 
-  public void setPoint() {
-    if (deferredPointSupplier != null){
-      point = deferredPointSupplier.get();
+  public void setRect() {
+    if (deferredRectSupplier != null) {
+      rect = deferredRectSupplier.get();
     }
   }
 
   /**
-   * gets the point of this Target
+   * gets the rect of this Target
    *
-   * @return the point of this Target
+   * @return the rect of this Target
    */
-  public PointF getPoint() {
-    return point ;
+  public Rect getRect() {
+    return rect;
   }
 
   /**
