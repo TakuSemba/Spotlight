@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity() {
       val two = findViewById<View>(R.id.two)
       two.getDrawingRect(offsetViewBounds)
       rootView.offsetDescendantRectToMyCoords(two, offsetViewBounds)
-      val twoPoint = PointF(offsetViewBounds.left + two.width / 2f, offsetViewBounds.top + two.height / 2f)
+      val twoPoint = PointF(offsetViewBounds.left + two.width / 2f,
+          offsetViewBounds.top + two.height / 2f)
       val twoRadius = 100f
 
       // second target
@@ -114,7 +115,15 @@ class MainActivity : AppCompatActivity() {
       val firstRoot = FrameLayout(this)
       val first = inflater.inflate(R.layout.layout_target, firstRoot)
       val firstTarget = CustomTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.one))
+          .setPointSupplier {  //Defer point calculation until target starts
+            val view = findViewById<View>(R.id.one)
+            view.getDrawingRect(offsetViewBounds)
+            val root = findViewById<ViewGroup>(android.R.id.content)
+            root.offsetDescendantRectToMyCoords(view, offsetViewBounds)
+            val x = offsetViewBounds.left + view.width / 2
+            val y = offsetViewBounds.top + view.height / 2
+            PointF(x.toFloat(), y.toFloat())
+          }
           .setShape(Circle(100f))
           .setOverlay(first)
           .build()
@@ -125,7 +134,7 @@ class MainActivity : AppCompatActivity() {
       val secondRoot = FrameLayout(this)
       val second = inflater.inflate(R.layout.layout_target, secondRoot)
       val secondTarget = CustomTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.two))
+          .setPointSupplierFromView(R.id.two) // Defer point calculation until target starts, using Resource ID
           .setShape(Circle(300f))
           .setOverlay(second)
           .build()
@@ -136,7 +145,7 @@ class MainActivity : AppCompatActivity() {
       val thirdRoot = FrameLayout(this)
       val third = inflater.inflate(R.layout.layout_target, thirdRoot)
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.three))
+          .setPointSupplierFromView(findViewById<View>(R.id.three)) // Defer point calculation until target start, using View
           .setShape(Circle(200f))
           .setOverlay(third)
           .build()

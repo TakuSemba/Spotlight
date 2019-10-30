@@ -16,19 +16,27 @@ public abstract class Target {
 
   private Shape shape;
   private PointF point;
+  private PointSupplier deferredPointSupplier;
   private View overlay;
   private long duration;
   private TimeInterpolator animation;
   private OnTargetStateChangedListener listener;
 
-  public Target(Shape shape, PointF point, View overlay, long duration, TimeInterpolator animation,
-      OnTargetStateChangedListener listener) {
+  public Target(Shape shape, PointF point, PointSupplier deferredPointSupplier,View overlay,
+      long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
     this.shape = shape;
     this.point = point;
+    this.deferredPointSupplier = deferredPointSupplier;
     this.overlay = overlay;
     this.duration = duration;
     this.animation = animation;
     this.listener = listener;
+  }
+
+  public void setPoint() {
+    if (deferredPointSupplier != null){
+      point = deferredPointSupplier.get();
+    }
   }
 
   /**
@@ -37,7 +45,7 @@ public abstract class Target {
    * @return the point of this Target
    */
   public PointF getPoint() {
-    return point;
+    return point ;
   }
 
   /**

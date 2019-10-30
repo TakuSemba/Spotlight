@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.shape.Circle;
@@ -27,6 +28,7 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
   private WeakReference<Activity> contextWeakReference;
 
   protected PointF point = DEFAULT_POINT;
+  protected PointSupplier deferredPointSupplier = null;
   protected Shape shape = DEFAULT_SHAPE;
   protected long duration = DEFAULT_DURATION;
   protected TimeInterpolator animation = DEFAULT_ANIMATION;
@@ -44,14 +46,31 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
     contextWeakReference = new WeakReference<>(context);
   }
 
+  public T setPointSupplier(@NonNull PointSupplier deferredPointSupplier) {
+    this.deferredPointSupplier = deferredPointSupplier;
+    return self();
+  }
+
+  public T setPointSupplierFromView(@IdRes final int viewId) {
+    this.deferredPointSupplier = new PointSupplier() {
+      @Override public PointF get() {
+        return getRelativeViewPosition(viewId, getContext());
+      }
+    };
+    return self();
+  }
+
+  public T setPointSupplierFromView(@NonNull final View view) {
+    this.deferredPointSupplier = new PointSupplier() {
+      @Override public PointF get() {
+        return getRelativeViewPosition(view, getContext());
+      }
+    };
+    return self();
+  }
+
   public T setPoint(@NonNull View view) {
-    Rect offsetViewBounds = new Rect();
-    view.getDrawingRect(offsetViewBounds);
-    ViewGroup root = getContext().findViewById(android.R.id.content);
-    root.offsetDescendantRectToMyCoords(view, offsetViewBounds);
-    int x = offsetViewBounds.left + view.getWidth() / 2;
-    int y = offsetViewBounds.top + view.getHeight() / 2;
-    return setPoint(x, y);
+    return setPoint(getRelativeViewPosition(view, getContext()));
   }
 
   public T setPoint(float x, float y) {
@@ -85,5 +104,20 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
   public T setOnSpotlightStartedListener(@NonNull final OnTargetStateChangedListener<S> listener) {
     this.listener = listener;
     return self();
+  }
+
+  private PointF getRelativeViewPosition(int viewId, Activity context) {
+    View view = context.findViewById(viewId);
+    return getRelativeViewPosition(view, context);
+  }
+
+  private PointF getRelativeViewPosition(View view, Activity context) {
+    Rect offsetViewBounds = new Rect();
+    view.getDrawingRect(offsetViewBounds);
+    ViewGroup root = context.findViewById(android.R.id.content);
+    root.offsetDescendantRectToMyCoords(view, offsetViewBounds);
+    int x = offsetViewBounds.left + view.getWidth() / 2;
+    int y = offsetViewBounds.top + view.getHeight() / 2;
+    return new PointF(x, y);
   }
 }

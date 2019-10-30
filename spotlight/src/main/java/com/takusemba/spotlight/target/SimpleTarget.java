@@ -19,9 +19,9 @@ import com.takusemba.spotlight.shape.Shape;
  **/
 public class SimpleTarget extends Target {
 
-  private SimpleTarget(Shape shape, PointF point, View overlay, long duration,
+  private SimpleTarget(Shape shape, PointF point, PointSupplier deferredPointSupplier,View overlay, long duration,
       TimeInterpolator animation, OnTargetStateChangedListener listener) {
-    super(shape, point, overlay, duration, animation, listener);
+    super(shape, point, deferredPointSupplier, overlay, duration, animation, listener);
   }
 
   public static class Builder extends AbstractTargetBuilder<Builder, SimpleTarget> {
@@ -74,7 +74,7 @@ public class SimpleTarget extends Target {
         layout.setX(overlayPoint.x);
         layout.setY(overlayPoint.y);
       }
-      return new SimpleTarget(shape, point, overlay, duration, animation, listener);
+      return new SimpleTarget(shape, point, deferredPointSupplier, overlay, duration, animation, listener);
     }
   }
 }
