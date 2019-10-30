@@ -20,13 +20,13 @@ import java.lang.ref.WeakReference;
  **/
 public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S>, S extends Target> {
 
-  private static final Rect DEFAULT_POINT = new Rect(0, 0, 100, 100);
+  private static final Rect DEFAULT_RECT = new Rect(0, 0, 0, 0);
   private static final long DEFAULT_DURATION = 1000L;
   private static final TimeInterpolator DEFAULT_ANIMATION = new DecelerateInterpolator(2f);
-  private static final Shape DEFAULT_SHAPE = new Circle(10);
+  private static final Shape DEFAULT_SHAPE = new Circle(0);
   private WeakReference<Activity> contextWeakReference;
 
-  protected Rect rect = DEFAULT_POINT;
+  protected Rect rect = DEFAULT_RECT;
   protected RectSupplier deferredRectSupplier = null;
   protected Shape shape = DEFAULT_SHAPE;
   protected long duration = DEFAULT_DURATION;

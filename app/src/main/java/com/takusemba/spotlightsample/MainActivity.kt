@@ -1,6 +1,5 @@
 package com.takusemba.spotlightsample
 
-import android.graphics.PointF
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,10 +35,11 @@ class MainActivity : AppCompatActivity() {
 
       // first target
       val firstTarget = SimpleTarget.Builder(this@MainActivity)
-          .setRect(viewOneBounds)
-          .setTitle("first title")
-          .setDescription("first description")
-          .setOverlayPoint(100f, viewOneBounds.top + 100f)
+          .setRect(viewOneBounds) // Same size as the view
+          // Defaults to a circle
+          .setTitle("Simple 1")
+          .setDescription("Fits a view")
+          .setOverlayPadding(100, viewOneBounds.bottom + 100)
           .build()
 
       val two = findViewById<View>(R.id.two)
@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity() {
       // second target
       val secondTarget = SimpleTarget.Builder(this@MainActivity)
           .setRect(viewTwoBounds)
-          .setShape(Circle(50))
-          .setTitle("second title")
-          .setDescription("second description")
-          .setOverlayPoint(PointF(100f, viewTwoBounds.bottom + 100f))
+          .setShape(Circle(50)) // Add extra padding around spotlight
+          .setTitle("Simple 2")
+          .setDescription("Add 50 padding to circle")
+          .setOverlayPadding(Padding(100, viewTwoBounds.bottom + 100))
           .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
             override fun onStarted(target: SimpleTarget) {
               Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity() {
       // third target
       val thirdTarget = SimpleTarget.Builder(this@MainActivity)
           .setRectFromView(threeView)
-          .setShape(RoundedRectangle(Padding(50, 10), 25f))
-          .setTitle("third title")
-          .setDescription("third description")
-          .setOverlayPoint(100f, viewThreeBounds.top - 300f)
+          .setShape(RoundedRectangle(Padding(-10, -50), 25f))
+          .setTitle("Simple 3")
+          .setDescription("Negative padding on Rectangle (-10x, -50y)")
+          .setOverlayPadding(100, viewThreeBounds.top - 300)
           .build()
 
       // create spotlight
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
           .start()
     }
 
-    findViewById<View>(R.id.custom_target).setOnClickListener { _ ->
+    findViewById<View>(R.id.custom_target).setOnClickListener {
       val inflater = LayoutInflater.from(this@MainActivity)
 
       val targets = ArrayList<Target>()
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
       val secondTarget = CustomTarget.Builder(this@MainActivity)
           .setRectSupplierFromView(
               R.id.two) // Defer rect calculation until target starts, using Resource ID
-          .setShape(Circle(30))
+          .setShape(RoundedRectangle(Padding(10, 10), 0f))
           .setOverlay(second)
           .build()
 
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
           .setRectSupplierFromView(findViewById<View>(
               R.id.three)) // Defer rect calculation until target start, using View
-          .setShape(Circle(10))
+          .setShape(Circle(-100))
           .setOverlay(third)
           .build()
 

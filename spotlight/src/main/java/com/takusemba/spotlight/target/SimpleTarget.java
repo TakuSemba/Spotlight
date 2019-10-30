@@ -2,7 +2,6 @@ package com.takusemba.spotlight.target;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.takusemba.spotlight.OnTargetStateChangedListener;
 import com.takusemba.spotlight.R;
+import com.takusemba.spotlight.shape.Padding;
 import com.takusemba.spotlight.shape.Shape;
 
 /**
@@ -21,8 +21,7 @@ import com.takusemba.spotlight.shape.Shape;
 public class SimpleTarget extends Target {
 
   private SimpleTarget(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
-      long duration,
-      TimeInterpolator animation, OnTargetStateChangedListener listener) {
+      long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
     super(shape, rect, deferredRectSupplier, overlay, duration, animation, listener);
   }
 
@@ -34,7 +33,7 @@ public class SimpleTarget extends Target {
 
     private CharSequence title;
     private CharSequence description;
-    private PointF overlayPoint;
+    private Padding overlayPadding;
 
     public Builder(@NonNull Activity context) {
       super(context);
@@ -50,13 +49,13 @@ public class SimpleTarget extends Target {
       return this;
     }
 
-    public Builder setOverlayPoint(PointF overlayPoint) {
-      this.overlayPoint = overlayPoint;
+    public Builder setOverlayPadding(Padding overlayPadding) {
+      this.overlayPadding = overlayPadding;
       return this;
     }
 
-    public Builder setOverlayPoint(float x, float y) {
-      this.overlayPoint = new PointF(x, y);
+    public Builder setOverlayPadding(int x, int y) {
+      this.overlayPadding = new Padding(x, y);
       return this;
     }
 
@@ -72,9 +71,8 @@ public class SimpleTarget extends Target {
       if (description != null) {
         descriptionView.setText(description);
       }
-      if (overlayPoint != null) {
-        layout.setX(overlayPoint.x);
-        layout.setY(overlayPoint.y);
+      if (overlayPadding != null) {
+        layout.setPadding(overlayPadding.getX(), overlayPadding.getY(), overlayPadding.getX(), 0);
       }
       return new SimpleTarget(shape, rect, deferredRectSupplier, overlay, duration, animation,
           listener);
