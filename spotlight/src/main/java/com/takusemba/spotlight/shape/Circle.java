@@ -17,7 +17,8 @@ public class Circle implements Shape {
   }
 
   @Override public void draw(Canvas canvas, Rect rect, float value, Paint paint) {
+    int max = Math.max(rect.width(), rect.height());
     canvas.drawCircle(rect.left + rect.width() / 2, rect.top + rect.height() / 2,
-        value * (rect.width() + padding), paint);
+        (value * (max + padding) / 2), paint);
   }
 }
