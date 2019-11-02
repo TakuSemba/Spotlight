@@ -21,8 +21,9 @@ import com.takusemba.spotlight.shape.Shape;
 public class SimpleTarget extends Target {
 
   private SimpleTarget(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
-      long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
-    super(shape, rect, deferredRectSupplier, overlay, duration, animation, listener);
+      long duration, boolean autoStart, TimeInterpolator animation,
+      OnTargetStateChangedListener listener) {
+    super(shape, rect, deferredRectSupplier, overlay, duration, autoStart, animation, listener);
   }
 
   public static class Builder extends AbstractTargetBuilder<Builder, SimpleTarget> {
@@ -74,8 +75,8 @@ public class SimpleTarget extends Target {
       if (overlayPadding != null) {
         layout.setPadding(overlayPadding.getX(), overlayPadding.getY(), overlayPadding.getX(), 0);
       }
-      return new SimpleTarget(shape, rect, deferredRectSupplier, overlay, duration, animation,
-          listener);
+      return new SimpleTarget(shape, rect, deferredRectSupplier, overlay, duration, autoStart,
+          animation, listener);
     }
   }
 }

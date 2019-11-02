@@ -145,6 +145,13 @@ public class Spotlight {
   }
 
   /**
+   * starts the next {@link Target}
+   */
+  public void startNextTarget() {
+    startTarget();
+  }
+
+  /**
    * close the {@link Spotlight}
    */
   public void closeSpotlight() {
@@ -215,10 +222,13 @@ public class Spotlight {
         @Override public void onAnimationEnd(Animator animation) {
           if (!targets.isEmpty()) {
             Target target = targets.remove(0);
-            if (target.getListener() != null) target.getListener().onEnded(target);
-            if (targets.size() > 0) {
+            if (target.getListener() != null) {
+              target.getListener().onEnded(target);
+            }
+            if (targets.size() > 0 && targets.get(0).getAutoStart()) {
               startTarget();
-            } else {
+            }
+            if (targets.size() <= 0) {
               finishSpotlight();
             }
           }

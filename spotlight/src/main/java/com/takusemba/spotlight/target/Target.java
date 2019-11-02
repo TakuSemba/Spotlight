@@ -19,16 +19,19 @@ public abstract class Target {
   private RectSupplier deferredRectSupplier;
   private View overlay;
   private long duration;
+  private boolean autoStart;
   private TimeInterpolator animation;
   private OnTargetStateChangedListener listener;
 
   public Target(Shape shape, Rect rect, RectSupplier deferredRectSupplier, View overlay,
-      long duration, TimeInterpolator animation, OnTargetStateChangedListener listener) {
+      long duration, boolean autoStart, TimeInterpolator animation,
+      OnTargetStateChangedListener listener) {
     this.shape = shape;
     this.rect = rect;
     this.deferredRectSupplier = deferredRectSupplier;
     this.overlay = overlay;
     this.duration = duration;
+    this.autoStart = autoStart;
     this.animation = animation;
     this.listener = listener;
   }
@@ -73,6 +76,15 @@ public abstract class Target {
    */
   public long getDuration() {
     return duration;
+  }
+
+  /**
+   * gets whether this target should start the next one automatically when it finishes
+   *
+   * @return duration of this Target
+   */
+  public boolean getAutoStart() {
+    return autoStart;
   }
 
   /**

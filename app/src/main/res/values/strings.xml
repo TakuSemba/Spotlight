@@ -6,6 +6,7 @@
   <string name="one">1</string>
   <string name="two">2</string>
   <string name="three">3</string>
+  <string name="four">4</string>
   <string name="close_target">Next</string>
   <string name="close_spotlight">Exit Spotlight</string>
 </resources>

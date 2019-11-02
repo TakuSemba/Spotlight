@@ -30,6 +30,7 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
   protected RectSupplier deferredRectSupplier = null;
   protected Shape shape = DEFAULT_SHAPE;
   protected long duration = DEFAULT_DURATION;
+  protected boolean autoStart = true;
   protected TimeInterpolator animation = DEFAULT_ANIMATION;
   protected OnTargetStateChangedListener listener = null;
 
@@ -95,12 +96,17 @@ public abstract class AbstractTargetBuilder<T extends AbstractTargetBuilder<T, S
     return self();
   }
 
+  public T setAutoStart(boolean autoStart) {
+    this.autoStart = autoStart;
+    return self();
+  }
+
   public T setAnimation(@NonNull TimeInterpolator animation) {
     this.animation = animation;
     return self();
   }
 
-  public T setOnSpotlightStartedListener(@NonNull final OnTargetStateChangedListener<S> listener) {
+  public T setTargetListener(@NonNull final OnTargetStateChangedListener<S> listener) {
     this.listener = listener;
     return self();
   }

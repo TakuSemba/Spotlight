@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -21,6 +22,8 @@ import com.takusemba.spotlight.target.Target
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
+
+  private var spotlight: Spotlight? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -54,7 +57,7 @@ class MainActivity : AppCompatActivity() {
           .setTitle("Simple 2")
           .setDescription("Add 50 padding to circle")
           .setOverlayPadding(Padding(100, viewTwoBounds.bottom + 100))
-          .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
+          .setTargetListener(object : OnTargetStateChangedListener<SimpleTarget> {
             override fun onStarted(target: SimpleTarget) {
               Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
             }
@@ -77,14 +80,50 @@ class MainActivity : AppCompatActivity() {
           .setTitle("Simple 3")
           .setDescription("Negative padding on Rectangle (-10x, -50y)")
           .setOverlayPadding(100, viewThreeBounds.top - 300)
+          .setTargetListener(object : OnTargetStateChangedListener<SimpleTarget> {
+            override fun onStarted(target: SimpleTarget?) {
+            }
+
+            override fun onEnded(target: SimpleTarget?) {
+              val viewFour = findViewById<View>(R.id.four)
+              viewFour.visibility = View.VISIBLE
+              viewFour
+                  .viewTreeObserver
+                  .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                      if (viewFour.visibility == View.VISIBLE) {
+                        // 4th view is visible now
+                        spotlight?.startNextTarget()
+                        viewFour.viewTreeObserver.removeGlobalOnLayoutListener(this)
+                      }
+                    }
+                  })
+            }
+          })
           .build()
 
+      // fourth target
+      val fourthTarget = SimpleTarget.Builder(this@MainActivity)
+          .setRectSupplierFromView(R.id.four)
+          .setShape(RoundedRectangle(Padding(0, 0), 25f))
+          .setTitle("Simple 4")
+          .setDescription("Wait for view to become visible before showing tutorial")
+          .setOverlayPadding(100, 500)
+          .setAutoStart(false)
+          .setTargetListener(object : OnTargetStateChangedListener<SimpleTarget> {
+            override fun onEnded(target: SimpleTarget?) {
+              findViewById<View>(R.id.four).visibility = View.GONE
+            }
+
+            override fun onStarted(target: SimpleTarget?) {}
+          }).build()
+
       // create spotlight
-      Spotlight.with(this@MainActivity)
+      spotlight = Spotlight.with(this@MainActivity)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
-          .setTargets(firstTarget, secondTarget, thirdTarget)
+          .setTargets(firstTarget, secondTarget, thirdTarget, fourthTarget)
           .setClosedOnTouchedOutside(true)
           .setOnSpotlightStateListener(object : OnSpotlightStateChangedListener {
             override fun onStarted() {
@@ -95,8 +134,7 @@ class MainActivity : AppCompatActivity() {
             override fun onEnded() {
               Toast.makeText(this@MainActivity, "spotlight is ended", Toast.LENGTH_SHORT).show()
             }
-          })
-          .start()
+          }).apply { start() }
     }
 
     findViewById<View>(R.id.custom_target).setOnClickListener {
@@ -148,7 +186,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(thirdTarget)
 
       // create spotlight
-      val spotlight = Spotlight.with(this@MainActivity)
+      spotlight = Spotlight.with(this@MainActivity)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
@@ -162,12 +200,11 @@ class MainActivity : AppCompatActivity() {
             override fun onEnded() {
               Toast.makeText(this@MainActivity, "spotlight is ended", Toast.LENGTH_SHORT).show()
             }
-          })
-      spotlight.start()
+          }).apply { start() }
 
-      val closeTarget = View.OnClickListener { spotlight.closeCurrentTarget() }
+      val closeTarget = View.OnClickListener { spotlight?.closeCurrentTarget() }
 
-      val closeSpotlight = View.OnClickListener { spotlight.closeSpotlight() }
+      val closeSpotlight = View.OnClickListener { spotlight?.closeSpotlight() }
 
       first.findViewById<View>(R.id.close_target).setOnClickListener(closeTarget)
       second.findViewById<View>(R.id.close_target).setOnClickListener(closeTarget)
