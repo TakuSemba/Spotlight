@@ -177,9 +177,9 @@ class MainActivity : AppCompatActivity() {
       val thirdRoot = FrameLayout(this)
       val third = inflater.inflate(R.layout.layout_target, thirdRoot)
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
-          .setRectSupplierFromView(findViewById<View>(
-              R.id.three)) // Defer rect calculation until target start, using View
-          .setShape(Circle(-100))
+          // Defer rect calculation until target start, but using a placeholder in the layout_target
+          .setRectSupplierFromView(R.id.spotlight_placeholder)
+          .setShape(RoundedRectangle(Padding(0, 0), 10f))
           .setOverlay(third)
           .build()
 

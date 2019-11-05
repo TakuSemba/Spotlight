@@ -5,6 +5,7 @@ import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import androidx.annotation.ColorRes;
@@ -185,15 +186,22 @@ public class Spotlight {
   @SuppressWarnings("unchecked") private void startTarget() {
     if (targets != null && targets.size() > 0 && getSpotlightView() != null) {
       final Target target = targets.get(0);
-      target.setRect();
-      SpotlightView spotlightView = getSpotlightView();
+      final SpotlightView spotlightView = getSpotlightView();
       spotlightView.removeAllViews();
-      spotlightView.addView(target.getOverlay());
-      spotlightView.turnUp(target, new AbstractAnimatorListener() {
-        @Override public void onAnimationStart(Animator animation) {
-          if (target.getListener() != null) target.getListener().onStarted(target);
-        }
-      });
+      final View overlay = target.getOverlay();
+      spotlightView.addView(overlay);
+      overlay.getViewTreeObserver()
+          .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+              target.setRect();
+              spotlightView.turnUp(target, new AbstractAnimatorListener() {
+                @Override public void onAnimationStart(Animator animation) {
+                  if (target.getListener() != null) target.getListener().onStarted(target);
+                }
+              });
+              overlay.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+          });
     }
   }
 
