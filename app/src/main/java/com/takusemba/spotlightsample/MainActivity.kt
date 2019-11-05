@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
       // fourth target
       val fourthTarget = SimpleTarget.Builder(this@MainActivity)
           .setRectSupplierFromView(R.id.four)
-          .setShape(RoundedRectangle(Padding(0, 0), 25f))
+          .setShape(RoundedRectangle(25f))
           .setTitle("Simple 4")
           .setDescription("Wait for view to become visible before showing tutorial")
           .setOverlayPadding(100, 500)
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
       val secondTarget = CustomTarget.Builder(this@MainActivity)
           .setRectSupplierFromView(
               R.id.two) // Defer rect calculation until target starts, using Resource ID
-          .setShape(RoundedRectangle(Padding(10, 10), 0f))
+          .setShape(RoundedRectangle(Padding(10, 10)))
           .setOverlay(second)
           .build()
 
@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
           // Defer rect calculation until target start, but using a placeholder in the layout_target
           .setRectSupplierFromView(R.id.spotlight_placeholder)
-          .setShape(RoundedRectangle(Padding(0, 0), 10f))
+          .setShape(RoundedRectangle(10f))
           .setOverlay(third)
           .build()
 

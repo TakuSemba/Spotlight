@@ -10,7 +10,10 @@ import android.graphics.Rect;
  */
 public class Circle implements Shape {
 
-  private float padding;
+  private float padding = 0f;
+
+  public Circle() {
+  }
 
   public Circle(int padding) {
     this.padding = padding;

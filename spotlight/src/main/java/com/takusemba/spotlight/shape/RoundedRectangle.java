@@ -14,6 +14,17 @@ public class RoundedRectangle implements Shape {
   private Padding padding;
   private float radius;
 
+  public RoundedRectangle() {
+  }
+
+  public RoundedRectangle(Padding padding) {
+    this(padding, 0f);
+  }
+
+  public RoundedRectangle(float radius) {
+    this(new Padding(0, 0), radius);
+  }
+
   public RoundedRectangle(Padding padding, float radius) {
     this.padding = padding;
     this.radius = radius;
