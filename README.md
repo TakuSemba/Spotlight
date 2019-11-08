@@ -16,7 +16,7 @@ dependencies {
 ```
 
 
-## Usage
+## Basic Usage
 
 ```java
 
@@ -58,16 +58,17 @@ view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlob
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="30%">
 
 ## Simple Target
-simply set a title and description, these position will be automatically calculated.
+This is a built in `Target` which has a title and subtitle.
+Intended to get you up and running quickly, but lacks customisability.
 
 ```java
 
 SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
-    .setPoint(100f, 340f)
-    .setShape(new Circle(200f)) // or RoundedRectangle()
+    .setRectFromView(R.id.your_view_id) // Spotlight will light up this view
+    .setShape(new Circle(20)) // or RoundedRectangle(). 20 is the amount of padding around the view
     .setTitle("the title")
     .setDescription("the description")
-    .setOverlayPoint(100f, 100f)
+    .setOverlayPadding(new Padding(100,100)) // This adds (x,y) padding to the overlay view, so you can move the text around
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -88,14 +89,15 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="30%">
 
 ## Custom Target
-use your own custom view.
+Use your own custom view with Spotlight.
 
 ```java
 
 CustomTarget customTarget = new CustomTarget.Builder(this)
-    .setPoint(100f, 340f)
-    .setShape(new Circle(200f)) // or RoundedRectangle()
-    .setOverlay(view)
+    //.setRectFromView(R.id.your_view_id) // Gets the views Rect when the CustomTarget.Builder.build() method is called
+    .setRectSupplierFromView(R.id.your_view_id) // Gets the views Rect just before the Target starts
+    .setShape(new RoundedRectangle(Padding(10,10), 20)
+    .setOverlay(View.inflate(this, R.layout.your_custom_view, null))
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
         public void onStarted(CustomTarget target) {
@@ -116,7 +118,7 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 
 ## Skip Target, Skip Spotlight
 
-you can skip the current target or skip the all comming targets.
+you can skip the current target or skip the all coming targets.
 
 ```java
 Spotlight spotlight = Spotlight.with(this)...start();
@@ -152,10 +154,103 @@ public class YourShape implements Shape {
 
 <br/>
 
-### Sample
-Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
+## Defer Position Calculation
+Sometimes, the view we want to spotlight doesn't exist or is in a different position when we build and run Spotlight.
+In this case, we can defer the position calculation using RectSuppliers. The supplier will be called just before the Target starts.
+
+```java
+
+CustomTarget customTarget = new CustomTarget.Builder(this)
+    //.setRectSupplierFromView(R.id.your_view_id) // Gets the views Rect just before the Target starts
+    .setRectSupplier(new RectSupplier() {
+           @Override public Rect get() {
+           // This is basically what the setRectSupplierFromView method does...
+            View view = findViewById(R.id.view_that_will_appear_soon);
+            Rect viewBounds = new Rect();
+            view.getDrawingRect(viewBounds);
+            View root = findViewById(android.R.id.content);
+            root.offsetDescendantRectToMyCoords(view, viewBounds);
+            return viewBounds;
+           }
+         })
+       .setShape(new RoundedRectangle(new Padding(10,10), 20))
+    .setOverlay(View.inflate(this, R.layout.your_custom_view, null))
+    .build();
+
+```
+
+## Spotlight a static view in the CustomTarget layout file
+Sometimes, we might want to spotlight a particular area of the screen, and have our overlay be responsive.
+We can use an ID from the overlay layout xml file to target.
+
+```xml custom_view
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:background="@color/spotlight_background"
+  >
+
+  <TextView
+    android:id="@+id/custom_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:gravity="center"
+    android:text="Some tutorial text here"
+    android:textAlignment="center"
+    android:textColor="@android:color/white"
+    android:textSize="24dp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toTopOf="@+id/close_target"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    />
+
+
+  <View
+    android:id="@+id/spotlight_placeholder" <- We'll use this!
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginTop="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_marginBottom="32dp"
+    app:layout_constraintBottom_toTopOf="@+id/custom_text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+```
+
+
+```java
+
+CustomTarget customTarget = new CustomTarget.Builder(this)
+    .setRectSupplierFromView(R.id.spotlight_placeholder)
+    .setShape(new RoundedRectangle())
+    .setOverlay(View.inflate(this, R.layout.custom_view, null))
+    .build();
+
+```
+
+### Troubleshooting
+If something isn't working, check out the example app - clone this repo and run the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module. Or check out the source code.
 
 ## Change Log
+
+### Version 2.0.0
+  * Draw Spotlight in root of activity, instead of DecorView
+  * Allow deferring position calculation to allow spotlighting views that may not be present at first
+  * Use Rect and padding instead of PointF and shape size as we don't always know the size of the spotlighted element
+  * Allow manually triggering the next target to allow actions to take place inbetween targets.
+  * Allow using views in the custom layout as the target view
 
 ### Version: 1.8.0
 

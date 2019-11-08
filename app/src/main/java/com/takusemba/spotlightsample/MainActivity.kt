@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.spotlight.OnSpotlightStateChangedListener
@@ -143,8 +142,7 @@ class MainActivity : AppCompatActivity() {
       val targets = ArrayList<Target>()
 
       // first target
-      val firstRoot = FrameLayout(this)
-      val first = inflater.inflate(R.layout.layout_target, firstRoot)
+      val first = inflater.inflate(R.layout.layout_target, null)
       val firstTarget = CustomTarget.Builder(this@MainActivity)
           .setRectSupplier {
             //Defer rect calculation until target starts
@@ -162,8 +160,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(firstTarget)
 
       // second target
-      val secondRoot = FrameLayout(this)
-      val second = inflater.inflate(R.layout.layout_target, secondRoot)
+      val second = inflater.inflate(R.layout.layout_target, null, false)
       val secondTarget = CustomTarget.Builder(this@MainActivity)
           .setRectSupplierFromView(
               R.id.two) // Defer rect calculation until target starts, using Resource ID
@@ -174,8 +171,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(secondTarget)
 
       // third target
-      val thirdRoot = FrameLayout(this)
-      val third = inflater.inflate(R.layout.layout_target, thirdRoot)
+      val third = inflater.inflate(R.layout.layout_target, null)
       val thirdTarget = CustomTarget.Builder(this@MainActivity)
           // Defer rect calculation until target start, but using a placeholder in the layout_target
           .setRectSupplierFromView(R.id.spotlight_placeholder)
