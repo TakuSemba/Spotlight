@@ -11,18 +11,18 @@ import android.graphics.RectF;
  */
 public class RoundedRectangle implements Shape {
 
-  private Padding padding;
-  private float radius;
+  private Padding padding = new Padding(0, 0);
+  private float radius = 0f;
 
   public RoundedRectangle() {
   }
 
   public RoundedRectangle(Padding padding) {
-    this(padding, 0f);
+    this.padding = padding;
   }
 
   public RoundedRectangle(float radius) {
-    this(new Padding(0, 0), radius);
+    this.radius = radius;
   }
 
   public RoundedRectangle(Padding padding, float radius) {
