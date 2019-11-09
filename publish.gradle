@@ -1,0 +1,74 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+version configs.libraryVersionName
+group configs.groupId
+
+task sourcesJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+  source = android.sourceSets.main.java.srcDirs
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+  excludes = ['**/*.kt']
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives javadocJar
+  archives sourcesJar
+}
+
+project.afterEvaluate {
+  publishing {
+    publications {
+      Production(MavenPublication) {
+        artifact "$buildDir/outputs/aar/spotlight-release.aar"
+        groupId configs.groupId
+        artifactId configs.artifactId
+        version configs.libraryVersionName
+
+        pom.withXml {
+          def dependenciesNode = asNode().appendNode('dependencies')
+
+          // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+          configurations.implementation.allDependencies.each {
+            // Ensure dependencies such as fileTree are not included in the pom.
+            if (it.name != 'unspecified') {
+              def dependencyNode = dependenciesNode.appendNode('dependency')
+              dependencyNode.appendNode('groupId', it.group)
+              dependencyNode.appendNode('artifactId', it.name)
+              dependencyNode.appendNode('version', it.version)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+bintray {
+  user = project.hasProperty('bintrayUser') ? project.bintrayUser : ""
+  key = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ""
+  publications = ['Production']
+  configurations = ['archives']
+  dryRun = false
+  override = true
+  pkg {
+    repo = 'maven'
+    name = configs.artifactId
+    publish = true
+    publicDownloadNumbers = true
+    licenses = ['Apache-2.0']
+    version {
+      name = configs.libraryVersionName
+      released = new Date()
+    }
+  }
+}

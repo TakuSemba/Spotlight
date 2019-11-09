@@ -15,3 +15,5 @@ dependencies {
   implementation deps.kotlin.stdlib
   implementation deps.androidx.appcompat
 }
+
+apply from: "../publish.gradle"
