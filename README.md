@@ -2,7 +2,7 @@
 
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/logo_yello.png" alt="alt text" style="width:200;height:200">
 
-![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
+![Build Status](https://app.bitrise.io/app/bcf0d555e7b41eb2/status.svg?token=2wvl_JilEbg6HB3B1tfKpA&branch=master)
 ![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
