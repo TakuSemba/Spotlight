@@ -2,25 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion COMPILE_SDK_VERSION as int
-  buildToolsVersion BUILD_TOOLS_VERSION
+  compileSdkVersion configs.compileSdkVersion
   defaultConfig {
-    applicationId "com.takusemba.spotlightsample"
-
-    minSdkVersion MIN_SDK_VERSION as int
-    targetSdkVersion TARGET_SDK_VERSION as int
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
+    minSdkVersion configs.minSdkVersion
+    targetSdkVersion configs.targetSdkVersion
   }
 }
 
 dependencies {
-  implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
-  implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
+  implementation deps.kotlin.stdlib
+  implementation deps.androidx.appcompat
+  implementation deps.androidx.constraintLayout
   implementation project(':spotlight')
 }
