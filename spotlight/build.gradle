@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
   compileSdkVersion COMPILE_SDK_VERSION as int
@@ -14,88 +12,4 @@ android {
 
 dependencies {
   implementation 'androidx.appcompat:appcompat:1.0.2'
-}
-
-def getBintrayUserProperty() {
-  return hasProperty('bintrayUser') ? bintrayUser : ""
-}
-
-def getBintrayApiKeyProperty() {
-  return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
-}
-
-bintray {
-
-  user = bintrayUserProperty
-  key = bintrayApiKeyProperty
-
-  group = GROUP
-  version = LIBRARY_VERSION_NAME
-  configurations = ['archives']
-  pkg {
-    repo = POM_REPO
-    name = POM_NAME
-    desc = POM_DESCRIPTION
-    websiteUrl = POM_URL
-    issueTrackerUrl = ISSUE_URL
-    vcsUrl = POM_SCM_URL
-    licenses = ['Apache-2.0']
-    labels = ['android']
-    publicDownloadNumbers = true
-  }
-}
-
-install {
-  repositories.mavenInstaller {
-    pom {
-      project {
-        packaging 'aar'
-        name ARTIFACT_ID
-        url POM_URL
-        licenses {
-          license {
-            name POM_LICENSE_NAME
-            url POM_LICENSE_URL
-          }
-        }
-        developers {
-          developer {
-            id POM_DEVELOPER_ID
-            name POM_DEVELOPER_NAME
-            email POM_DEVELOPER_EMAIL
-          }
-        }
-        scm {
-          connection POM_SCM_CONNECTION
-          developerConnection POM_SCM_CONNECTION
-          url POM_URL
-        }
-      }
-    }
-  }
-}
-
-task sourcesJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
-  classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-artifacts {
-  archives javadocJar
-  archives sourcesJar
-}
-
-afterEvaluate {
-  javadoc.classpath +=
-      files(android.libraryVariants.collect { variant -> variant.javaCompiler.classpath.files
-      })
 }
