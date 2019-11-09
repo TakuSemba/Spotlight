@@ -155,24 +155,6 @@ public class YourShape implements Shape {
 ### Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/tree/master/app) module.
 
-## Change Log
-
-### Version: 1.8.0
-
-  * rounded rectangle is added
-  
-### Version: 1.5.0
-
-  * custom shapes, skip feature
-  
-### Version: 1.3.0
-
-  * click handling added
-
-### Version: 1.2.0
-
-  * overlay color added
-
 ## Author
 
 * **Taku Semba**
