@@ -64,9 +64,10 @@ simply set a title and description, these position will be automatically calcula
 
 SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setPoint(100f, 340f)
-    .setShape(new Circle(200f))
+    .setShape(new Circle(200f)) // or RoundedRectangle()
     .setTitle("the title")
     .setDescription("the description")
+    .setOverlayPoint(100f, 100f)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
         public void onStarted(SimpleTarget target) {
@@ -93,7 +94,7 @@ use your own custom view.
 
 CustomTarget customTarget = new CustomTarget.Builder(this)
     .setPoint(100f, 340f)
-    .setShape(new Circle(200f))
+    .setShape(new Circle(200f)) // or RoundedRectangle()
     .setOverlay(view)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
@@ -130,12 +131,12 @@ custom shape is available implementing Shape interface
 
 
 ```java
-public class RoundRectangle implements Shape {
+public class YourShape implements Shape {
 
     private float width;
     private float height;
 
-    public RoundRectangle(float width, float height) {
+    public YourShape(float width, float height) {
         this.width = width;
         this.height = height;
     }
@@ -156,6 +157,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/Spotlight/t
 
 ## Change Log
 
+### Version: 1.8.0
+
+  * rounded rectangle is added
+  
 ### Version: 1.5.0
 
   * custom shapes, skip feature

@@ -18,7 +18,7 @@
     android:textColor="@android:color/white"
     android:textSize="24dp"
     android:textStyle="bold"
-    app:layout_constraintBottom_toTopOf="@id/close_target"
+    app:layout_constraintBottom_toTopOf="@+id/close_target"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     />
@@ -32,7 +32,7 @@
     android:layout_marginStart="16dp"
     android:text="@string/close_target"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/close_spotlight"
+    app:layout_constraintBottom_toTopOf="@+id/close_spotlight"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     />
