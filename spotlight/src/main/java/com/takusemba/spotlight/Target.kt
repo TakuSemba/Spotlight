@@ -21,7 +21,6 @@ class Target(
 
     private var anchor: PointF = DEFAULT_ANCHOR
     private var shape: Shape = DEFAULT_SHAPE
-    // overlay here
     private var duration: Long = DEFAULT_DURATION
     private var interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
     private var overlay: View? = null

@@ -24,13 +24,25 @@ class Spotlight private constructor(
     private val isClosedOnTouchedOutside: Boolean
 ) {
 
-  private var spotlightView: SpotlightView? = null
+  private var spotlightView: SpotlightView = SpotlightView(context)
+
+  init {
+    // TODO give option to add on activity itself.
+    val decorView = (context as Activity).window.decorView
+    spotlightView.overlayColor = overlayColor
+    spotlightView.setOnClickListener {
+      if (spotlightView.isAnimating() && isClosedOnTouchedOutside) {
+        finishTarget()
+      }
+    }
+    (decorView as ViewGroup).addView(spotlightView)
+  }
 
   /**
    * Shows [SpotlightView]
    */
   fun start() {
-    spotlightView()
+    startSpotlight()
   }
 
   /**
@@ -48,30 +60,13 @@ class Spotlight private constructor(
   }
 
   /**
-   * Creates the spotlight view and starts
-   */
-  private fun spotlightView() {
-    val decorView = (context as Activity).window.decorView
-    val spotlightView = SpotlightView(context)
-    spotlightView.overlayColor = overlayColor
-    spotlightView.setOnClickListener {
-      if (spotlightView.isAnimating() && isClosedOnTouchedOutside) {
-        finishTarget()
-      }
-    }
-    this.spotlightView = spotlightView
-    (decorView as ViewGroup).addView(spotlightView)
-    startSpotlight()
-  }
-
-  /**
    * show Target
    */
   private fun startTarget() {
-    if (targets.size > 0 && spotlightView != null) {
+    if (targets.size > 0) {
       val target = targets[0]
       val spotlightView = spotlightView
-      spotlightView!!.removeAllViews()
+      spotlightView.removeAllViews()
       spotlightView.addView(target.overlay)
       spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator) {
@@ -85,8 +80,7 @@ class Spotlight private constructor(
    * show Spotlight
    */
   private fun startSpotlight() {
-    if (spotlightView == null) return
-    spotlightView!!.startSpotlight(duration, animation, object : AnimatorListenerAdapter() {
+    spotlightView.startSpotlight(duration, animation, object : AnimatorListenerAdapter() {
       override fun onAnimationStart(animation: Animator) {
         spotlightListener?.onStarted()
       }
@@ -101,8 +95,8 @@ class Spotlight private constructor(
    * hide Target
    */
   private fun finishTarget() {
-    if (targets.size > 0 && spotlightView != null) {
-      spotlightView!!.turnDown(object : AnimatorListenerAdapter() {
+    if (targets.size > 0) {
+      spotlightView.turnDown(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           if (targets.isNotEmpty()) {
             val target = targets.removeAt(0)
@@ -122,8 +116,7 @@ class Spotlight private constructor(
    * hide Spotlight
    */
   private fun finishSpotlight() {
-    if (spotlightView == null) return
-    spotlightView!!.finishSpotlight(duration, animation, object : AnimatorListenerAdapter() {
+    spotlightView.finishSpotlight(duration, animation, object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
         val activity = context as Activity?
         if (activity != null) {

@@ -78,24 +78,25 @@ internal class SpotlightView(
 
   fun turnUp(target: Target, listener: Animator.AnimatorListener) {
     currentTarget = target
-    animator = ValueAnimator.ofFloat(0f, 1f)
-    animator!!.addUpdateListener { this@SpotlightView.invalidate() }
-    animator!!.interpolator = target.interpolator
-    animator!!.duration = target.duration
-    animator!!.addListener(listener)
-    animator!!.start()
+    animator = ValueAnimator.ofFloat(0f, 1f).apply {
+      addUpdateListener { this@SpotlightView.invalidate() }
+      interpolator = target.interpolator
+      duration = target.duration
+      addListener(listener)
+    }
+    animator?.start()
   }
 
   fun turnDown(listener: Animator.AnimatorListener) {
     if (currentTarget == null) {
       return
     }
-
-    animator = ValueAnimator.ofFloat(1f, 0f)
-    animator!!.addUpdateListener { this@SpotlightView.invalidate() }
-    animator!!.addListener(listener)
-    animator!!.interpolator = currentTarget!!.interpolator
-    animator!!.duration = currentTarget!!.duration
-    animator!!.start()
+    animator = ValueAnimator.ofFloat(1f, 0f).apply {
+      addUpdateListener { this@SpotlightView.invalidate() }
+      addListener(listener)
+      interpolator = currentTarget?.interpolator
+      duration = currentTarget?.duration ?: 0L
+    }
+    animator?.start()
   }
 }
