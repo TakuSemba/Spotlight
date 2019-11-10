@@ -4,12 +4,8 @@ Release notes
 Version 2.0.0 **(not released yet.)**
 ----------------------------
  - Require kotlin 1.3.50
- 
  - Add Effect feature
- 
- - Remove `isClosedOnTouchedOutside` attribute. 
-   As of 2.0.0, `isClosedOnTouchedOutside` is removed. You can simply call `Spotlight#finishTarget()` to close the current target.
-   If you do not want to close while animation the target, you can use `OnTargetListener` to know the current target state.
+ - Remove `isClosedOnTouchedOutside` attribute. You can simply call `Spotlight#finishTarget()` to close the current target.
 
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
