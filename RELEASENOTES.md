@@ -1,7 +1,7 @@
 Release notes
 ==========
 
-Version 2.0.0 **(not released yet.)**
+Version 2.0.0 **(1019-11-11)**
 ----------------------------
  - Require kotlin 1.3.50.
  - Remove SimpleTarget.
