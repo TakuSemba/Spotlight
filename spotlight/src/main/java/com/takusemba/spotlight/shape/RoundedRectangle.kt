@@ -5,6 +5,9 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
 
+/**
+ * [Shape] of RoundedRectangle with customizable height, width, and radius.
+ */
 class RoundedRectangle(
     private val height: Float,
     private val width: Float,

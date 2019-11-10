@@ -1,7 +1,7 @@
 package com.takusemba.spotlight
 
 /**
- * On Spotlight Ended Listener
+ * Listener to notify the state of Spotlight.
  */
 interface OnSpotlightListener {
 

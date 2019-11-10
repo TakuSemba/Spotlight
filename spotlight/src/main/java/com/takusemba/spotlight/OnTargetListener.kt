@@ -1,9 +1,10 @@
 package com.takusemba.spotlight
 
 /**
- * On Target State Changed Listener
+ * Listener to notify the state of Target.
  */
 interface OnTargetListener {
+
   /**
    * Called when Target is started
    */

@@ -11,61 +11,71 @@ import androidx.annotation.ColorRes
 import java.util.concurrent.TimeUnit
 
 /**
- * Spotlight that holds all the [Target]s and show and hide [Target] properly, and show
- * and hide [SpotlightView] properly.
+ * Holds all of the [Target]s and [SpotlightView] to show/hide [Target], [SpotlightView] properly.
+ * [SpotlightView] can be controlled with [start]/[finish].
+ * All of the [Target]s can be controlled with [next]/[previous]/[show].
+ *
+ * Once you finish the current [Spotlight] with [finish], you can not start the [Spotlight] again
+ * unless you create a new [Spotlight] to start again.
  */
 class Spotlight private constructor(
-    private val activity: Activity,
+    private val spotlight: SpotlightView,
     private val targets: Array<Target>,
     private val duration: Long,
-    private val animation: TimeInterpolator,
-    @ColorRes private val backgroundColor: Int,
+    private val interpolator: TimeInterpolator,
     private val container: ViewGroup,
     private val spotlightListener: OnSpotlightListener?
 ) {
 
-  private val spotlightView = SpotlightView(activity, null, 0, backgroundColor)
-
   private var currentIndex = NO_POSITION
 
   init {
-    container.addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
+    container.addView(spotlight, MATCH_PARENT, MATCH_PARENT)
   }
 
   /**
-   * Shows [SpotlightView]
+   * Starts [SpotlightView] and show the first [Target].
    */
   fun start() {
     startSpotlight()
   }
 
+  /**
+   * Closes the current [Target] if exists, and shows a [Target] at the specified [index].
+   * If target is not found at the [index], it will throw an exception.
+   */
   fun show(index: Int) {
     showTarget(index)
   }
 
   /**
-   * close the current [Target]
+   * Closes the current [Target] if exists, and shows the next [Target].
+   * If the next [Target] is not found, Spotlight will finish.
    */
   fun next() {
     showTarget()
   }
 
+  /**
+   * Closes the current [Target] if exists, and shows the previous [Target].
+   * If the previous target is not found, it will throw an exception.
+   */
   fun previous() {
     showTarget(currentIndex - 1)
   }
 
   /**
-   * close the [Spotlight]
+   * Closes Spotlight and [SpotlightView] will remove all children and be removed from the [container].
    */
-  fun close() {
-    closeSpotlight()
+  fun finish() {
+    finishSpotlight()
   }
 
   /**
-   * show Spotlight
+   * Starts Spotlight.
    */
   private fun startSpotlight() {
-    spotlightView.startSpotlight(duration, animation, object : AnimatorListenerAdapter() {
+    spotlight.startSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
       override fun onAnimationStart(animation: Animator) {
         spotlightListener?.onStarted()
       }
@@ -76,17 +86,20 @@ class Spotlight private constructor(
     })
   }
 
+  /**
+   * Closes the current [Target] if exists, and show the [Target] at [index].
+   */
   private fun showTarget(index: Int = currentIndex + 1) {
     if (currentIndex == NO_POSITION) {
       val target = targets[index]
       currentIndex = index
-      spotlightView.startTarget(target, object : AnimatorListenerAdapter() {
+      spotlight.startTarget(target, object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator) {
           target.listener?.onStarted()
         }
       })
     } else {
-      spotlightView.closeTarget(object : AnimatorListenerAdapter() {
+      spotlight.finishTarget(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           val previousIndex = currentIndex
           val previousTarget = targets[previousIndex]
@@ -94,13 +107,13 @@ class Spotlight private constructor(
           if (index < targets.size) {
             val target = targets[index]
             currentIndex = index
-            spotlightView.startTarget(target, object : AnimatorListenerAdapter() {
+            spotlight.startTarget(target, object : AnimatorListenerAdapter() {
               override fun onAnimationStart(animation: Animator) {
                 target.listener?.onStarted()
               }
             })
           } else {
-            closeSpotlight()
+            finishSpotlight()
           }
         }
       })
@@ -108,13 +121,13 @@ class Spotlight private constructor(
   }
 
   /**
-   * hide Spotlight
+   * Closes Spotlight.
    */
-  private fun closeSpotlight() {
-    spotlightView.closeSpotlight(duration, animation, object : AnimatorListenerAdapter() {
+  private fun finishSpotlight() {
+    spotlight.finishSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
-        spotlightView.removeAllViews()
-        container.removeView(spotlightView)
+        spotlight.removeAllViews()
+        container.removeView(spotlight)
         spotlightListener?.onEnded()
       }
     })
@@ -125,54 +138,79 @@ class Spotlight private constructor(
     private const val NO_POSITION = -1
   }
 
+  /**
+   * Builder to build [Spotlight].
+   * All parameters should be set in this [Builder].
+   */
   class Builder(private val activity: Activity) {
 
     private var targets: Array<Target>? = null
     private var duration: Long = DEFAULT_DURATION
-    private var animation: TimeInterpolator = DEFAULT_ANIMATION
+    private var interpolator: TimeInterpolator = DEFAULT_ANIMATION
     @ColorRes private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var container: ViewGroup? = null
     private var listener: OnSpotlightListener? = null
 
+    /**
+     * Sets [Target]s to show on [Spotlight].
+     */
     fun setTargets(vararg targets: Target): Builder = apply {
       this.targets = arrayOf(*targets)
     }
 
+    /**
+     * Sets [Target]s to show on [Spotlight].
+     */
     fun setTargets(targets: List<Target>): Builder = apply {
       this.targets = targets.toTypedArray()
     }
 
+    /**
+     * Sets [duration] to start/finish [Spotlight].
+     */
     fun setDuration(duration: Long): Builder = apply {
       this.duration = duration
     }
 
-    fun setOverlayColor(@ColorRes backgroundColor: Int): Builder = apply {
+    /**
+     * Sets [backgroundColor] on [Spotlight].
+     */
+    fun setBackgroundColor(@ColorRes backgroundColor: Int): Builder = apply {
       this.backgroundColor = backgroundColor
     }
 
-    fun setAnimation(animation: TimeInterpolator): Builder = apply {
-      this.animation = animation
+    /**
+     * Sets [interpolator] to start/finish [Spotlight].
+     */
+    fun setAnimation(interpolator: TimeInterpolator): Builder = apply {
+      this.interpolator = interpolator
     }
 
+    /**
+     * Sets [container] to hold [SpotlightView].
+     */
     fun setContainer(container: ViewGroup) = apply {
       this.container = container
     }
 
+    /**
+     * Sets [OnSpotlightListener] to notify the state of [Spotlight].
+     */
     fun setOnSpotlightListener(listener: OnSpotlightListener): Builder = apply {
       this.listener = listener
     }
 
     fun build(): Spotlight {
 
+      val spotlight = SpotlightView(activity, null, 0, backgroundColor)
       val targets = requireNotNull(targets) { "targets should not be null. " }
       val container = container ?: activity.window.decorView as ViewGroup
 
       return Spotlight(
-          activity = activity,
+          spotlight = spotlight,
           targets = targets,
           duration = duration,
-          animation = animation,
-          backgroundColor = backgroundColor,
+          interpolator = interpolator,
           container = container,
           spotlightListener = listener
       )

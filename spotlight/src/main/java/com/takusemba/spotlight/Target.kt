@@ -8,6 +8,9 @@ import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
 import java.util.concurrent.TimeUnit
 
+/**
+ * Target represents the spot that Spotlight will cast.
+ */
 class Target(
     val anchor: PointF,
     val shape: Shape,
@@ -17,6 +20,10 @@ class Target(
     val listener: OnTargetListener?
 ) {
 
+  /**
+   * [Builder] to build a [Target].
+   * All parameters should be set in this [Builder].
+   */
   class Builder {
 
     private var anchor: PointF = DEFAULT_ANCHOR
@@ -26,6 +33,9 @@ class Target(
     private var overlay: View? = null
     private var listener: OnTargetListener? = null
 
+    /**
+     * Sets a pointer to start a [Target].
+     */
     fun setAnchor(view: View): Builder = apply {
       val location = IntArray(2)
       view.getLocationInWindow(location)
@@ -34,30 +44,51 @@ class Target(
       setAnchor(x, y)
     }
 
+    /**
+     * Sets an anchor point to start [Target].
+     */
     fun setAnchor(x: Float, y: Float): Builder = apply {
       setAnchor(PointF(x, y))
     }
 
+    /**
+     * Sets an anchor point to start [Target].
+     */
     fun setAnchor(anchor: PointF): Builder = apply {
       this.anchor = anchor
     }
 
+    /**
+     * Sets [shape] of the spot of [Target].
+     */
     fun setShape(shape: Shape): Builder = apply {
       this.shape = shape
     }
 
+    /**
+     * Sets [duration] to start/finish [Target].
+     */
     fun setDuration(duration: Long): Builder = apply {
       this.duration = duration
     }
 
+    /**
+     * Sets [interpolator] to start/finish [Target].
+     */
     fun setInterpolator(interpolator: TimeInterpolator): Builder = apply {
       this.interpolator = interpolator
     }
 
+    /**
+     * Sets [overlay] to be laid out to describe [Target].
+     */
     fun setOverlay(overlay: View): Builder = apply {
       this.overlay = overlay
     }
 
+    /**
+     * Sets [OnTargetListener] to notify the state of [Target].
+     */
     fun setOnTargetListener(listener: OnTargetListener): Builder = apply {
       this.listener = listener
     }

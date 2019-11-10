@@ -16,7 +16,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
 /**
- * Spotlight View which holds a current [Target] and show it properly.
+ * [SpotlightView] starts/finishes [Spotlight], and starts/finishes a current [Target].
  */
 internal class SpotlightView @JvmOverloads constructor(
     context: Context,
@@ -58,6 +58,9 @@ internal class SpotlightView @JvmOverloads constructor(
     }
   }
 
+  /**
+   * Starts [Spotlight].
+   */
   fun startSpotlight(
       duration: Long,
       interpolator: TimeInterpolator,
@@ -71,7 +74,10 @@ internal class SpotlightView @JvmOverloads constructor(
     objectAnimator.start()
   }
 
-  fun closeSpotlight(
+  /**
+   * Finishes [Spotlight].
+   */
+  fun finishSpotlight(
       duration: Long,
       interpolator: TimeInterpolator,
       listener: Animator.AnimatorListener
@@ -84,6 +90,9 @@ internal class SpotlightView @JvmOverloads constructor(
     objectAnimator.start()
   }
 
+  /**
+   * Starts the provided [Target].
+   */
   fun startTarget(target: Target, listener: Animator.AnimatorListener) {
     removeAllViews()
     addView(target.overlay)
@@ -97,7 +106,10 @@ internal class SpotlightView @JvmOverloads constructor(
     animator?.start()
   }
 
-  fun closeTarget(listener: Animator.AnimatorListener) {
+  /**
+   * Finishes the current [Target].
+   */
+  fun finishTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
     val currentAnimator = animator ?: return
     animator = ValueAnimator.ofFloat(currentAnimator.animatedValue as Float, 0f).apply {

@@ -4,6 +4,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
 
+/**
+ * [Shape] of Circle with customizable radius.
+ */
 class Circle(private val radius: Float) : Shape {
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {

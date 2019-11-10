@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
       // create spotlight
       val spotlight = Spotlight.Builder(this@MainActivity)
           .setTargets(targets)
-          .setOverlayColor(R.color.background)
+          .setBackgroundColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
           .setOnSpotlightListener(object : OnSpotlightListener {
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
       val nextTarget = View.OnClickListener { spotlight.next() }
 
-      val closeSpotlight = View.OnClickListener { spotlight.close() }
+      val closeSpotlight = View.OnClickListener { spotlight.finish() }
 
       first.findViewById<View>(R.id.close_target).setOnClickListener(nextTarget)
       second.findViewById<View>(R.id.close_target).setOnClickListener(nextTarget)

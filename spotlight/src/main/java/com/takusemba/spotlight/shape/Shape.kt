@@ -5,13 +5,13 @@ import android.graphics.Paint
 import android.graphics.PointF
 
 /**
- * Shape of a [Target]
+ * Shape of a [Target] that would be drawn by Spotlight View.
  * For any shape of target, this Shape class need to be implemented.
  */
 interface Shape {
 
   /**
-   * draw the Shape
+   * Draws the Shape
    *
    * @param value the animated value from 0 to 1
    */
