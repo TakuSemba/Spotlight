@@ -4,8 +4,8 @@ import android.animation.TimeInterpolator
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
-import com.takusemba.spotlight.shape.Shape.Companion.DEFAULT_DURATION
-import com.takusemba.spotlight.shape.Shape.Companion.DEFAULT_INTERPOLATOR
+import android.view.animation.DecelerateInterpolator
+import java.util.concurrent.TimeUnit
 
 /**
  * [Shape] of Circle with customizable radius.
@@ -18,5 +18,12 @@ class Circle(
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
     canvas.drawCircle(point.x, point.y, value * radius, paint)
+  }
+
+  companion object {
+
+    val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
+
+    val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
   }
 }

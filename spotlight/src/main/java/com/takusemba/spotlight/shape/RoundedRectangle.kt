@@ -5,8 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
-import com.takusemba.spotlight.shape.Shape.Companion.DEFAULT_DURATION
-import com.takusemba.spotlight.shape.Shape.Companion.DEFAULT_INTERPOLATOR
+import android.view.animation.DecelerateInterpolator
+import java.util.concurrent.TimeUnit
 
 /**
  * [Shape] of RoundedRectangle with customizable height, width, and radius.
@@ -28,6 +28,13 @@ class RoundedRectangle(
     val bottom = point.y + halfHeight
     val rect = RectF(left, top, right, bottom)
     canvas.drawRoundRect(rect, radius, radius, paint)
+  }
+
+  companion object {
+
+    val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
+
+    val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
   }
 }
 

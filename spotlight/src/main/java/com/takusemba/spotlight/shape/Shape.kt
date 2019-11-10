@@ -4,9 +4,7 @@ import android.animation.TimeInterpolator
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
-import android.view.animation.DecelerateInterpolator
 import com.takusemba.spotlight.Target
-import java.util.concurrent.TimeUnit
 
 /**
  * Shape of a [Target] that would be drawn by Spotlight View.
@@ -30,11 +28,4 @@ interface Shape {
    * @param value the animated value from 0 to 1.
    */
   fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint)
-
-  companion object {
-
-    val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
-
-    val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
-  }
 }
