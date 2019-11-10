@@ -20,7 +20,7 @@ class Spotlight private constructor(
     private val duration: Long,
     private val animation: TimeInterpolator,
     private val spotlightListener: OnSpotlightListener?,
-    private val overlayColor: Int,
+    private val backgroundColor: Int,
     private val isClosedOnTouchedOutside: Boolean
 ) {
 
@@ -29,7 +29,7 @@ class Spotlight private constructor(
   init {
     // TODO give option to add on activity itself.
     val decorView = (context as Activity).window.decorView
-    spotlightView.overlayColor = overlayColor
+    spotlightView.backgroundColor = backgroundColor
     spotlightView.setOnClickListener {
       if (spotlightView.isAnimating() && isClosedOnTouchedOutside) {
         finishTarget()
@@ -134,7 +134,7 @@ class Spotlight private constructor(
 
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
-    private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
+    private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var isClosedOnTouchedOutside: Boolean = DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE
 
     private var onSpotlightListener: OnSpotlightListener? = null
@@ -159,8 +159,8 @@ class Spotlight private constructor(
       this.duration = duration
     }
 
-    fun setOverlayColor(@ColorRes overlayColor: Int): Builder = apply {
-      this.overlayColor = overlayColor
+    fun setOverlayColor(@ColorRes backgroundColor: Int): Builder = apply {
+      this.backgroundColor = backgroundColor
     }
 
     fun setAnimation(animation: TimeInterpolator): Builder = apply {
@@ -182,7 +182,7 @@ class Spotlight private constructor(
           duration = duration,
           animation = animation,
           spotlightListener = onSpotlightListener,
-          overlayColor = overlayColor,
+          backgroundColor = backgroundColor,
           isClosedOnTouchedOutside = isClosedOnTouchedOutside
       )
     }

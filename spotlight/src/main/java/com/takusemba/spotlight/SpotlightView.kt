@@ -24,7 +24,7 @@ internal class SpotlightView(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-  var overlayColor: Int? = null
+  var backgroundColor: Int? = null
 
   private val paint = Paint()
   private val spotPaint = Paint()
@@ -46,7 +46,7 @@ internal class SpotlightView(
 
   override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
-    paint.color = ContextCompat.getColor(context, overlayColor!!)
+    paint.color = ContextCompat.getColor(context, backgroundColor!!)
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     if (animator != null && currentTarget != null) {
       currentTarget!!.shape
