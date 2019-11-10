@@ -7,14 +7,14 @@ import com.takusemba.spotlight.target.Target
  *
  * TODO this can be merged with [OnSpotlightListener]
  */
-interface OnTargetListener<T : Target> {
+interface OnTargetListener {
   /**
    * Called when Target is started
    */
-  fun onStarted(target: T)
+  fun onStarted(target: Target)
 
   /**
    * Called when Target is started
    */
-  fun onEnded(target: T)
+  fun onEnded(target: Target)
 }

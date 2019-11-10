@@ -6,6 +6,7 @@ import android.graphics.PointF
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
+import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.shape.Shape
 
 /**
@@ -17,7 +18,8 @@ class CustomTarget private constructor(
     override val point: PointF,
     override val overlay: View,
     override val duration: Long,
-    override val animation: TimeInterpolator
+    override val animation: TimeInterpolator,
+    override val listener: OnTargetListener?
 ) : Target {
 
   class Builder(context: Activity) : AbstractTargetBuilder<Builder, CustomTarget>(context) {
@@ -38,7 +40,7 @@ class CustomTarget private constructor(
 
     public override fun build(): CustomTarget {
       val overlay = requireNotNull(overlay) { "Overlay have to be set." }
-      return CustomTarget(shape, point, overlay, duration, animation)
+      return CustomTarget(shape, point, overlay, duration, animation, listener)
     }
   }
 }

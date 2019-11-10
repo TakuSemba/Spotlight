@@ -3,6 +3,7 @@ package com.takusemba.spotlight.target
 import android.animation.TimeInterpolator
 import android.graphics.PointF
 import android.view.View
+import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
 
@@ -48,4 +49,6 @@ interface Target {
    * @return animation of this Target
    */
   val animation: TimeInterpolator
+
+  val listener: OnTargetListener?
 }

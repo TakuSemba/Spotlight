@@ -21,7 +21,6 @@ class Spotlight<T : Target> private constructor(
     private val duration: Long,
     private val animation: TimeInterpolator,
     private val spotlightListener: OnSpotlightListener?,
-    private val targetListener: OnTargetListener<T>?,
     @ColorRes private val overlayColor: Int,
     private val isClosedOnTouchedOutside: Boolean
 ) {
@@ -77,7 +76,7 @@ class Spotlight<T : Target> private constructor(
       spotlightView.addView(target.overlay)
       spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator) {
-          targetListener?.onStarted(target)
+          target.listener?.onStarted(target)
         }
       })
     }
@@ -108,7 +107,7 @@ class Spotlight<T : Target> private constructor(
         override fun onAnimationEnd(animation: Animator) {
           if (targets.isNotEmpty()) {
             val target = targets.removeAt(0)
-            targetListener?.onEnded(target)
+            target.listener?.onEnded(target)
             if (targets.size > 0) {
               startTarget()
             } else {
@@ -147,7 +146,6 @@ class Spotlight<T : Target> private constructor(
     private var isClosedOnTouchedOutside: Boolean = DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE
 
     private var onSpotlightListener: OnSpotlightListener? = null
-    private var onTargetListener: OnTargetListener<T>? = null
 
     fun addTargets(vararg targets: T): Builder<T> = apply {
       for (target in targets) {
@@ -177,10 +175,6 @@ class Spotlight<T : Target> private constructor(
       this.animation = animation
     }
 
-    fun setOnTargetListener(listener: OnTargetListener<T>): Builder<T> = apply {
-      onTargetListener = listener
-    }
-
     fun setOnSpotlightListener(listener: OnSpotlightListener): Builder<T> = apply {
       onSpotlightListener = listener
     }
@@ -196,7 +190,6 @@ class Spotlight<T : Target> private constructor(
           duration = duration,
           animation = animation,
           spotlightListener = onSpotlightListener,
-          targetListener = onTargetListener,
           overlayColor = overlayColor,
           isClosedOnTouchedOutside = isClosedOnTouchedOutside
       )

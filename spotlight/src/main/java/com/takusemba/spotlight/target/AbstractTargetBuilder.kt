@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PointF
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,8 @@ abstract class AbstractTargetBuilder<T : AbstractTargetBuilder<T, S>, S : Target
   protected var shape: Shape = DEFAULT_SHAPE
   protected var duration: Long = DEFAULT_DURATION
   protected var animation: TimeInterpolator = DEFAULT_ANIMATION
+
+  protected var listener: OnTargetListener? = null
 
   protected abstract fun self(): T
 
@@ -57,6 +60,11 @@ abstract class AbstractTargetBuilder<T : AbstractTargetBuilder<T, S>, S : Target
 
   fun setAnimation(animation: TimeInterpolator): T {
     this.animation = animation
+    return self()
+  }
+
+  fun setOnTargetListener(listener: OnTargetListener): T {
+    this.listener = listener
     return self()
   }
 
