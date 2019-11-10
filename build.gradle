@@ -3,8 +3,8 @@ buildscript {
       groupId: "com.github.takusemba",
       artifactId: "spotlight",
 
-      libraryVersionCode: 23,
-      libraryVersionName: "2.0.0",
+      libraryVersionCode: 24,
+      libraryVersionName: "2.0.1",
 
       compileSdkVersion: 28,
       minSdkVersion: 14,
