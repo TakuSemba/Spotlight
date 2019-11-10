@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity() {
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
-          .setClosedOnTouchedOutside(true)
           .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()
@@ -139,7 +138,6 @@ class MainActivity : AppCompatActivity() {
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
-          .setClosedOnTouchedOutside(false)
           .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()

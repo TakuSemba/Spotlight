@@ -33,12 +33,7 @@ internal class SpotlightView @JvmOverloads constructor(
   }
 
   private var animator: ValueAnimator? = null
-  private var currentTarget: Target? = null
-
-  // TODO improve this
-  fun isAnimating(): Boolean {
-    return animator != null && !animator!!.isRunning && animator!!.animatedValue as Float > 0
-  }
+  private var target: Target? = null
 
   init {
     setWillNotDraw(false)
@@ -48,9 +43,15 @@ internal class SpotlightView @JvmOverloads constructor(
   override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
-    if (animator != null && currentTarget != null) {
-      currentTarget!!.shape
-          .draw(canvas, currentTarget!!.anchor, animator!!.animatedValue as Float, targetPaint)
+    val currentTarget = target
+    val currentAnimator = animator
+    if (currentTarget != null && currentAnimator != null) {
+      currentTarget.shape.draw(
+          canvas = canvas,
+          point = currentTarget.anchor,
+          value = currentAnimator.animatedValue as Float,
+          paint = targetPaint
+      )
     }
   }
 
@@ -79,9 +80,9 @@ internal class SpotlightView @JvmOverloads constructor(
   }
 
   fun turnUp(target: Target, listener: Animator.AnimatorListener) {
-    currentTarget = target
+    this.target = target
     animator = ValueAnimator.ofFloat(0f, 1f).apply {
-      addUpdateListener { this@SpotlightView.invalidate() }
+      addUpdateListener { invalidate() }
       interpolator = target.interpolator
       duration = target.duration
       addListener(listener)
@@ -90,14 +91,12 @@ internal class SpotlightView @JvmOverloads constructor(
   }
 
   fun turnDown(listener: Animator.AnimatorListener) {
-    if (currentTarget == null) {
-      return
-    }
+    val currentTarget = target ?: return
     animator = ValueAnimator.ofFloat(1f, 0f).apply {
-      addUpdateListener { this@SpotlightView.invalidate() }
+      addUpdateListener { invalidate() }
       addListener(listener)
-      interpolator = currentTarget?.interpolator
-      duration = currentTarget?.duration ?: 0L
+      interpolator = currentTarget.interpolator
+      duration = currentTarget.duration ?: 0L
     }
     animator?.start()
   }

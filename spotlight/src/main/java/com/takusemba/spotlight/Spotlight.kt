@@ -21,8 +21,7 @@ class Spotlight private constructor(
     private val duration: Long,
     private val animation: TimeInterpolator,
     private val spotlightListener: OnSpotlightListener?,
-    private val backgroundColor: Int,
-    private val isClosedOnTouchedOutside: Boolean
+    private val backgroundColor: Int
 ) {
 
   private var spotlightView = SpotlightView(context, null, 0, backgroundColor)
@@ -30,11 +29,6 @@ class Spotlight private constructor(
   init {
     // TODO give option to add on activity itself.
     val decorView = (context as Activity).window.decorView
-    spotlightView.setOnClickListener {
-      if (spotlightView.isAnimating() && isClosedOnTouchedOutside) {
-        finishTarget()
-      }
-    }
     (decorView as ViewGroup).addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
   }
 
@@ -135,7 +129,6 @@ class Spotlight private constructor(
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
     private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
-    private var isClosedOnTouchedOutside: Boolean = DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE
 
     private var onSpotlightListener: OnSpotlightListener? = null
 
@@ -171,10 +164,6 @@ class Spotlight private constructor(
       onSpotlightListener = listener
     }
 
-    fun setClosedOnTouchedOutside(isClosedOnTouchedOutside: Boolean): Builder = apply {
-      this.isClosedOnTouchedOutside = isClosedOnTouchedOutside
-    }
-
     fun build(): Spotlight {
       return Spotlight(
           context = context,
@@ -182,8 +171,7 @@ class Spotlight private constructor(
           duration = duration,
           animation = animation,
           spotlightListener = onSpotlightListener,
-          backgroundColor = backgroundColor,
-          isClosedOnTouchedOutside = isClosedOnTouchedOutside
+          backgroundColor = backgroundColor
       )
     }
   }
@@ -195,7 +183,5 @@ class Spotlight private constructor(
     private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
     private val DEFAULT_OVERLAY_COLOR = R.color.background
-
-    private const val DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE = true
   }
 }
