@@ -58,7 +58,7 @@ view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlob
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="30%">
 
 ## Simple Target
-simply set a title and description, these position will be automatically calculated.
+simply set a title and description.
 
 ```java
 
