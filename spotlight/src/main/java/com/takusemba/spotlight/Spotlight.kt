@@ -187,7 +187,7 @@ class Spotlight private constructor(
     }
 
     /**
-     * Sets [container] to hold [SpotlightView].
+     * Sets [container] to hold [SpotlightView]. DecoderView will be used if not specified.
      */
     fun setContainer(container: ViewGroup) = apply {
       this.container = container

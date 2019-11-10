@@ -4,6 +4,7 @@ Release notes
 Version 2.0.0 **(not released yet.)**
 ----------------------------
  - Require kotlin 1.3.50.
+ - Remove SimpleTarget.
  - Remove `isClosedOnTouchedOutside` attribute.
  - Add `Spotlight.next()`, `Spotlight.previous()`, `Spotlight.show()` functionality.
    - **next**: show the next target after closing the current target if exists.
