@@ -145,6 +145,7 @@ internal class SpotlightView @JvmOverloads constructor(
       addListener(listener)
     }
     effectAnimator?.cancel()
+    effectAnimator = null
     shapeAnimator?.start()
   }
 }
