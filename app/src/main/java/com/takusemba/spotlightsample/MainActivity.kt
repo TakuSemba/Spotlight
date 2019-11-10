@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.spotlight.OnSpotlightListener
-import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
@@ -53,15 +52,16 @@ class MainActivity : AppCompatActivity() {
           .setTitle("second title")
           .setDescription("second description")
           .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
-          .setOnSpotlightStartedListener(object : OnTargetListener<SimpleTarget> {
-            override fun onStarted(target: SimpleTarget) {
-              Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onEnded(target: SimpleTarget) {
-              Toast.makeText(this@MainActivity, "target is ended", Toast.LENGTH_SHORT).show()
-            }
-          })
+          // TODO add listener to target.
+//          .setOnSpotlightStartedListener(object : OnTargetListener<SimpleTarget> {
+//            override fun onStarted(target: SimpleTarget) {
+//              Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onEnded(target: SimpleTarget) {
+//              Toast.makeText(this@MainActivity, "target is ended", Toast.LENGTH_SHORT).show()
+//            }
+//          })
           .build()
 
       val threeWidth = 300f
@@ -81,13 +81,13 @@ class MainActivity : AppCompatActivity() {
           .build()
 
       // create spotlight
-      Spotlight.with<SimpleTarget>(this@MainActivity)
+      Spotlight.Builder<SimpleTarget>(this@MainActivity)
+          .addTargets(firstTarget, secondTarget, thirdTarget)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
-          .setTargets(firstTarget, secondTarget, thirdTarget)
           .setClosedOnTouchedOutside(true)
-          .setOnSpotlightStateListener(object : OnSpotlightListener {
+          .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT)
                   .show()
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
               Toast.makeText(this@MainActivity, "spotlight is ended", Toast.LENGTH_SHORT).show()
             }
           })
+          .build()
           .start()
     }
 
@@ -139,13 +140,13 @@ class MainActivity : AppCompatActivity() {
       targets.add(thirdTarget)
 
       // create spotlight
-      val spotlight = Spotlight.with<CustomTarget>(this@MainActivity)
+      val spotlight = Spotlight.Builder<CustomTarget>(this@MainActivity)
+          .addTargets(targets)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
-          .setTargets(targets)
           .setClosedOnTouchedOutside(false)
-          .setOnSpotlightStateListener(object : OnSpotlightListener {
+          .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()
             }
@@ -154,6 +155,8 @@ class MainActivity : AppCompatActivity() {
               Toast.makeText(this@MainActivity, "spotlight is ended", Toast.LENGTH_SHORT).show()
             }
           })
+          .build()
+
       spotlight.start()
 
       val closeTarget = View.OnClickListener { spotlight.closeCurrentTarget() }

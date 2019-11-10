@@ -140,12 +140,14 @@ class Spotlight<T : Target> private constructor(
   class Builder<T : Target>(private val context: Context) {
 
     private val targets: ArrayList<T> = ArrayList()
+
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
+    @ColorRes private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
+    private var isClosedOnTouchedOutside: Boolean = DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE
+
     private var onSpotlightListener: OnSpotlightListener? = null
     private var onTargetListener: OnTargetListener<T>? = null
-    @ColorRes private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
-    private var isClosedOnTouchedOutside: Boolean = true
 
     fun addTargets(vararg targets: T): Builder<T> = apply {
       for (target in targets) {
@@ -175,11 +177,11 @@ class Spotlight<T : Target> private constructor(
       this.animation = animation
     }
 
-    fun setOnTargetStateChangedListener(listener: OnTargetListener<T>): Builder<T> = apply {
+    fun setOnTargetListener(listener: OnTargetListener<T>): Builder<T> = apply {
       onTargetListener = listener
     }
 
-    fun setOnSpotlightStateListener(listener: OnSpotlightListener): Builder<T> = apply {
+    fun setOnSpotlightListener(listener: OnSpotlightListener): Builder<T> = apply {
       onSpotlightListener = listener
     }
 
@@ -203,8 +205,12 @@ class Spotlight<T : Target> private constructor(
 
   companion object {
 
-    @ColorRes private val DEFAULT_OVERLAY_COLOR = R.color.background
     private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
+
     private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
+
+    @ColorRes private val DEFAULT_OVERLAY_COLOR = R.color.background
+
+    private const val DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE = true
   }
 }
