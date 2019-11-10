@@ -99,16 +99,13 @@ internal class SpotlightView @JvmOverloads constructor(
 
   fun closeTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
-    val startAnimator = animator ?: return
-    val closeAnimator = ValueAnimator.ofFloat(startAnimator.animatedValue as Float, 0f).apply {
+    val currentAnimator = animator ?: return
+    animator = ValueAnimator.ofFloat(currentAnimator.animatedValue as Float, 0f).apply {
       duration = currentTarget.duration
       interpolator = currentTarget.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }
-    startAnimator.cancel()
-    closeAnimator.start()
-    this.animator = null
-    this.target = null
+    animator?.start()
   }
 }
