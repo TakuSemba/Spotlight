@@ -8,8 +8,8 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.takusemba.spotlight.OnSpotlightStateChangedListener
-import com.takusemba.spotlight.OnTargetStateChangedListener
+import com.takusemba.spotlight.OnSpotlightListener
+import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
           .setTitle("second title")
           .setDescription("second description")
           .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
-          .setOnSpotlightStartedListener(object : OnTargetStateChangedListener<SimpleTarget> {
+          .setOnSpotlightStartedListener(object : OnTargetListener<SimpleTarget> {
             override fun onStarted(target: SimpleTarget) {
               Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
             }
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
           .setAnimation(DecelerateInterpolator(2f))
           .setTargets(firstTarget, secondTarget, thirdTarget)
           .setClosedOnTouchedOutside(true)
-          .setOnSpotlightStateListener(object : OnSpotlightStateChangedListener {
+          .setOnSpotlightStateListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT)
                   .show()
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
           .setAnimation(DecelerateInterpolator(2f))
           .setTargets(targets)
           .setClosedOnTouchedOutside(false)
-          .setOnSpotlightStateListener(object : OnSpotlightStateChangedListener {
+          .setOnSpotlightStateListener(object : OnSpotlightListener {
             override fun onStarted() {
               Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()
             }

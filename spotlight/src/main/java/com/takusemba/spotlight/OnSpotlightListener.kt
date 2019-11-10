@@ -1,15 +1,17 @@
 package com.takusemba.spotlight
 
-import com.takusemba.spotlight.target.Target
-
 /**
- * internal listener to notify when something happened on a [Target]
- * TODO move to SpotlightView
+ * On Spotlight Ended Listener
  */
-internal interface OnSpotlightListener {
+interface OnSpotlightListener {
 
   /**
-   * called when SpotlightView is clicked
+   * Called when Spotlight is started
    */
-  fun onSpotlightViewClicked()
+  fun onStarted()
+
+  /**
+   * Called when Spotlight is ended
+   */
+  fun onEnded()
 }

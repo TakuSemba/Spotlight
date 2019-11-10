@@ -26,12 +26,16 @@ internal class SpotlightView(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
   var overlayColor: Int? = null
-  var listener: OnSpotlightListener? = null
 
   private val paint = Paint()
   private val spotPaint = Paint()
   private var animator: ValueAnimator? = null
   private var currentTarget: Target? = null
+
+  // TODO improve this
+  fun isAnimating(): Boolean {
+    return animator != null && !animator!!.isRunning && animator!!.animatedValue as Float > 0
+  }
 
   init {
     bringToFront()
@@ -39,11 +43,6 @@ internal class SpotlightView(
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
     spotPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-    setOnClickListener {
-      if (animator != null && !animator!!.isRunning && animator!!.animatedValue as Float > 0) {
-        listener?.onSpotlightViewClicked()
-      }
-    }
   }
 
   override fun onDraw(canvas: Canvas) {

@@ -4,8 +4,10 @@ import com.takusemba.spotlight.target.Target
 
 /**
  * On Target State Changed Listener
+ *
+ * TODO this can be merged with [OnSpotlightListener]
  */
-interface OnTargetStateChangedListener<T : Target> {
+interface OnTargetListener<T : Target> {
   /**
    * Called when Target is started
    */
