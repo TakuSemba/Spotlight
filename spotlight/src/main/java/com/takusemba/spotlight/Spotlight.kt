@@ -17,14 +17,16 @@ import java.util.concurrent.TimeUnit
  */
 class Spotlight private constructor(
     private val context: Context,
-    private val targets: ArrayList<Target>, // TODO Add show previous target functionality.
+    private val targets: Array<Target>,
     private val duration: Long,
     private val animation: TimeInterpolator,
     private val spotlightListener: OnSpotlightListener?,
     private val backgroundColor: Int
 ) {
 
-  private var spotlightView = SpotlightView(context, null, 0, backgroundColor)
+  private val spotlightView = SpotlightView(context, null, 0, backgroundColor)
+
+  private var currentIndex = NO_POSITION
 
   init {
     // TODO give option to add on activity itself.
@@ -39,35 +41,26 @@ class Spotlight private constructor(
     startSpotlight()
   }
 
+  fun show(index: Int) {
+    showTarget(index)
+  }
+
   /**
    * close the current [Target]
    */
-  fun closeCurrentTarget() {
-    finishTarget()
+  fun next() {
+    showTarget()
+  }
+
+  fun previous() {
+    showTarget(currentIndex - 1)
   }
 
   /**
    * close the [Spotlight]
    */
-  fun closeSpotlight() {
+  fun close() {
     finishSpotlight()
-  }
-
-  /**
-   * show Target
-   */
-  private fun startTarget() {
-    if (targets.size > 0) {
-      val target = targets[0]
-      val spotlightView = spotlightView
-      spotlightView.removeAllViews()
-      spotlightView.addView(target.overlay)
-      spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator) {
-          target.listener?.onStarted(target)
-        }
-      })
-    }
   }
 
   /**
@@ -80,26 +73,39 @@ class Spotlight private constructor(
       }
 
       override fun onAnimationEnd(animation: Animator) {
-        startTarget()
+        showTarget(0)
       }
     })
   }
 
-  /**
-   * hide Target
-   */
-  private fun finishTarget() {
-    if (targets.size > 0) {
+  private fun showTarget(index: Int = currentIndex + 1) {
+    if (currentIndex == index) {
+      return
+    }
+    if (currentIndex == NO_POSITION && index == 0) {
+      val target = targets[index]
+      currentIndex = index
+      spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
+        override fun onAnimationStart(animation: Animator) {
+          target.listener?.onStarted()
+        }
+      })
+    } else {
       spotlightView.turnDown(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-          if (targets.isNotEmpty()) {
-            val target = targets.removeAt(0)
-            target.listener?.onEnded(target)
-            if (targets.size > 0) {
-              startTarget()
-            } else {
-              finishSpotlight()
-            }
+          val previousIndex = currentIndex
+          val previousTarget = targets[previousIndex]
+          previousTarget.listener?.onEnded()
+          if (index < targets.size) {
+            val target = targets[index]
+            currentIndex = index
+            spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
+              override fun onAnimationStart(animation: Animator) {
+                target.listener?.onStarted()
+              }
+            })
+          } else {
+            finishSpotlight()
           }
         }
       })
@@ -114,6 +120,7 @@ class Spotlight private constructor(
       override fun onAnimationEnd(animation: Animator) {
         val activity = context as Activity?
         if (activity != null) {
+          spotlightView.removeAllViews()
           val decorView = activity.window.decorView
           (decorView as ViewGroup).removeView(spotlightView)
           spotlightListener?.onEnded()
@@ -122,30 +129,25 @@ class Spotlight private constructor(
     })
   }
 
+  companion object {
+
+    private const val NO_POSITION = -1
+  }
+
   class Builder(private val context: Context) {
 
-    private val targets: ArrayList<Target> = ArrayList()
-
+    private var targets: Array<Target>? = null
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
     private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
-
     private var onSpotlightListener: OnSpotlightListener? = null
 
-    fun addTargets(vararg targets: Target): Builder = apply {
-      for (target in targets) {
-        if (!this.targets.contains(target)) {
-          this.targets.add(target)
-        }
-      }
+    fun setTargets(vararg targets: Target): Builder = apply {
+      this.targets = arrayOf(*targets)
     }
 
-    fun addTargets(targets: List<Target>): Builder = apply {
-      for (target in targets) {
-        if (!this.targets.contains(target)) {
-          this.targets.add(target)
-        }
-      }
+    fun setTargets(targets: List<Target>): Builder = apply {
+      this.targets = targets.toTypedArray()
     }
 
     fun setDuration(duration: Long): Builder = apply {
@@ -165,6 +167,9 @@ class Spotlight private constructor(
     }
 
     fun build(): Spotlight {
+
+      val targets = requireNotNull(targets) { "targets should not be null. " }
+
       return Spotlight(
           context = context,
           targets = targets,
@@ -174,14 +179,14 @@ class Spotlight private constructor(
           backgroundColor = backgroundColor
       )
     }
-  }
 
-  companion object {
+    companion object {
 
-    private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
+      private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
 
-    private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
+      private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
-    private val DEFAULT_OVERLAY_COLOR = R.color.background
+      private val DEFAULT_OVERLAY_COLOR = R.color.background
+    }
   }
 }

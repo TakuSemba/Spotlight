@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -32,6 +33,8 @@ internal class SpotlightView @JvmOverloads constructor(
     Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
   }
 
+  private val invalidator = AnimatorUpdateListener { invalidate() }
+
   private var animator: ValueAnimator? = null
   private var target: Target? = null
 
@@ -57,47 +60,54 @@ internal class SpotlightView @JvmOverloads constructor(
 
   fun startSpotlight(
       duration: Long,
-      animation: TimeInterpolator,
+      interpolator: TimeInterpolator,
       listener: Animator.AnimatorListener
   ) {
-    val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-    objectAnimator.duration = duration
-    objectAnimator.interpolator = animation
-    objectAnimator.addListener(listener)
+    val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f).apply {
+      setDuration(duration)
+      setInterpolator(interpolator)
+      addListener(listener)
+    }
     objectAnimator.start()
   }
 
   fun finishSpotlight(
       duration: Long,
-      animation: TimeInterpolator,
+      interpolator: TimeInterpolator,
       listener: Animator.AnimatorListener
   ) {
-    val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
-    objectAnimator.duration = duration
-    objectAnimator.interpolator = animation
-    objectAnimator.addListener(listener)
+    val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f).apply {
+      setDuration(duration)
+      setInterpolator(interpolator)
+      addListener(listener)
+    }
     objectAnimator.start()
   }
 
   fun turnUp(target: Target, listener: Animator.AnimatorListener) {
+    removeAllViews()
+    addView(target.overlay)
     this.target = target
-    animator = ValueAnimator.ofFloat(0f, 1f).apply {
-      addUpdateListener { invalidate() }
-      interpolator = target.interpolator
+    this.animator = ValueAnimator.ofFloat(0f, 1f).apply {
       duration = target.duration
+      interpolator = target.interpolator
+      addUpdateListener(invalidator)
       addListener(listener)
     }
     animator?.start()
   }
 
   fun turnDown(listener: Animator.AnimatorListener) {
+    if (animator == null) return
     val currentTarget = target ?: return
-    animator = ValueAnimator.ofFloat(1f, 0f).apply {
-      addUpdateListener { invalidate() }
-      addListener(listener)
+    val animator = ValueAnimator.ofFloat(1f, 0f).apply {
+      duration = currentTarget.duration
       interpolator = currentTarget.interpolator
-      duration = currentTarget.duration ?: 0L
+      addUpdateListener(invalidator)
+      addListener(listener)
     }
-    animator?.start()
+    animator.start()
+    this.animator = null
+    this.target = null
   }
 }

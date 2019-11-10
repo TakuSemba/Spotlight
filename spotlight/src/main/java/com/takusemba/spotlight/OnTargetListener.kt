@@ -7,10 +7,10 @@ interface OnTargetListener {
   /**
    * Called when Target is started
    */
-  fun onStarted(target: Target)
+  fun onStarted()
 
   /**
    * Called when Target is started
    */
-  fun onEnded(target: Target)
+  fun onEnded()
 }
