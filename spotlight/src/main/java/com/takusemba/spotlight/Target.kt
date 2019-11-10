@@ -70,7 +70,7 @@ class Target(
 
       private val DEFAULT_SHAPE = Circle(100f)
 
-      private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
+      private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(250)
 
       private val DEFAULT_INTERPOLATOR = LinearInterpolator()
     }

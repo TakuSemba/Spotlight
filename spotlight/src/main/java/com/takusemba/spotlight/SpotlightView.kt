@@ -11,23 +11,27 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
 /**
  * Spotlight View which holds a current [Target] and show it properly.
  */
-internal class SpotlightView(
+internal class SpotlightView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
+    backgroundColor: Int = R.color.background
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-  var backgroundColor: Int? = null
+  private val backgroundPaint by lazy {
+    Paint().apply { ContextCompat.getColor(context, backgroundColor) }
+  }
 
-  private val paint = Paint()
-  private val spotPaint = Paint()
+  private val targetPaint by lazy {
+    Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
+  }
+
   private var animator: ValueAnimator? = null
   private var currentTarget: Target? = null
 
@@ -37,20 +41,16 @@ internal class SpotlightView(
   }
 
   init {
-    bringToFront()
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
-    spotPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-    layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
   }
 
   override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
-    paint.color = ContextCompat.getColor(context, backgroundColor!!)
-    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
     if (animator != null && currentTarget != null) {
       currentTarget!!.shape
-          .draw(canvas, currentTarget!!.anchor, animator!!.animatedValue as Float, spotPaint)
+          .draw(canvas, currentTarget!!.anchor, animator!!.animatedValue as Float, targetPaint)
     }
   }
 

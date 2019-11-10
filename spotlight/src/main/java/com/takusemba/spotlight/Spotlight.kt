@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator
 import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorRes
 import java.util.concurrent.TimeUnit
@@ -24,18 +25,17 @@ class Spotlight private constructor(
     private val isClosedOnTouchedOutside: Boolean
 ) {
 
-  private var spotlightView: SpotlightView = SpotlightView(context)
+  private var spotlightView = SpotlightView(context, null, 0, backgroundColor)
 
   init {
     // TODO give option to add on activity itself.
     val decorView = (context as Activity).window.decorView
-    spotlightView.backgroundColor = backgroundColor
     spotlightView.setOnClickListener {
       if (spotlightView.isAnimating() && isClosedOnTouchedOutside) {
         finishTarget()
       }
     }
-    (decorView as ViewGroup).addView(spotlightView)
+    (decorView as ViewGroup).addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
   }
 
   /**
