@@ -18,68 +18,29 @@ dependencies {
 
 ## Usage
 
-```java
-
-Spotlight.with(this)
-        .setOverlayColor(R.color.background)
-        .setDuration(1000L)
-        .setAnimation(new DecelerateInterpolator(2f))
-        .setTargets(firstTarget, secondTarget, thirdTarget ...)
-        .setClosedOnTouchedOutside(false)
-        .setOnSpotlightStateListener(new OnSpotlightStateChangedListener() {
-            @Override
-            public void onStarted() {
-                Toast.makeText(MainActivity.this, "spotlight is started", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onEnded() {
-                Toast.makeText(MainActivity.this, "spotlight is ended", Toast.LENGTH_SHORT).show();
-            }
-        })
-        .start();
-                        
-```
-
-if you want to show Spotlight immediately, use `addOnGlobalLayoutListener` to wait until views are drawn.
-
-```java
-view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-    @Override public void onGlobalLayout() {
-        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        Spotlight.with(this)...start();
-    }
-});
-```
-
-<br/>
-<br/>
-
-<img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/simpleTarget.gif" align="left" width="30%">
-
-## Simple Target
-simply set a title and description.
-
-```java
-
-SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
-    .setPoint(100f, 340f)
-    .setShape(new Circle(200f)) // or RoundedRectangle()
-    .setTitle("the title")
-    .setDescription("the description")
-    .setOverlayPoint(100f, 100f)
-    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
-        @Override
-        public void onStarted(SimpleTarget Target) {
-            // do something
-        }
-        @Override
-        public void onEnded(SimpleTarget Target) {
-            // do something
-        }
+```kt
+val spotlight = Spotlight.Builder(this)
+    .setTargets(firstTarget, secondTarget, thirdTarget ...)
+    .setBackgroundColor(R.color.spotlightBackground)
+    .setDuration(1000L)
+    .setAnimation(DecelerateInterpolator(2f))
+    .setContainer(viewGroup)
+    .setOnSpotlightListener(object : OnSpotlightListener {
+      override fun onStarted() {
+        Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()
+      }
+      override fun onEnded() {
+        Toast.makeText(this@MainActivity, "spotlight is ended", Toast.LENGTH_SHORT).show()
+      }
     })
-    .build();
+    .build()         
+```
 
+if you want to show Spotlight immediately, you have to wait until views are laid out.
+
+```kt
+// with core-ktx method.
+view.doOnPreDraw { Spotlight.Builder(this)...start() }
 ```
 
 <br/>
@@ -87,67 +48,81 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
 
 <img src="https://github.com/TakuSemba/Spotlight/blob/master/arts/customTarget.gif" align="left" width="30%">
 
-## Custom Target
-use your own custom view.
+## Target
+Create a Target to add Spotlight.
 
-```java
-
-CustomTarget customTarget = new CustomTarget.Builder(this)
-    .setPoint(100f, 340f)
-    .setShape(new Circle(200f)) // or RoundedRectangle()
-    .setOverlay(view)
-    .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
-        @Override
-        public void onStarted(CustomTarget Target) {
-            // do something
-        }
-        @Override
-        public void onEnded(CustomTarget Target) {
-            // do something
-        }
+```kt
+val target = Target.Builder()
+    .setAnchor(100f, 100f)
+    .setShape(Circle(100f))
+    .setEffect(RippleEffect(100f, 200f, argb(30, 124, 255, 90)))
+    .setOverlay(layout)
+    .setOnTargetListener(object : OnTargetListener {
+      override fun onStarted() {
+        makeText(this@MainActivity, "first target is started", LENGTH_SHORT).show()
+      }
+      override fun onEnded() {
+        makeText(this@MainActivity, "first target is ended", LENGTH_SHORT).show()
+      }
     })
-    .build();
-
+    .build()
 ```
 
 
 <br/>
 <br/>
 
-## Skip Target, Skip Spotlight
+## Start/Finish Spotlight.
 
-you can skip the current Target or skip the all coming targets.
+```kt
+val spotlight = Spotlight.Builder(this)...start()
 
-```java
-Spotlight spotlight = Spotlight.with(this)...start();
+spotlight.finish()
+```
 
-spotlight.closeCurrentTarget();
+## Next/Previous/Show Target.
 
-spotlight.closeSpotlight();
+```kt
+val spotlight = Spotlight.Builder(this)...start()
+
+spotlight.next()
+
+spotlight.previous()
+
+spotlight.show(2)
 ```
 
 ## Custom Shape
-custom shape is available implementing Shape interface
+Custom shape is available implementing Shape interface
 
 
-```java
-public class YourShape implements Shape {
+```kt
+class CustomShape(
+    override val duration: Long,
+    override val interpolator: TimeInterpolator
+) : Shape {
 
-    private float width;
-    private float height;
-
-    public YourShape(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    @Override
-    public void draw(Canvas canvas, PointF point, float value, Paint paint) {
-        // draw your shape using canvas.
-    }
-    ...
+  override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
+    // draw your shape here.
+  }
 }
+```
 
+## Custom Effect
+Custom effect is available implementing Effect interface
+
+
+```kt
+class CustomEffect(
+    override val duration: Long,
+    override val interpolator: TimeInterpolator,
+    override val repeatMode: Int
+) : Effect {
+
+  override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
+    // draw your effec here.
+  }
+}
 ```
 
 ## Sample
