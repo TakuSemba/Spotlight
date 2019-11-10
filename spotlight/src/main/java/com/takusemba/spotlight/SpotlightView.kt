@@ -71,7 +71,7 @@ internal class SpotlightView @JvmOverloads constructor(
     objectAnimator.start()
   }
 
-  fun finishSpotlight(
+  fun closeSpotlight(
       duration: Long,
       interpolator: TimeInterpolator,
       listener: Animator.AnimatorListener
@@ -84,7 +84,7 @@ internal class SpotlightView @JvmOverloads constructor(
     objectAnimator.start()
   }
 
-  fun turnUp(target: Target, listener: Animator.AnimatorListener) {
+  fun startTarget(target: Target, listener: Animator.AnimatorListener) {
     removeAllViews()
     addView(target.overlay)
     this.target = target
@@ -97,16 +97,17 @@ internal class SpotlightView @JvmOverloads constructor(
     animator?.start()
   }
 
-  fun turnDown(listener: Animator.AnimatorListener) {
-    if (animator == null) return
+  fun closeTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
-    val animator = ValueAnimator.ofFloat(1f, 0f).apply {
+    val startAnimator = animator ?: return
+    val closeAnimator = ValueAnimator.ofFloat(startAnimator.animatedValue as Float, 0f).apply {
       duration = currentTarget.duration
       interpolator = currentTarget.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }
-    animator.start()
+    startAnimator.cancel()
+    closeAnimator.start()
     this.animator = null
     this.target = null
   }

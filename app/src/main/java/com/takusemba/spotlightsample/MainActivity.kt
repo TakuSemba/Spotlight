@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
       spotlight.start()
 
-      val nextTarget = View.OnClickListener { spotlight.next() }
+      val nextTarget = View.OnClickListener { spotlight.show(2) }
 
       val closeSpotlight = View.OnClickListener { spotlight.close() }
 

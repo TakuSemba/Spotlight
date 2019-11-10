@@ -60,7 +60,7 @@ class Spotlight private constructor(
    * close the [Spotlight]
    */
   fun close() {
-    finishSpotlight()
+    closeSpotlight()
   }
 
   /**
@@ -79,19 +79,16 @@ class Spotlight private constructor(
   }
 
   private fun showTarget(index: Int = currentIndex + 1) {
-    if (currentIndex == index) {
-      return
-    }
-    if (currentIndex == NO_POSITION && index == 0) {
+    if (currentIndex == NO_POSITION) {
       val target = targets[index]
       currentIndex = index
-      spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
+      spotlightView.startTarget(target, object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator) {
           target.listener?.onStarted()
         }
       })
     } else {
-      spotlightView.turnDown(object : AnimatorListenerAdapter() {
+      spotlightView.closeTarget(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           val previousIndex = currentIndex
           val previousTarget = targets[previousIndex]
@@ -99,13 +96,13 @@ class Spotlight private constructor(
           if (index < targets.size) {
             val target = targets[index]
             currentIndex = index
-            spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
+            spotlightView.startTarget(target, object : AnimatorListenerAdapter() {
               override fun onAnimationStart(animation: Animator) {
                 target.listener?.onStarted()
               }
             })
           } else {
-            finishSpotlight()
+            closeSpotlight()
           }
         }
       })
@@ -115,8 +112,8 @@ class Spotlight private constructor(
   /**
    * hide Spotlight
    */
-  private fun finishSpotlight() {
-    spotlightView.finishSpotlight(duration, animation, object : AnimatorListenerAdapter() {
+  private fun closeSpotlight() {
+    spotlightView.closeSpotlight(duration, animation, object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
         val activity = context as Activity?
         if (activity != null) {
