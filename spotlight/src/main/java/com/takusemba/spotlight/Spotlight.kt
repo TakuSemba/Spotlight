@@ -4,11 +4,14 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.TimeInterpolator
 import android.app.Activity
-import android.content.Context
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorRes
+import androidx.annotation.IntDef
+import com.takusemba.spotlight.Spotlight.Builder.Companion.LayerPosition
+import com.takusemba.spotlight.Spotlight.Builder.Companion.ON_ACTIVITY_ROOT
+import com.takusemba.spotlight.Spotlight.Builder.Companion.ON_DECODER_VIEW
 import java.util.concurrent.TimeUnit
 
 /**
@@ -16,22 +19,22 @@ import java.util.concurrent.TimeUnit
  * and hide [SpotlightView] properly.
  */
 class Spotlight private constructor(
-    private val context: Context,
+    private val activity: Activity,
     private val targets: Array<Target>,
     private val duration: Long,
     private val animation: TimeInterpolator,
-    private val spotlightListener: OnSpotlightListener?,
-    private val backgroundColor: Int
+    @ColorRes private val backgroundColor: Int,
+    @LayerPosition private val layerPosition: Int,
+    private val spotlightListener: OnSpotlightListener?
 ) {
 
-  private val spotlightView = SpotlightView(context, null, 0, backgroundColor)
+  private val spotlightView = SpotlightView(activity, null, 0, backgroundColor)
 
   private var currentIndex = NO_POSITION
 
   init {
-    // TODO give option to add on activity itself.
-    val decorView = (context as Activity).window.decorView
-    (decorView as ViewGroup).addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
+    val container = findSpotlightContainer()
+    container.addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
   }
 
   /**
@@ -115,15 +118,18 @@ class Spotlight private constructor(
   private fun closeSpotlight() {
     spotlightView.closeSpotlight(duration, animation, object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
-        val activity = context as Activity?
-        if (activity != null) {
-          spotlightView.removeAllViews()
-          val decorView = activity.window.decorView
-          (decorView as ViewGroup).removeView(spotlightView)
-          spotlightListener?.onEnded()
-        }
+        val container = findSpotlightContainer()
+        spotlightView.removeAllViews()
+        container.removeView(spotlightView)
+        spotlightListener?.onEnded()
       }
     })
+  }
+
+  private fun findSpotlightContainer(): ViewGroup = when (layerPosition) {
+    ON_DECODER_VIEW -> activity.window.decorView as ViewGroup
+    ON_ACTIVITY_ROOT -> activity.findViewById(android.R.id.content) as ViewGroup
+    else -> throw IllegalStateException("unknown layerPosition: $layerPosition")
   }
 
   companion object {
@@ -131,13 +137,14 @@ class Spotlight private constructor(
     private const val NO_POSITION = -1
   }
 
-  class Builder(private val context: Context) {
+  class Builder(private val activity: Activity) {
 
     private var targets: Array<Target>? = null
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
-    private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
-    private var onSpotlightListener: OnSpotlightListener? = null
+    @ColorRes private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
+    @LayerPosition private var layerPosition: Int = DEFAULT_LAYER_POSITION
+    private var listener: OnSpotlightListener? = null
 
     fun setTargets(vararg targets: Target): Builder = apply {
       this.targets = arrayOf(*targets)
@@ -159,8 +166,12 @@ class Spotlight private constructor(
       this.animation = animation
     }
 
+    fun setLayerPosition(@LayerPosition layerPosition: Int) = apply {
+      this.layerPosition = layerPosition
+    }
+
     fun setOnSpotlightListener(listener: OnSpotlightListener): Builder = apply {
-      onSpotlightListener = listener
+      this.listener = listener
     }
 
     fun build(): Spotlight {
@@ -168,22 +179,32 @@ class Spotlight private constructor(
       val targets = requireNotNull(targets) { "targets should not be null. " }
 
       return Spotlight(
-          context = context,
+          activity = activity,
           targets = targets,
           duration = duration,
           animation = animation,
-          spotlightListener = onSpotlightListener,
-          backgroundColor = backgroundColor
+          backgroundColor = backgroundColor,
+          layerPosition = layerPosition,
+          spotlightListener = listener
       )
     }
 
     companion object {
 
+      @Retention(AnnotationRetention.SOURCE)
+      @IntDef(ON_DECODER_VIEW, ON_ACTIVITY_ROOT)
+      annotation class LayerPosition
+
+      const val ON_DECODER_VIEW = 0
+      const val ON_ACTIVITY_ROOT = 1
+
       private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
 
       private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
-      private val DEFAULT_OVERLAY_COLOR = R.color.background
+      @ColorRes private val DEFAULT_OVERLAY_COLOR = R.color.background
+
+      @LayerPosition private const val DEFAULT_LAYER_POSITION = ON_DECODER_VIEW
     }
   }
 }
