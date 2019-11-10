@@ -21,7 +21,7 @@ class SimpleTarget private constructor(
     override val point: PointF,
     override val overlay: View,
     override val duration: Long,
-    override val animation: TimeInterpolator,
+    override val interpolator: TimeInterpolator,
     override val listener: OnTargetListener?
 ) : Target {
 

@@ -81,7 +81,7 @@ internal class SpotlightView(
     currentTarget = target
     animator = ValueAnimator.ofFloat(0f, 1f)
     animator!!.addUpdateListener { this@SpotlightView.invalidate() }
-    animator!!.interpolator = target.animation
+    animator!!.interpolator = target.interpolator
     animator!!.duration = target.duration
     animator!!.addListener(listener)
     animator!!.start()
@@ -95,7 +95,7 @@ internal class SpotlightView(
     animator = ValueAnimator.ofFloat(1f, 0f)
     animator!!.addUpdateListener { this@SpotlightView.invalidate() }
     animator!!.addListener(listener)
-    animator!!.interpolator = currentTarget!!.animation
+    animator!!.interpolator = currentTarget!!.interpolator
     animator!!.duration = currentTarget!!.duration
     animator!!.start()
   }

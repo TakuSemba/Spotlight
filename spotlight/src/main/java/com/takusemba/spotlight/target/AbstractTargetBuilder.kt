@@ -23,7 +23,6 @@ abstract class AbstractTargetBuilder<T : AbstractTargetBuilder<T, S>, S : Target
   protected var shape: Shape = DEFAULT_SHAPE
   protected var duration: Long = DEFAULT_DURATION
   protected var animation: TimeInterpolator = DEFAULT_ANIMATION
-
   protected var listener: OnTargetListener? = null
 
   protected abstract fun self(): T

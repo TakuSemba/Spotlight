@@ -44,11 +44,11 @@ interface Target {
   val duration: Long
 
   /**
-   * gets animation of this Target
+   * gets interpolator of this Target
    *
-   * @return animation of this Target
+   * @return interpolator of this Target
    */
-  val animation: TimeInterpolator
+  val interpolator: TimeInterpolator
 
   val listener: OnTargetListener?
 }
