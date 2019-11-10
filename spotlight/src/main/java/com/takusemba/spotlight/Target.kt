@@ -3,7 +3,7 @@ package com.takusemba.spotlight
 import android.animation.TimeInterpolator
 import android.graphics.PointF
 import android.view.View
-import android.view.animation.LinearInterpolator
+import android.view.animation.DecelerateInterpolator
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
 import java.util.concurrent.TimeUnit
@@ -72,7 +72,7 @@ class Target(
 
       private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(250)
 
-      private val DEFAULT_INTERPOLATOR = LinearInterpolator()
+      private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
     }
   }
 }
