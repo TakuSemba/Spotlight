@@ -5,10 +5,6 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
 
-/**
- * Rounded Rectangle shape of a target.
- * Height, width, and radius (rounded corners) is configurable.
- */
 class RoundedRectangle(
     private val height: Float,
     private val width: Float,
