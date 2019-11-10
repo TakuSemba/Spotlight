@@ -20,6 +20,8 @@ Version 2.0.0 **(1019-11-11)**
      .build()
    ```
 
+Thank you for the feature requests from @OliverCulleyDeLange, @hamz4k.
+
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
  - Add Rounded rectangle shape.
