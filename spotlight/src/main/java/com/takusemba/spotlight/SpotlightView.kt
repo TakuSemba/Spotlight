@@ -12,6 +12,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
@@ -95,7 +96,7 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun startTarget(target: Target, listener: Animator.AnimatorListener) {
     removeAllViews()
-    addView(target.overlay)
+    addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
     this.target = target
     this.animator = ValueAnimator.ofFloat(0f, 1f).apply {
       duration = target.duration
