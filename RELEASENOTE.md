@@ -3,13 +3,14 @@ Release notes
 
 Version 2.0.0 **(not released yet.)**
 ----------------------------
- - Require kotlin 1.3.50
- - Add Effect feature
+ - Require kotlin 1.3.50.
+ - Add Effect feature. (not yet.)
  - Remove `isClosedOnTouchedOutside` attribute.
- - Add `Spotlight.next()`, `Spotlight.previous()`, `Spotlight.show()` functionality
+ - Add `Spotlight.next()`, `Spotlight.previous()`, `Spotlight.show()` functionality.
    - **next**: show the next target after closing the current target if exists.
    - **previous**: show the previous target after closing the current target if exists.
-   - **show**: show the target at specified index. (e.g. show(1))
+   - **show**: show the target at specified index. (e.g. show(1)).
+ - Add `setContainer` to set a custom container to hold a SpotlightView. The default is DecoderView.
 
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
