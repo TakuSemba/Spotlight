@@ -115,14 +115,14 @@ internal class SpotlightView @JvmOverloads constructor(
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
     this.target = target
     this.shapeAnimator = ofFloat(0f, 1f).apply {
-      duration = target.duration
-      interpolator = target.interpolator
+      duration = target.shape.duration
+      interpolator = target.shape.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }
     this.effectAnimator = ofFloat(0f, 1f).apply {
-      duration = target.duration
-      interpolator = target.interpolator
+      duration = target.effect.duration
+      interpolator = target.effect.interpolator
       repeatMode = RESTART
       repeatCount = INFINITE
       addUpdateListener(invalidator)
@@ -139,8 +139,8 @@ internal class SpotlightView @JvmOverloads constructor(
     val currentTarget = target ?: return
     val currentShapeAnimator = shapeAnimator ?: return
     shapeAnimator = ofFloat(currentShapeAnimator.animatedValue as Float, 0f).apply {
-      duration = currentTarget.duration
-      interpolator = currentTarget.interpolator
+      duration = currentTarget.shape.duration
+      interpolator = currentTarget.shape.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }

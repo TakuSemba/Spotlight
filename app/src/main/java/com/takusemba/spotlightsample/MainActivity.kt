@@ -1,6 +1,6 @@
 package com.takusemba.spotlightsample
 
-import android.graphics.Color
+import android.graphics.Color.argb
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
       val firstTarget = Target.Builder()
           .setAnchor(findViewById<View>(R.id.one))
           .setShape(Circle(100f))
-          .setEffect(RippleEffect(100f, 200f, Color.GREEN))
+          .setEffect(RippleEffect(100f, 200f, argb(30, 124, 255, 90)))
           .setOverlay(first)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
       val second = layoutInflater.inflate(R.layout.layout_target, secondRoot)
       val secondTarget = Target.Builder()
           .setAnchor(findViewById<View>(R.id.two))
-          .setShape(Circle(300f))
+          .setShape(Circle(150f))
           .setOverlay(second)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {

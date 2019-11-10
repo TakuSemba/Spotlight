@@ -19,7 +19,7 @@ class RippleEffect(
   }
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
-    paint.alpha = value.toInt()
+    paint.alpha = (value * 255f).toInt()
     paint.color = color
     val offset = (rippleRadius - holeRadius) * value
     canvas.drawCircle(point.x, point.y, holeRadius + offset, paint)

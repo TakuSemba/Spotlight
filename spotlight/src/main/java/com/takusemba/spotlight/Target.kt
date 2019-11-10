@@ -1,14 +1,11 @@
 package com.takusemba.spotlight
 
-import android.animation.TimeInterpolator
 import android.graphics.PointF
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import com.takusemba.spotlight.effet.Effect
 import com.takusemba.spotlight.effet.EmptyEffect
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
-import java.util.concurrent.TimeUnit
 
 /**
  * Target represents the spot that Spotlight will cast.
@@ -17,8 +14,6 @@ class Target(
     val anchor: PointF,
     val shape: Shape,
     val effect: Effect,
-    val duration: Long,
-    val interpolator: TimeInterpolator,
     val overlay: View?,
     val listener: OnTargetListener?
 ) {
@@ -32,8 +27,6 @@ class Target(
     private var anchor: PointF = DEFAULT_ANCHOR
     private var shape: Shape = DEFAULT_SHAPE
     private var effect: Effect = DEFAULT_EFFECT
-    private var duration: Long = DEFAULT_DURATION
-    private var interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
     private var overlay: View? = null
     private var listener: OnTargetListener? = null
 
@@ -77,20 +70,6 @@ class Target(
     }
 
     /**
-     * Sets [duration] to start/finish [Target].
-     */
-    fun setDuration(duration: Long): Builder = apply {
-      this.duration = duration
-    }
-
-    /**
-     * Sets [interpolator] to start/finish [Target].
-     */
-    fun setInterpolator(interpolator: TimeInterpolator): Builder = apply {
-      this.interpolator = interpolator
-    }
-
-    /**
      * Sets [overlay] to be laid out to describe [Target].
      */
     fun setOverlay(overlay: View): Builder = apply {
@@ -108,8 +87,6 @@ class Target(
         anchor = anchor,
         shape = shape,
         effect = effect,
-        duration = duration,
-        interpolator = interpolator,
         overlay = overlay,
         listener = listener
     )
@@ -121,10 +98,6 @@ class Target(
       private val DEFAULT_SHAPE = Circle(100f)
 
       private val DEFAULT_EFFECT = EmptyEffect()
-
-      private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
-
-      private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
     }
   }
 }
