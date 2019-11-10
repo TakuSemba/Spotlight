@@ -1,7 +1,5 @@
 package com.takusemba.spotlightsample
 
-import android.graphics.Color.argb
-import android.graphics.Color.rgb
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -14,8 +12,6 @@ import com.takusemba.spotlight.OnSpotlightListener
 import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.Target
-import com.takusemba.spotlight.effet.FlickerEffect
-import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.Circle
 
 class MainActivity : AppCompatActivity() {
@@ -35,7 +31,6 @@ class MainActivity : AppCompatActivity() {
       val firstTarget = Target.Builder()
           .setAnchor(findViewById<View>(R.id.one))
           .setShape(Circle(100f))
-          .setEffect(RippleEffect(100f, 200f, argb(30, 124, 255, 90)))
           .setOverlay(first)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
@@ -60,7 +55,6 @@ class MainActivity : AppCompatActivity() {
       val secondTarget = Target.Builder()
           .setAnchor(findViewById<View>(R.id.two))
           .setShape(Circle(150f))
-          .setEffect(FlickerEffect(200f, rgb(124, 255, 90)))
           .setOverlay(second)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
