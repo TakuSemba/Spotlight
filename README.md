@@ -36,7 +36,7 @@ val spotlight = Spotlight.Builder(this)
     .build()         
 ```
 
-if you want to show Spotlight immediately, you have to wait until views are laid out.
+If you want to show Spotlight immediately, you have to wait until views are laid out.
 
 ```kt
 // with core-ktx method.
