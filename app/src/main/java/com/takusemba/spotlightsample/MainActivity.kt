@@ -1,5 +1,6 @@
 package com.takusemba.spotlightsample
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -12,6 +13,7 @@ import com.takusemba.spotlight.OnSpotlightListener
 import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.Target
+import com.takusemba.spotlight.effet.RippleEffect
 import com.takusemba.spotlight.shape.Circle
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
       val firstTarget = Target.Builder()
           .setAnchor(findViewById<View>(R.id.one))
           .setShape(Circle(100f))
+          .setEffect(RippleEffect(100f, 200f, Color.GREEN))
           .setOverlay(first)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
@@ -100,7 +103,7 @@ class MainActivity : AppCompatActivity() {
       // create spotlight
       val spotlight = Spotlight.Builder(this@MainActivity)
           .setTargets(targets)
-          .setBackgroundColor(R.color.background)
+          .setBackgroundColor(R.color.spotlightBackground)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
           .setOnSpotlightListener(object : OnSpotlightListener {

@@ -4,6 +4,8 @@ import android.animation.TimeInterpolator
 import android.graphics.PointF
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import com.takusemba.spotlight.effet.Effect
+import com.takusemba.spotlight.effet.EmptyEffect
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.Shape
 import java.util.concurrent.TimeUnit
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit
 class Target(
     val anchor: PointF,
     val shape: Shape,
+    val effect: Effect,
     val duration: Long,
     val interpolator: TimeInterpolator,
     val overlay: View?,
@@ -28,6 +31,7 @@ class Target(
 
     private var anchor: PointF = DEFAULT_ANCHOR
     private var shape: Shape = DEFAULT_SHAPE
+    private var effect: Effect = DEFAULT_EFFECT
     private var duration: Long = DEFAULT_DURATION
     private var interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
     private var overlay: View? = null
@@ -66,6 +70,13 @@ class Target(
     }
 
     /**
+     * Sets [effect] of the spot of [Target].
+     */
+    fun setEffect(effect: Effect): Builder = apply {
+      this.effect = effect
+    }
+
+    /**
      * Sets [duration] to start/finish [Target].
      */
     fun setDuration(duration: Long): Builder = apply {
@@ -93,13 +104,23 @@ class Target(
       this.listener = listener
     }
 
-    fun build() = Target(anchor, shape, duration, interpolator, overlay, listener)
+    fun build() = Target(
+        anchor = anchor,
+        shape = shape,
+        effect = effect,
+        duration = duration,
+        interpolator = interpolator,
+        overlay = overlay,
+        listener = listener
+    )
 
     companion object {
 
       private val DEFAULT_ANCHOR = PointF(0f, 0f)
 
       private val DEFAULT_SHAPE = Circle(100f)
+
+      private val DEFAULT_EFFECT = EmptyEffect()
 
       private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
 

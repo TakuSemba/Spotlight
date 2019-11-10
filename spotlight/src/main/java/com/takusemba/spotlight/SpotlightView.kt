@@ -5,6 +5,9 @@ import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.AnimatorUpdateListener
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.RESTART
+import android.animation.ValueAnimator.ofFloat
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -14,6 +17,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 
 /**
@@ -23,20 +27,23 @@ internal class SpotlightView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    backgroundColor: Int = R.color.background
+    @ColorRes backgroundColor: Int = R.color.background
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
   private val backgroundPaint by lazy {
-    Paint().apply { ContextCompat.getColor(context, backgroundColor) }
+    Paint().apply { color = ContextCompat.getColor(context, backgroundColor) }
   }
 
-  private val targetPaint by lazy {
+  private val shapePaint by lazy {
     Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
   }
 
+  private val effectPaint by lazy { Paint() }
+
   private val invalidator = AnimatorUpdateListener { invalidate() }
 
-  private var animator: ValueAnimator? = null
+  private var shapeAnimator: ValueAnimator? = null
+  private var effectAnimator: ValueAnimator? = null
   private var target: Target? = null
 
   init {
@@ -48,13 +55,22 @@ internal class SpotlightView @JvmOverloads constructor(
     super.onDraw(canvas)
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
     val currentTarget = target
-    val currentAnimator = animator
-    if (currentTarget != null && currentAnimator != null) {
+    val currentShapeAnimator = shapeAnimator
+    val currentEffectAnimator = effectAnimator
+    if (currentTarget != null && currentEffectAnimator != null) {
+      currentTarget.effect.draw(
+          canvas = canvas,
+          point = currentTarget.anchor,
+          value = currentEffectAnimator.animatedValue as Float,
+          paint = effectPaint
+      )
+    }
+    if (currentTarget != null && currentShapeAnimator != null) {
       currentTarget.shape.draw(
           canvas = canvas,
           point = currentTarget.anchor,
-          value = currentAnimator.animatedValue as Float,
-          paint = targetPaint
+          value = currentShapeAnimator.animatedValue as Float,
+          paint = shapePaint
       )
     }
   }
@@ -98,13 +114,22 @@ internal class SpotlightView @JvmOverloads constructor(
     removeAllViews()
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
     this.target = target
-    this.animator = ValueAnimator.ofFloat(0f, 1f).apply {
+    this.shapeAnimator = ofFloat(0f, 1f).apply {
       duration = target.duration
       interpolator = target.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }
-    animator?.start()
+    this.effectAnimator = ofFloat(0f, 1f).apply {
+      duration = target.duration
+      interpolator = target.interpolator
+      repeatMode = RESTART
+      repeatCount = INFINITE
+      addUpdateListener(invalidator)
+      addListener(listener)
+    }
+    shapeAnimator?.start()
+    effectAnimator?.start()
   }
 
   /**
@@ -112,13 +137,14 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun finishTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
-    val currentAnimator = animator ?: return
-    animator = ValueAnimator.ofFloat(currentAnimator.animatedValue as Float, 0f).apply {
+    val currentShapeAnimator = shapeAnimator ?: return
+    shapeAnimator = ofFloat(currentShapeAnimator.animatedValue as Float, 0f).apply {
       duration = currentTarget.duration
       interpolator = currentTarget.interpolator
       addUpdateListener(invalidator)
       addListener(listener)
     }
-    animator?.start()
+    effectAnimator?.cancel()
+    shapeAnimator?.start()
   }
 }

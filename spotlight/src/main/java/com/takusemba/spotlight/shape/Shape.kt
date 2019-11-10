@@ -11,9 +11,9 @@ import android.graphics.PointF
 interface Shape {
 
   /**
-   * Draws the Shape
+   * Draws the Shape.
    *
-   * @param value the animated value from 0 to 1
+   * @param value the animated value from 0 to 1.
    */
   fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint)
 }
