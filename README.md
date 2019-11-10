@@ -51,6 +51,8 @@ view.doOnPreDraw { Spotlight.Builder(this)...start() }
 ## Target
 Create a Target to add Spotlight.
 
+Target is a spot to be casted by Spotlight. You can add multiple targets to Spotlight.
+
 ```kt
 val target = Target.Builder()
     .setAnchor(100f, 100f)
@@ -120,7 +122,7 @@ class CustomEffect(
 ) : Effect {
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
-    // draw your effec here.
+    // draw your effect here.
   }
 }
 ```
