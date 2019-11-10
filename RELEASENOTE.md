@@ -6,6 +6,10 @@ Version 2.0.0 **(not released yet.)**
  - Require kotlin 1.3.50
  - Add Effect feature
  - Remove `isClosedOnTouchedOutside` attribute. You can simply call `Spotlight#closeTarget()` to close the current target.
+ - Add next(), previous(), show() functionality
+  - next(): show the next target after closing the current target if exists.
+  - previous(): show the previous target after closing the current target if exists.
+  - show(): show the target at specified index. (e.g. show(1))
 
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
