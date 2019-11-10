@@ -16,7 +16,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
 /**
- * Spotlight View which holds a current [LegacyTarget] and show it properly.
+ * Spotlight View which holds a current [Target] and show it properly.
  */
 internal class SpotlightView(
     context: Context,
@@ -76,12 +76,12 @@ internal class SpotlightView(
     objectAnimator.start()
   }
 
-  fun turnUp(legacyTarget: Target, listener: Animator.AnimatorListener) {
-    currentTarget = legacyTarget
+  fun turnUp(target: Target, listener: Animator.AnimatorListener) {
+    currentTarget = target
     animator = ValueAnimator.ofFloat(0f, 1f)
     animator!!.addUpdateListener { this@SpotlightView.invalidate() }
-    animator!!.interpolator = legacyTarget.interpolator
-    animator!!.duration = legacyTarget.duration
+    animator!!.interpolator = target.interpolator
+    animator!!.duration = target.duration
     animator!!.addListener(listener)
     animator!!.start()
   }

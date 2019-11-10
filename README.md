@@ -70,11 +70,11 @@ SimpleTarget simpleTarget = new SimpleTarget.Builder(this)
     .setOverlayPoint(100f, 100f)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<SimpleTarget>() {
         @Override
-        public void onStarted(SimpleTarget legacyTarget) {
+        public void onStarted(SimpleTarget Target) {
             // do something
         }
         @Override
-        public void onEnded(SimpleTarget legacyTarget) {
+        public void onEnded(SimpleTarget Target) {
             // do something
         }
     })
@@ -98,11 +98,11 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
     .setOverlay(view)
     .setOnSpotlightStartedListener(new OnTargetStateChangedListener<CustomTarget>() {
         @Override
-        public void onStarted(CustomTarget legacyTarget) {
+        public void onStarted(CustomTarget Target) {
             // do something
         }
         @Override
-        public void onEnded(CustomTarget legacyTarget) {
+        public void onEnded(CustomTarget Target) {
             // do something
         }
     })
@@ -116,7 +116,7 @@ CustomTarget customTarget = new CustomTarget.Builder(this)
 
 ## Skip Target, Skip Spotlight
 
-you can skip the current legacyTarget or skip the all comming targets.
+you can skip the current Target or skip the all coming targets.
 
 ```java
 Spotlight spotlight = Spotlight.with(this)...start();

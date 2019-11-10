@@ -11,7 +11,7 @@ import androidx.annotation.ColorRes
 import java.util.concurrent.TimeUnit
 
 /**
- * Spotlight that holds all the [LegacyTarget]s and show and hide [LegacyTarget] properly, and show
+ * Spotlight that holds all the [Target]s and show and hide [Target] properly, and show
  * and hide [SpotlightView] properly.
  */
 class Spotlight private constructor(
@@ -34,7 +34,7 @@ class Spotlight private constructor(
   }
 
   /**
-   * close the current [LegacyTarget]
+   * close the current [Target]
    */
   fun closeCurrentTarget() {
     finishTarget()
@@ -65,7 +65,7 @@ class Spotlight private constructor(
   }
 
   /**
-   * show LegacyTarget
+   * show Target
    */
   private fun startTarget() {
     if (targets.size > 0 && spotlightView != null) {
@@ -98,7 +98,7 @@ class Spotlight private constructor(
   }
 
   /**
-   * hide LegacyTarget
+   * hide Target
    */
   private fun finishTarget() {
     if (targets.size > 0 && spotlightView != null) {

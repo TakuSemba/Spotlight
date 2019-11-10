@@ -2,19 +2,17 @@ package com.takusemba.spotlightsample
 
 import android.graphics.PointF
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.spotlight.OnSpotlightListener
+import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.Target
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
-import com.takusemba.spotlight.target.CustomLegacyTarget
-import com.takusemba.spotlight.target.SimpleLegacyTarget
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,12 +29,12 @@ class MainActivity : AppCompatActivity() {
       val oneRadius = 100f
 
       // first target
-      val firstTarget = SimpleLegacyTarget.Builder(this@MainActivity)
-          .setPoint(oneX, oneY)
+      val firstRoot = FrameLayout(this)
+      val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
+      val firstTarget = Target.Builder()
+          .setAnchor(oneX, oneY)
           .setShape(Circle(oneRadius))
-          .setTitle("first title")
-          .setDescription("first description")
-          .setOverlayPoint(100f, oneY + oneRadius + 100f)
+          .setOverlay(first)
           .build()
 
       val two = findViewById<View>(R.id.two)
@@ -46,22 +44,21 @@ class MainActivity : AppCompatActivity() {
       val twoRadius = 100f
 
       // second target
-      val secondTarget = SimpleLegacyTarget.Builder(this@MainActivity)
-          .setPoint(twoPoint)
+      val secondRoot = FrameLayout(this)
+      val second = layoutInflater.inflate(R.layout.layout_target, secondRoot)
+      val secondTarget = Target.Builder()
+          .setAnchor(twoPoint)
           .setShape(Circle(twoRadius))
-          .setTitle("second title")
-          .setDescription("second description")
-          .setOverlayPoint(PointF(100f, twoPoint.y + twoRadius + 100f))
-          // TODO add listener to target.
-//          .setOnSpotlightStartedListener(object : OnTargetListener<SimpleLegacyTarget> {
-//            override fun onStarted(target: SimpleLegacyTarget) {
-//              Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onEnded(target: SimpleLegacyTarget) {
-//              Toast.makeText(this@MainActivity, "target is ended", Toast.LENGTH_SHORT).show()
-//            }
-//          })
+          .setOverlay(second)
+          .setOnTargetListener(object : OnTargetListener {
+            override fun onStarted(target: Target) {
+              Toast.makeText(this@MainActivity, "target is started", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onEnded(target: Target) {
+              Toast.makeText(this@MainActivity, "target is ended", Toast.LENGTH_SHORT).show()
+            }
+          })
           .build()
 
       val threeWidth = 300f
@@ -72,16 +69,16 @@ class MainActivity : AppCompatActivity() {
       val y = location[1] + threeView.height / 2
 
       // third target
-      val thirdTarget = SimpleLegacyTarget.Builder(this@MainActivity)
-          .setPoint(threeView)
+      val thirdRoot = FrameLayout(this)
+      val third = layoutInflater.inflate(R.layout.layout_target, thirdRoot)
+      val thirdTarget = Target.Builder()
+          .setAnchor(threeView)
           .setShape(RoundedRectangle(threeWidth, threeHeight, 25f))
-          .setTitle("third title")
-          .setDescription("third description")
-          .setOverlayPoint(100f, y - threeHeight - 300)
+          .setOverlay(third)
           .build()
 
       // create spotlight
-      Spotlight.Builder<SimpleLegacyTarget>(this@MainActivity)
+      Spotlight.Builder(this@MainActivity)
           .addTargets(firstTarget, secondTarget, thirdTarget)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
@@ -89,8 +86,7 @@ class MainActivity : AppCompatActivity() {
           .setClosedOnTouchedOutside(true)
           .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
-              Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT)
-                  .show()
+              Toast.makeText(this@MainActivity, "spotlight is started", Toast.LENGTH_SHORT).show()
             }
 
             override fun onEnded() {
@@ -101,16 +97,14 @@ class MainActivity : AppCompatActivity() {
           .start()
     }
 
-    findViewById<View>(R.id.custom_target).setOnClickListener { _ ->
-      val inflater = LayoutInflater.from(this@MainActivity)
-
-      val targets = ArrayList<CustomLegacyTarget>()
+    findViewById<View>(R.id.custom_target).setOnClickListener {
+      val targets = ArrayList<Target>()
 
       // first target
       val firstRoot = FrameLayout(this)
-      val first = inflater.inflate(R.layout.layout_target, firstRoot)
-      val firstTarget = CustomLegacyTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.one))
+      val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
+      val firstTarget = Target.Builder()
+          .setAnchor(findViewById<View>(R.id.one))
           .setShape(Circle(100f))
           .setOverlay(first)
           .build()
@@ -119,9 +113,9 @@ class MainActivity : AppCompatActivity() {
 
       // second target
       val secondRoot = FrameLayout(this)
-      val second = inflater.inflate(R.layout.layout_target, secondRoot)
-      val secondTarget = CustomLegacyTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.two))
+      val second = layoutInflater.inflate(R.layout.layout_target, secondRoot)
+      val secondTarget = Target.Builder()
+          .setAnchor(findViewById<View>(R.id.two))
           .setShape(Circle(300f))
           .setOverlay(second)
           .build()
@@ -130,9 +124,9 @@ class MainActivity : AppCompatActivity() {
 
       // third target
       val thirdRoot = FrameLayout(this)
-      val third = inflater.inflate(R.layout.layout_target, thirdRoot)
-      val thirdTarget = CustomLegacyTarget.Builder(this@MainActivity)
-          .setPoint(findViewById<View>(R.id.three))
+      val third = layoutInflater.inflate(R.layout.layout_target, thirdRoot)
+      val thirdTarget = Target.Builder()
+          .setAnchor(findViewById<View>(R.id.three))
           .setShape(Circle(200f))
           .setOverlay(third)
           .build()
@@ -140,7 +134,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(thirdTarget)
 
       // create spotlight
-      val spotlight = Spotlight.Builder<CustomLegacyTarget>(this@MainActivity)
+      val spotlight = Spotlight.Builder(this@MainActivity)
           .addTargets(targets)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)

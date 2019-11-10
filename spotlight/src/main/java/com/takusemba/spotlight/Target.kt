@@ -27,6 +27,14 @@ class Target(
     private var overlay: View? = null
     private var listener: OnTargetListener? = null
 
+    fun setAnchor(view: View): Builder = apply {
+      val location = IntArray(2)
+      view.getLocationInWindow(location)
+      val x = location[0] + view.width / 2f
+      val y = location[1] + view.height / 2f
+      setAnchor(x, y)
+    }
+
     fun setAnchor(x: Float, y: Float): Builder = apply {
       setAnchor(PointF(x, y))
     }

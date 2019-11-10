@@ -1,8 +1,8 @@
 <resources>
   <string name="app_name">SpotlightApp</string>
 
-  <string name="start_simple_target">start simple legacyTarget</string>
-  <string name="start_custom_target">start custom legacyTarget</string>
+  <string name="start_simple_target">start simple target</string>
+  <string name="start_custom_target">start custom target</string>
   <string name="one">1</string>
   <string name="two">2</string>
   <string name="three">3</string>
