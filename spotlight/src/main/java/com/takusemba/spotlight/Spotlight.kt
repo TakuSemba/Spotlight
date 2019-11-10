@@ -8,20 +8,19 @@ import android.content.Context
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorRes
-import com.takusemba.spotlight.target.Target
 import java.util.concurrent.TimeUnit
 
 /**
- * Spotlight that holds all the [Target]s and show and hide [Target] properly, and show
+ * Spotlight that holds all the [LegacyTarget]s and show and hide [LegacyTarget] properly, and show
  * and hide [SpotlightView] properly.
  */
-class Spotlight<T : Target> private constructor(
+class Spotlight private constructor(
     private val context: Context,
-    private val targets: ArrayList<T>,
+    private val targets: ArrayList<Target>, // TODO Add show previous target functionality.
     private val duration: Long,
     private val animation: TimeInterpolator,
     private val spotlightListener: OnSpotlightListener?,
-    @ColorRes private val overlayColor: Int,
+    private val overlayColor: Int,
     private val isClosedOnTouchedOutside: Boolean
 ) {
 
@@ -35,7 +34,7 @@ class Spotlight<T : Target> private constructor(
   }
 
   /**
-   * close the current [Target]
+   * close the current [LegacyTarget]
    */
   fun closeCurrentTarget() {
     finishTarget()
@@ -66,7 +65,7 @@ class Spotlight<T : Target> private constructor(
   }
 
   /**
-   * show Target
+   * show LegacyTarget
    */
   private fun startTarget() {
     if (targets.size > 0 && spotlightView != null) {
@@ -99,7 +98,7 @@ class Spotlight<T : Target> private constructor(
   }
 
   /**
-   * hide Target
+   * hide LegacyTarget
    */
   private fun finishTarget() {
     if (targets.size > 0 && spotlightView != null) {
@@ -136,18 +135,18 @@ class Spotlight<T : Target> private constructor(
     })
   }
 
-  class Builder<T : Target>(private val context: Context) {
+  class Builder(private val context: Context) {
 
-    private val targets: ArrayList<T> = ArrayList()
+    private val targets: ArrayList<Target> = ArrayList()
 
     private var duration: Long = DEFAULT_DURATION
     private var animation: TimeInterpolator = DEFAULT_ANIMATION
-    @ColorRes private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
+    private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
     private var isClosedOnTouchedOutside: Boolean = DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE
 
     private var onSpotlightListener: OnSpotlightListener? = null
 
-    fun addTargets(vararg targets: T): Builder<T> = apply {
+    fun addTargets(vararg targets: Target): Builder = apply {
       for (target in targets) {
         if (!this.targets.contains(target)) {
           this.targets.add(target)
@@ -155,7 +154,7 @@ class Spotlight<T : Target> private constructor(
       }
     }
 
-    fun addTargets(targets: List<T>): Builder<T> = apply {
+    fun addTargets(targets: List<Target>): Builder = apply {
       for (target in targets) {
         if (!this.targets.contains(target)) {
           this.targets.add(target)
@@ -163,27 +162,27 @@ class Spotlight<T : Target> private constructor(
       }
     }
 
-    fun setDuration(duration: Long): Builder<T> = apply {
+    fun setDuration(duration: Long): Builder = apply {
       this.duration = duration
     }
 
-    fun setOverlayColor(@ColorRes overlayColor: Int): Builder<T> = apply {
+    fun setOverlayColor(@ColorRes overlayColor: Int): Builder = apply {
       this.overlayColor = overlayColor
     }
 
-    fun setAnimation(animation: TimeInterpolator): Builder<T> = apply {
+    fun setAnimation(animation: TimeInterpolator): Builder = apply {
       this.animation = animation
     }
 
-    fun setOnSpotlightListener(listener: OnSpotlightListener): Builder<T> = apply {
+    fun setOnSpotlightListener(listener: OnSpotlightListener): Builder = apply {
       onSpotlightListener = listener
     }
 
-    fun setClosedOnTouchedOutside(isClosedOnTouchedOutside: Boolean): Builder<T> = apply {
+    fun setClosedOnTouchedOutside(isClosedOnTouchedOutside: Boolean): Builder = apply {
       this.isClosedOnTouchedOutside = isClosedOnTouchedOutside
     }
 
-    fun build(): Spotlight<T> {
+    fun build(): Spotlight {
       return Spotlight(
           context = context,
           targets = targets,
@@ -202,7 +201,7 @@ class Spotlight<T : Target> private constructor(
 
     private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
-    @ColorRes private val DEFAULT_OVERLAY_COLOR = R.color.background
+    private val DEFAULT_OVERLAY_COLOR = R.color.background
 
     private const val DEFAULT_IS_CLOSED_ON_TOUCHED_OUTSIDE = true
   }

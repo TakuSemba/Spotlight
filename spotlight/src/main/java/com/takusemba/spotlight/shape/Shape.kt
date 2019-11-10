@@ -3,10 +3,10 @@ package com.takusemba.spotlight.shape
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
-import com.takusemba.spotlight.target.Target
+import com.takusemba.spotlight.target.LegacyTarget
 
 /**
- * Shape of a [Target]
+ * Shape of a [LegacyTarget]
  * For any shape of target, this Shape class need to be implemented.
  */
 interface Shape {

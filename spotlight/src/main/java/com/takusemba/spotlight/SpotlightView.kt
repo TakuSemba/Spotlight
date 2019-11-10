@@ -14,10 +14,9 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import com.takusemba.spotlight.target.Target
 
 /**
- * Spotlight View which holds a current [Target] and show it properly.
+ * Spotlight View which holds a current [LegacyTarget] and show it properly.
  */
 internal class SpotlightView(
     context: Context,
@@ -51,7 +50,7 @@ internal class SpotlightView(
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     if (animator != null && currentTarget != null) {
       currentTarget!!.shape
-          .draw(canvas, currentTarget!!.point, animator!!.animatedValue as Float, spotPaint)
+          .draw(canvas, currentTarget!!.anchor, animator!!.animatedValue as Float, spotPaint)
     }
   }
 
@@ -77,12 +76,12 @@ internal class SpotlightView(
     objectAnimator.start()
   }
 
-  fun turnUp(target: Target, listener: Animator.AnimatorListener) {
-    currentTarget = target
+  fun turnUp(legacyTarget: Target, listener: Animator.AnimatorListener) {
+    currentTarget = legacyTarget
     animator = ValueAnimator.ofFloat(0f, 1f)
     animator!!.addUpdateListener { this@SpotlightView.invalidate() }
-    animator!!.interpolator = target.interpolator
-    animator!!.duration = target.duration
+    animator!!.interpolator = legacyTarget.interpolator
+    animator!!.duration = legacyTarget.duration
     animator!!.addListener(listener)
     animator!!.start()
   }

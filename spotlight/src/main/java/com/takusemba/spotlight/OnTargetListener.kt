@@ -1,20 +1,16 @@
 package com.takusemba.spotlight
 
-import com.takusemba.spotlight.target.Target
-
 /**
- * On Target State Changed Listener
- *
- * TODO this can be merged with [OnSpotlightListener]
+ * On LegacyTarget State Changed Listener
  */
 interface OnTargetListener {
   /**
-   * Called when Target is started
+   * Called when LegacyTarget is started
    */
   fun onStarted(target: Target)
 
   /**
-   * Called when Target is started
+   * Called when LegacyTarget is started
    */
   fun onEnded(target: Target)
 }
