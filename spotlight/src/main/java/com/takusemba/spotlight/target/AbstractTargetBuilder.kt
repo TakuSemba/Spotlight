@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
  * from a builder, this class should be used. T is a actual Builder class, S a actual Target class
  * created from the builder
  */
-abstract class AbstractTargetBuilder<T : AbstractTargetBuilder<T, S>, S : Target<S>>(
+abstract class AbstractTargetBuilder<T : AbstractTargetBuilder<T, S>, S : Target>(
     protected val context: Context
 ) {
 

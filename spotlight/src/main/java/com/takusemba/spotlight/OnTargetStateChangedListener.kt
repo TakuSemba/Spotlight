@@ -5,7 +5,7 @@ import com.takusemba.spotlight.target.Target
 /**
  * On Target State Changed Listener
  */
-interface OnTargetStateChangedListener<T : Target<T>> {
+interface OnTargetStateChangedListener<T : Target> {
   /**
    * Called when Target is started
    */

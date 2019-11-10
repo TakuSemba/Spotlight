@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.takusemba.spotlight.OnTargetStateChangedListener
 import com.takusemba.spotlight.R
 import com.takusemba.spotlight.shape.Shape
 
@@ -21,9 +20,8 @@ class SimpleTarget private constructor(
     override val point: PointF,
     override val overlay: View,
     override val duration: Long,
-    override val animation: TimeInterpolator,
-    override val listener: OnTargetStateChangedListener<SimpleTarget>?
-) : Target<SimpleTarget> {
+    override val animation: TimeInterpolator
+) : Target {
 
   class Builder(context: Activity) : AbstractTargetBuilder<Builder, SimpleTarget>(context) {
 
@@ -67,7 +65,7 @@ class SimpleTarget private constructor(
         layout.x = overlayPoint.x
         layout.y = overlayPoint.y
       }
-      return SimpleTarget(shape, point, overlay, duration, animation, listener)
+      return SimpleTarget(shape, point, overlay, duration, animation)
     }
   }
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * Spotlight that holds all the [Target]s and show and hide [Target] properly, and show
  * and hide [SpotlightView] properly.
  */
-class Spotlight<T> private constructor(private val context: Context) where T : Target<T> {
+class Spotlight<T : Target> private constructor(private val context: Context) {
 
   private var spotlightView: SpotlightView? = null
 
@@ -24,6 +24,7 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
   private var duration: Long = DEFAULT_DURATION
   private var animation: TimeInterpolator = DEFAULT_ANIMATION
   private var spotlightListener: OnSpotlightStateChangedListener? = null
+  private var targetListener: OnTargetStateChangedListener<T>? = null
   @ColorRes private var overlayColor: Int = DEFAULT_OVERLAY_COLOR
   private var isClosedOnTouchedOutside: Boolean = true
 
@@ -33,9 +34,8 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
    * @param targets targets to show
    * @return the Spotlight
    */
-  @SafeVarargs fun setTargets(vararg targets: T): Spotlight<T> {
+  fun setTargets(vararg targets: T): Spotlight<T> {
     this.targets = ArrayList(listOf(*targets))
-
     return this
   }
 
@@ -47,7 +47,6 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
    */
   fun setTargets(targets: ArrayList<T>): Spotlight<T> {
     this.targets = targets
-
     return this
   }
 
@@ -81,6 +80,11 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
    */
   fun setAnimation(animation: TimeInterpolator): Spotlight<T> {
     this.animation = animation
+    return this
+  }
+
+  fun setOnTargetStateChangedListener(listener: OnTargetStateChangedListener<T>): Spotlight<T> {
+    targetListener = listener
     return this
   }
 
@@ -157,8 +161,8 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
       spotlightView.addView(target.overlay)
       spotlightView.turnUp(target, object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator) {
-          if (target.listener != null) {
-            target.listener?.onStarted(target)
+          if (targetListener != null) {
+            targetListener?.onStarted(target)
           }
         }
       })
@@ -190,8 +194,8 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
         override fun onAnimationEnd(animation: Animator) {
           if (!targets!!.isEmpty()) {
             val target = targets!!.removeAt(0)
-            if (target.listener != null) {
-              target.listener?.onEnded(target)
+            if (targetListener != null) {
+              targetListener?.onEnded(target)
             }
             if (targets!!.size > 0) {
               startTarget()
@@ -227,7 +231,7 @@ class Spotlight<T> private constructor(private val context: Context) where T : T
     private val DEFAULT_DURATION = TimeUnit.SECONDS.toMillis(1)
     private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
-    fun <T : Target<T>> with(context: Context): Spotlight<T> {
+    fun <T : Target> with(context: Context): Spotlight<T> {
       return Spotlight(context)
     }
   }

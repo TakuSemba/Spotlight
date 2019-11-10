@@ -11,12 +11,10 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.view.View
-import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-
 import com.takusemba.spotlight.target.Target
 
 /**
@@ -32,15 +30,14 @@ internal class SpotlightView(
   private val paint = Paint()
   private val spotPaint = Paint()
   private var animator: ValueAnimator? = null
-  private var currentTarget: Target<*>? = null
+  private var currentTarget: Target? = null
 
   init {
     bringToFront()
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
     spotPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-    layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT)
+    layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
     setOnClickListener {
       if (animator != null && !animator!!.isRunning && animator!!.animatedValue as Float > 0) {
         listener?.onSpotlightViewClicked()
@@ -80,7 +77,7 @@ internal class SpotlightView(
     objectAnimator.start()
   }
 
-  fun turnUp(target: Target<*>, listener: Animator.AnimatorListener) {
+  fun turnUp(target: Target, listener: Animator.AnimatorListener) {
     currentTarget = target
     animator = ValueAnimator.ofFloat(0f, 1f)
     animator!!.addUpdateListener { this@SpotlightView.invalidate() }
