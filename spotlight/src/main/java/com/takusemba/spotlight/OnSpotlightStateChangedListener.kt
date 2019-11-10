@@ -1,17 +1,17 @@
-package com.takusemba.spotlight;
+package com.takusemba.spotlight
 
 /**
  * On Spotlight Ended Listener
- **/
-public interface OnSpotlightStateChangedListener {
+ */
+interface OnSpotlightStateChangedListener {
 
   /**
    * Called when Spotlight is started
    */
-  void onStarted();
+  fun onStarted()
 
   /**
    * Called when Spotlight is ended
    */
-  void onEnded();
+  fun onEnded()
 }

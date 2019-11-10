@@ -15,7 +15,6 @@ import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.target.CustomTarget
 import com.takusemba.spotlight.target.SimpleTarget
-import com.takusemba.spotlight.target.Target
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
           .build()
 
       // create spotlight
-      Spotlight.with(this@MainActivity)
+      Spotlight.with<SimpleTarget>(this@MainActivity)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
     findViewById<View>(R.id.custom_target).setOnClickListener { _ ->
       val inflater = LayoutInflater.from(this@MainActivity)
 
-      val targets = ArrayList<Target>()
+      val targets = ArrayList<CustomTarget>()
 
       // first target
       val firstRoot = FrameLayout(this)
@@ -140,7 +139,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(thirdTarget)
 
       // create spotlight
-      val spotlight = Spotlight.with(this@MainActivity)
+      val spotlight = Spotlight.with<CustomTarget>(this@MainActivity)
           .setOverlayColor(R.color.background)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
