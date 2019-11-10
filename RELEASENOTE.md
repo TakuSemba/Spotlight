@@ -10,7 +10,14 @@ Version 2.0.0 **(not released yet.)**
    - **previous**: show the previous target after closing the current target if exists.
    - **show**: show the target at specified index. (e.g. show(1)).
  - Add `setContainer` to set a custom container to hold a SpotlightView. The default is DecoderView.
- - Add Effect feature. (not yet.)
+ - Add Effect feature. `RippleEffect` and `FlickerEffect` are provided by default.
+   ```kt
+   val target = Target.Builder()
+     .setAnchor(100f, 100f)
+     .setShape(Circle(150f))
+     .setEffect(FlickerEffect(200f, rgb(124, 255, 90)))
+     .build()
+   ```
 
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
