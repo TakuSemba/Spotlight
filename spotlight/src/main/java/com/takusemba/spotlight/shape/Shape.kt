@@ -18,13 +18,11 @@ interface Shape {
    * [duration] to draw Shape.
    */
   val duration: Long
-    get() = DEFAULT_DURATION
 
   /**
    * [interpolator] to draw Shape.
    */
   val interpolator: TimeInterpolator
-    get() = DEFAULT_INTERPOLATOR
 
   /**
    * Draws the Shape.
@@ -35,8 +33,8 @@ interface Shape {
 
   companion object {
 
-    private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
+    val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
 
-    private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
+    val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
   }
 }

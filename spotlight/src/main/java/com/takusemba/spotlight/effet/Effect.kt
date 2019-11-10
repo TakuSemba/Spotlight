@@ -16,13 +16,11 @@ interface Effect {
    * [duration] to draw Effect.
    */
   val duration: Long
-    get() = DEFAULT_DURATION
 
   /**
    * [interpolator] to draw Effect.
    */
   val interpolator: TimeInterpolator
-    get() = DEFAULT_INTERPOLATOR
 
   /**
    * Draw the Effect.
@@ -33,8 +31,8 @@ interface Effect {
 
   companion object {
 
-    private val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(1000)
+    val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(1000)
 
-    private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
+    val DEFAULT_INTERPOLATOR = DecelerateInterpolator(2f)
   }
 }
