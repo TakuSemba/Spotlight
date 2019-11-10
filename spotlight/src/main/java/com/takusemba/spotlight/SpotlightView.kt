@@ -55,7 +55,8 @@ internal class SpotlightView(
   }
 
   fun startSpotlight(
-      duration: Long, animation: TimeInterpolator,
+      duration: Long,
+      animation: TimeInterpolator,
       listener: Animator.AnimatorListener
   ) {
     val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
@@ -66,7 +67,8 @@ internal class SpotlightView(
   }
 
   fun finishSpotlight(
-      duration: Long, animation: TimeInterpolator,
+      duration: Long,
+      animation: TimeInterpolator,
       listener: Animator.AnimatorListener
   ) {
     val objectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
