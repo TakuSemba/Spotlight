@@ -138,13 +138,15 @@ class Spotlight<T : Target> private constructor(private val context: Context) {
    */
   private fun spotlightView() {
     val decorView = (context as Activity).window.decorView
-    val spotlightView = SpotlightView(context!!, overlayColor, object : OnSpotlightListener {
+    val spotlightView = SpotlightView(context)
+    spotlightView.overlayColor = overlayColor
+    spotlightView.listener = object : OnSpotlightListener {
       override fun onSpotlightViewClicked() {
         if (isClosedOnTouchedOutside) {
           finishTarget()
         }
       }
-    })
+    }
     this.spotlightView = spotlightView
     (decorView as ViewGroup).addView(spotlightView)
     startSpotlight()

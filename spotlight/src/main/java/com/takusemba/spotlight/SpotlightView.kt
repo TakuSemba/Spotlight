@@ -4,28 +4,29 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.takusemba.spotlight.target.Target
 
 /**
  * Spotlight View which holds a current [Target] and show it properly.
  */
-@SuppressLint("ViewConstructor")
 internal class SpotlightView(
     context: Context,
-    @param:ColorRes @field:ColorRes private val overlayColor: Int,
-    listener: OnSpotlightListener?
-) : FrameLayout(context, null) {
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr) {
+
+  var overlayColor: Int? = null
+  var listener: OnSpotlightListener? = null
 
   private val paint = Paint()
   private val spotPaint = Paint()
@@ -47,7 +48,7 @@ internal class SpotlightView(
 
   override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
-    paint.color = ContextCompat.getColor(context, overlayColor)
+    paint.color = ContextCompat.getColor(context, overlayColor!!)
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     if (animator != null && currentTarget != null) {
       currentTarget!!.shape
