@@ -53,7 +53,7 @@ class Spotlight private constructor(
    * If the next [Target] is not found, Spotlight will finish.
    */
   fun next() {
-    showTarget()
+    showTarget(currentIndex + 1)
   }
 
   /**
@@ -89,7 +89,7 @@ class Spotlight private constructor(
   /**
    * Closes the current [Target] if exists, and show the [Target] at [index].
    */
-  private fun showTarget(index: Int = currentIndex + 1) {
+  private fun showTarget(index: Int) {
     if (currentIndex == NO_POSITION) {
       val target = targets[index]
       currentIndex = index
