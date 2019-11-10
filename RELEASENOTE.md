@@ -11,7 +11,6 @@ Version 2.0.0 **(not released yet.)**
    - **show**: show the target at specified index. (e.g. show(1)).
  - Add `setContainer` to set a custom container to hold a SpotlightView. The default is DecoderView.
  - Add Effect feature. (not yet.)
- - Add Overlay feature. (not yet.)
 
 Version 1.8.0 **(2019-1-5)**
 ----------------------------
