@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.view.animation.DecelerateInterpolator
 import java.util.concurrent.TimeUnit
+import kotlin.math.hypot
 
 /**
  * [Shape] of Circle with customizable radius.
@@ -18,6 +19,11 @@ class Circle(
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
     canvas.drawCircle(point.x, point.y, value * radius, paint)
+  }
+
+  override fun contains(point: PointF, x: Float, y: Float): Boolean {
+    val dist = hypot((point.x - x).toDouble(), (point.y - y).toDouble())
+    return dist < radius
   }
 
   companion object {

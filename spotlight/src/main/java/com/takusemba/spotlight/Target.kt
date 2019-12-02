@@ -15,8 +15,18 @@ class Target(
     val shape: Shape,
     val effect: Effect,
     val overlay: View?,
-    val listener: OnTargetListener?
+    val listener: OnTargetListener?,
+    val isClickable: Boolean
 ) {
+
+  /**
+   * Check if point is contained within the Shape
+   *
+   * @param anchor center of the Shape
+   */
+  fun contains(x: Float, y: Float): Boolean {
+    return shape.contains(anchor, x, y)
+  }
 
   /**
    * [Builder] to build a [Target].
@@ -29,6 +39,7 @@ class Target(
     private var effect: Effect = DEFAULT_EFFECT
     private var overlay: View? = null
     private var listener: OnTargetListener? = null
+    private var isClickable: Boolean = DEFAULT_IS_CLICKABLE
 
     /**
      * Sets a pointer to start a [Target].
@@ -83,12 +94,20 @@ class Target(
       this.listener = listener
     }
 
+    /**
+     * Sets [isClickable] to enable or disable the click through [Target].
+     */
+    fun isClickable(isClickable: Boolean): Builder = apply {
+      this.isClickable = isClickable
+    }
+
     fun build() = Target(
         anchor = anchor,
         shape = shape,
         effect = effect,
         overlay = overlay,
-        listener = listener
+        listener = listener,
+        isClickable = isClickable
     )
 
     companion object {
@@ -98,6 +117,8 @@ class Target(
       private val DEFAULT_SHAPE = Circle(100f)
 
       private val DEFAULT_EFFECT = EmptyEffect()
+
+      private const val DEFAULT_IS_CLICKABLE = true
     }
   }
 }

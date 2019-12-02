@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
           .setAnchor(findViewById<View>(R.id.two))
           .setShape(Circle(150f))
           .setOverlay(second)
+          .isClickable(false)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
@@ -131,6 +132,24 @@ class MainActivity : AppCompatActivity() {
       first.findViewById<View>(R.id.close_spotlight).setOnClickListener(closeSpotlight)
       second.findViewById<View>(R.id.close_spotlight).setOnClickListener(closeSpotlight)
       third.findViewById<View>(R.id.close_spotlight).setOnClickListener(closeSpotlight)
+    }
+
+    findViewById<View>(R.id.one).setOnClickListener {
+      currentToast?.cancel()
+      currentToast = makeText(this@MainActivity, "number one click", LENGTH_SHORT)
+      currentToast?.show()
+    }
+
+    findViewById<View>(R.id.two).setOnClickListener {
+      currentToast?.cancel()
+      currentToast = makeText(this@MainActivity, "number two click", LENGTH_SHORT)
+      currentToast?.show()
+    }
+
+    findViewById<View>(R.id.three).setOnClickListener {
+      currentToast?.cancel()
+      currentToast = makeText(this@MainActivity, "number three click", LENGTH_SHORT)
+      currentToast?.show()
     }
   }
 }

@@ -48,6 +48,9 @@ internal class SpotlightView @JvmOverloads constructor(
   init {
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
+    setOnTouchListener { _, event ->
+      !(target != null && target!!.isClickable && target!!.contains(event.x, event.y))
+    }
   }
 
   override fun onDraw(canvas: Canvas) {

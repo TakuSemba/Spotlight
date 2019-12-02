@@ -30,6 +30,16 @@ class RoundedRectangle(
     canvas.drawRoundRect(rect, radius, radius, paint)
   }
 
+  override fun contains(point: PointF, x: Float, y: Float): Boolean {
+    val halfWidth = width / 2
+    val halfHeight = height / 2
+    val left = point.x - halfWidth
+    val top = point.y - halfHeight
+    val right = point.x + halfWidth
+    val bottom = point.y + halfHeight
+    return x > left && x < right && y > top && y < bottom
+  }
+
   companion object {
 
     val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
