@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * [Shape] of RoundedRectangle with customizable height, width, and radius.
  */
-class RoundedRectangle(
+class RoundedRectangle @JvmOverloads constructor(
     private val height: Float,
     private val width: Float,
     private val radius: Float,

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * [Effect] that does not do anything.
  */
-class EmptyEffect(
+class EmptyEffect @JvmOverloads constructor(
     override val duration: Long = DEFAULT_DURATION,
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR,
     override val repeatMode: Int = DEFAULT_REPEAT_MODE

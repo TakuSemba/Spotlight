@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Draws an flicker effects.
  */
-class FlickerEffect(
+class FlickerEffect @JvmOverloads constructor(
     private val radius: Float,
     @ColorInt private val color: Int,
     override val duration: Long = DEFAULT_DURATION,

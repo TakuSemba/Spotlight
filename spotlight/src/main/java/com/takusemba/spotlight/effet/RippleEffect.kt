@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Draws an ripple effects.
  */
-class RippleEffect(
+class RippleEffect @JvmOverloads constructor(
     private val offset: Float,
     private val radius: Float,
     @ColorInt private val color: Int,
