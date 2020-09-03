@@ -108,12 +108,14 @@ class MainActivity : AppCompatActivity() {
               currentToast?.cancel()
               currentToast = makeText(this@MainActivity, "spotlight is started", LENGTH_SHORT)
               currentToast?.show()
+              startButton.isEnabled = false
             }
 
             override fun onEnded() {
               currentToast?.cancel()
               currentToast = makeText(this@MainActivity, "spotlight is ended", LENGTH_SHORT)
               currentToast?.show()
+              startButton.isEnabled = true
             }
           })
           .build()
