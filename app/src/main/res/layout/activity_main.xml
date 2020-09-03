@@ -68,4 +68,18 @@
     app:layout_constraintStart_toStartOf="parent"
     />
 
+  <!--
+   You can use this view to try a custom container.
+   Spotlight.Builder(this).setContainer(findViewById(R.id.container))
+  -->
+  <FrameLayout
+    android:id="@+id/container"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
