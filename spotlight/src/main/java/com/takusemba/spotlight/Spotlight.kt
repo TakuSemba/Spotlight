@@ -155,6 +155,7 @@ class Spotlight private constructor(
      * Sets [Target]s to show on [Spotlight].
      */
     fun setTargets(vararg targets: Target): Builder = apply {
+      require(targets.isNotEmpty()) { "targets should not be empty. " }
       this.targets = arrayOf(*targets)
     }
 
@@ -162,6 +163,7 @@ class Spotlight private constructor(
      * Sets [Target]s to show on [Spotlight].
      */
     fun setTargets(targets: List<Target>): Builder = apply {
+      require(targets.isNotEmpty()) { "targets should not be empty. " }
       this.targets = targets.toTypedArray()
     }
 
