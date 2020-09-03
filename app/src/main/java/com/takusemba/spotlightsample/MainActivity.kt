@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    findViewById<View>(R.id.start).setOnClickListener {
+    findViewById<View>(R.id.start).setOnClickListener { startButton ->
       val targets = ArrayList<Target>()
 
       // first target
