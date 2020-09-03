@@ -10,6 +10,7 @@ import android.animation.ValueAnimator.ofFloat
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
@@ -112,7 +113,13 @@ internal class SpotlightView @JvmOverloads constructor(
   fun startTarget(target: Target, listener: Animator.AnimatorListener) {
     removeAllViews()
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
-    this.target = target
+    this.target = target.apply {
+      // adjust anchor in case where custom container is set.
+      val location = IntArray(2)
+      getLocationInWindow(location)
+      val offset = PointF(location[0].toFloat(), location[1].toFloat())
+      anchor.offset(-offset.x, -offset.y)
+    }
     this.shapeAnimator = ofFloat(0f, 1f).apply {
       duration = target.shape.duration
       interpolator = target.shape.interpolator
