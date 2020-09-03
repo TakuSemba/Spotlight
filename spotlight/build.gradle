@@ -6,8 +6,6 @@ android {
   defaultConfig {
     minSdkVersion configs.minSdkVersion
     targetSdkVersion configs.targetSdkVersion
-    versionCode configs.libraryVersionCode
-    versionName configs.libraryVersionName
   }
 }
 

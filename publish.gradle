@@ -1,7 +1,7 @@
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-version configs.libraryVersionName
+version configs.version
 group configs.groupId
 
 task sourcesJar(type: Jar) {
@@ -32,7 +32,7 @@ project.afterEvaluate {
         artifact "$buildDir/outputs/aar/spotlight-release.aar"
         groupId configs.groupId
         artifactId configs.artifactId
-        version configs.libraryVersionName
+        version configs.version
 
         pom.withXml {
           def dependenciesNode = asNode().appendNode('dependencies')
@@ -67,7 +67,7 @@ bintray {
     publicDownloadNumbers = true
     licenses = ['Apache-2.0']
     version {
-      name = configs.libraryVersionName
+      name = configs.version
       released = new Date()
     }
   }
