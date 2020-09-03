@@ -74,7 +74,7 @@ val target = Target.Builder()
 <br/>
 <br/>
 
-## Start/Finish Spotlight.
+## Start/Finish Spotlight
 
 ```kt
 val spotlight = Spotlight.Builder(this)...start()
@@ -82,7 +82,7 @@ val spotlight = Spotlight.Builder(this)...start()
 spotlight.finish()
 ```
 
-## Next/Previous/Show Target.
+## Next/Previous/Show Target
 
 ```kt
 val spotlight = Spotlight.Builder(this)...start()
@@ -95,7 +95,8 @@ spotlight.show(2)
 ```
 
 ## Custom Shape
-Custom shape is available implementing Shape interface
+`Shape` defines how your target will look like.
+[Circle](https://github.com/TakuSemba/Spotlight/blob/master/spotlight/src/main/java/com/takusemba/spotlight/shape/Circle.kt) and [RoundedRectangle](https://github.com/TakuSemba/Spotlight/blob/master/spotlight/src/main/java/com/takusemba/spotlight/shape/RoundedRectangle.kt) shapes are already implemented, but if you want your custom shape, it's arhivable by implementing `Shape` interface.
 
 
 ```kt
@@ -111,7 +112,8 @@ class CustomShape(
 ```
 
 ## Custom Effect
-Custom effect is available implementing Effect interface
+`Effect` allows you to decorates your target.
+[RippleEffect](https://github.com/TakuSemba/Spotlight/blob/master/spotlight/src/main/java/com/takusemba/spotlight/effet/RippleEffect.kt) and [FlickerEffect](https://github.com/TakuSemba/Spotlight/blob/master/spotlight/src/main/java/com/takusemba/spotlight/effet/FlickerEffect.kt) shapes are already implemented, but if you want your custom effect, it's arhivable by implementing `Effect` interface.
 
 
 ```kt
