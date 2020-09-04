@@ -58,7 +58,7 @@ internal class SpotlightView @JvmOverloads constructor(
     val currentTarget = target
     val currentShapeAnimator = shapeAnimator
     val currentEffectAnimator = effectAnimator
-    if (currentTarget != null && currentEffectAnimator != null) {
+    if (currentTarget != null && currentEffectAnimator != null && currentShapeAnimator != null && !currentShapeAnimator.isRunning) {
       currentTarget.effect.draw(
           canvas = canvas,
           point = currentTarget.anchor,
@@ -145,6 +145,7 @@ internal class SpotlightView @JvmOverloads constructor(
     this.effectAnimator?.removeAllUpdateListeners()
     this.effectAnimator?.cancel()
     this.effectAnimator = ofFloat(0f, 1f).apply {
+      startDelay = target.shape.duration
       duration = target.effect.duration
       interpolator = target.effect.interpolator
       repeatMode = target.effect.repeatMode
