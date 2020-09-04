@@ -8,6 +8,8 @@ Version 2.0.3 **(1020-xx-xx)**
  - Throw an Exception when you add an empty target to Spotlight. ([#84](https://github.com/TakuSemba/Spotlight/issues/84))
  - Fix anchor is a bit off when using custom container.
  - Fix issue where SpotlightView is leaked via an animation listener. ([#93](https://github.com/TakuSemba/Spotlight/issues/93))
+ - Fix behavior of RippleEffect.
+ - Start Effect after Target is drawn.
 
 Version 2.0.1 **(1019-11-11)**
 ----------------------------
