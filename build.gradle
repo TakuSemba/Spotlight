@@ -1,6 +1,6 @@
 buildscript {
   ext.configs = [
-      version: "2.0.1",
+      version: "2.0.2",
       groupId: "com.github.takusemba",
       artifactId: "spotlight",
 
