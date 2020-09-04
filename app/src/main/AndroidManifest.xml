@@ -20,8 +20,14 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".ActivitySampleActivity" />
-    <activity android:name=".FragmentSampleActivity" />
+    <activity
+      android:name=".ActivitySampleActivity"
+      android:theme="@style/AppTheme.Demo"
+      />
+    <activity
+      android:name=".FragmentSampleActivity"
+      android:theme="@style/AppTheme.Demo"
+      />
   </application>
 
 </manifest>
