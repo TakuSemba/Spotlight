@@ -1,7 +1,7 @@
 Release notes
 ==========
 
-Version 2.0.3 **(1020-xx-xx)**
+Version 2.0.2 **(1020-xx-xx)**
 ----------------------------
  - Update dependencies.
  - Provide overloaded constructors for `Shape` and `Effect` implementations. ([#87](https://github.com/TakuSemba/Spotlight/issues/87))
