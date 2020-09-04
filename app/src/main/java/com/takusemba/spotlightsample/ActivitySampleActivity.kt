@@ -14,13 +14,12 @@ import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.Target
 import com.takusemba.spotlight.shape.Circle
 
-class MainActivity : AppCompatActivity() {
+class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_sample) {
 
   private var currentToast: Toast? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
 
     findViewById<View>(R.id.start).setOnClickListener { startButton ->
       val targets = ArrayList<Target>()
@@ -35,13 +34,21 @@ class MainActivity : AppCompatActivity() {
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "first target is started", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "first target is started",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
 
             override fun onEnded() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "first target is ended", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "first target is ended",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
           })
@@ -59,13 +66,21 @@ class MainActivity : AppCompatActivity() {
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "second target is started", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "second target is started",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
 
             override fun onEnded() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "second target is ended", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "second target is ended",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
           })
@@ -83,13 +98,21 @@ class MainActivity : AppCompatActivity() {
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "third target is started", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "third target is started",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
 
             override fun onEnded() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "third target is ended", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "third target is ended",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
             }
           })
@@ -98,7 +121,7 @@ class MainActivity : AppCompatActivity() {
       targets.add(thirdTarget)
 
       // create spotlight
-      val spotlight = Spotlight.Builder(this@MainActivity)
+      val spotlight = Spotlight.Builder(this@ActivitySampleActivity)
           .setTargets(targets)
           .setBackgroundColor(R.color.spotlightBackground)
           .setDuration(1000L)
@@ -106,14 +129,22 @@ class MainActivity : AppCompatActivity() {
           .setOnSpotlightListener(object : OnSpotlightListener {
             override fun onStarted() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "spotlight is started", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "spotlight is started",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
               startButton.isEnabled = false
             }
 
             override fun onEnded() {
               currentToast?.cancel()
-              currentToast = makeText(this@MainActivity, "spotlight is ended", LENGTH_SHORT)
+              currentToast = makeText(
+                  this@ActivitySampleActivity,
+                  "spotlight is ended",
+                  LENGTH_SHORT
+              )
               currentToast?.show()
               startButton.isEnabled = true
             }
