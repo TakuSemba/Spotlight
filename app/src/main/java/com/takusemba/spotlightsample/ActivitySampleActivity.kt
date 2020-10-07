@@ -22,25 +22,24 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
     super.onCreate(savedInstanceState)
 
     findViewById<View>(R.id.start).setOnClickListener { startButton ->
-      val targets = ArrayList<Target>()
-
-      // first target
-      val firstRoot = FrameLayout(this)
-      val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
-      val firstTarget = Target.Builder()
-          .setAnchor(findViewById<View>(R.id.one))
-          .setShape(Circle(100f))
-          .setOverlay(first)
-          .setOnTargetListener(object : OnTargetListener {
-            override fun onStarted() {
-              currentToast?.cancel()
-              currentToast = makeText(
-                  this@ActivitySampleActivity,
-                  "first target is started",
-                  LENGTH_SHORT
-              )
-              currentToast?.show()
-            }
+              val targets = ArrayList<Target>()
+              // first target
+              val firstRoot = FrameLayout(this)
+              val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
+              val firstTarget = Target.Builder()
+                  .setAnchor(findViewById<View>(R.id.one))
+                  .setShape(Circle(100f))
+                  .setOverlay(first)
+                  .setOnTargetListener(object : OnTargetListener {
+                    override fun onStarted() {
+                      currentToast?.cancel()
+                      currentToast = makeText(
+                          this@ActivitySampleActivity,
+                          "first target is started",
+                          LENGTH_SHORT
+                      )
+                      currentToast?.show()
+                    }
 
             override fun onEnded() {
               currentToast?.cancel()
