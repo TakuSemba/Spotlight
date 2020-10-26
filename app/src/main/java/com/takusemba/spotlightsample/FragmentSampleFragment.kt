@@ -120,7 +120,7 @@ class FragmentSampleFragment : Fragment(R.layout.fragment_fragment_sample) {
       // create spotlight
       val spotlight = Spotlight.Builder(requireActivity())
           .setTargets(targets)
-          .setBackgroundColor(R.color.spotlightBackground)
+          .setBackgroundColorRes(R.color.spotlightBackground)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
           .setOnSpotlightListener(object : OnSpotlightListener {
