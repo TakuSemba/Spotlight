@@ -233,7 +233,7 @@ class Spotlight private constructor(
 
       private val DEFAULT_ANIMATION = DecelerateInterpolator(2f)
 
-      @ColorInt private val DEFAULT_OVERLAY_COLOR: Int = 0xE6000000.toInt()
+      @ColorInt private val DEFAULT_OVERLAY_COLOR: Int = 0x6000000
     }
   }
 }
