@@ -1,7 +1,11 @@
 Release notes
 ==========
 
-Version 2.0.2 **(1020-xx-xx)**
+Version 2.0.3 **(1020-10-26)**
+----------------------------
+ - Accept ColorInt as background color. ([#108](https://github.com/TakuSemba/Spotlight/pull/108))
+
+Version 2.0.2 **(1020-9-4)**
 ----------------------------
  - Update dependencies.
  - Provide overloaded constructors for `Shape` and `Effect` implementations. ([#87](https://github.com/TakuSemba/Spotlight/issues/87))
