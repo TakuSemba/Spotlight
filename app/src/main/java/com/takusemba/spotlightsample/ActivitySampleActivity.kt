@@ -13,6 +13,7 @@ import com.takusemba.spotlight.OnTargetListener
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.Target
 import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.DynamicShape
 
 class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_sample) {
 
@@ -27,9 +28,10 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
       // first target
       val firstRoot = FrameLayout(this)
       val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
+      val view = findViewById<View>(R.id.one)
       val firstTarget = Target.Builder()
-          .setAnchor(findViewById<View>(R.id.one))
-          .setShape(Circle(100f))
+          .setAnchor(view)
+          .setShape(DynamicShape(view))
           .setOverlay(first)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {

@@ -5,6 +5,8 @@ import android.view.View
 import com.takusemba.spotlight.effet.Effect
 import com.takusemba.spotlight.effet.EmptyEffect
 import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.DynamicShape
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.shape.Shape
 
 /**
@@ -59,7 +61,18 @@ class Target(
      * Sets [shape] of the spot of [Target].
      */
     fun setShape(shape: Shape): Builder = apply {
-      this.shape = shape
+      if (shape is DynamicShape) {
+        shape.view.let {
+          val rect = RoundedRectangle(
+              height = it.measuredHeight.toFloat() + shape.padding.top,
+              width = it.measuredWidth.toFloat() + shape.padding.left,
+              radius = shape.padding.radius.toFloat()
+          )
+          this.shape = rect
+        }
+      } else {
+        this.shape = shape
+      }
     }
 
     /**
