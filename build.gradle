@@ -1,5 +1,6 @@
 buildscript {
   ext.configs = [
+      version: "2.0.4",
       groupId: "com.github.takusemba",
       artifactId: "spotlight",
       description: "Android Library that lights items for tutorials or walk-throughs etc...",
@@ -10,8 +11,6 @@ buildscript {
       developerEmail: "takusemba.ele@gmail.com",
       licenseName: "The Apache Software License, Version 2.0",
       licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
-
-      version: "2.0.4",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,

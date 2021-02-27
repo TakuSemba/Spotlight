@@ -21,7 +21,7 @@ if (secretPropsFile.exists()) {
 }
 
 // https://gist.github.com/wasabeef/2f2ae8d97b429e7d967128125dc47854
-version configs.libraryVersionName
+version configs.version
 group configs.groupId
 
 task sourcesJar(type: Jar) {
