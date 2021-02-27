@@ -1,19 +1,27 @@
 buildscript {
   ext.configs = [
-      version: "2.0.2",
       groupId: "com.github.takusemba",
       artifactId: "spotlight",
+      description: "Android Library that lights items for tutorials or walk-throughs etc...",
+      siteUrl: "https://github.com/TakuSemba/Spotlight",
+      gitUrl: "https://github.com/TakuSemba/Spotlight.git",
+      developerId: "takusemba",
+      developerName: "TakuSemba",
+      developerEmail: "takusemba.ele@gmail.com",
+      licenseName: "The Apache Software License, Version 2.0",
+      licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
+
+      version: "2.0.2",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,
       targetSdkVersion: 30,
   ]
   ext.versions = [
-      kotlin: '1.4.0',
+      kotlin: '1.4.31',
   ]
   ext.deps = [
-      androidPlugin: "com.android.tools.build:gradle:4.0.1",
-      bintrayPlugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4",
+      androidPlugin: "com.android.tools.build:gradle:4.1.2",
       kotlin: [
           plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
           stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
@@ -30,7 +38,6 @@ buildscript {
   }
   dependencies {
     classpath deps.androidPlugin
-    classpath deps.bintrayPlugin
     classpath deps.kotlin.plugin
   }
 }
