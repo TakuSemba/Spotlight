@@ -123,7 +123,7 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
       // create spotlight
       val spotlight = Spotlight.Builder(this@ActivitySampleActivity)
           .setTargets(targets)
-          .setBackgroundColor(R.color.spotlightBackground)
+          .setBackgroundColorRes(R.color.spotlightBackground)
           .setDuration(1000L)
           .setAnimation(DecelerateInterpolator(2f))
           .setOnSpotlightListener(object : OnSpotlightListener {

@@ -11,7 +11,7 @@ buildscript {
       licenseName: "The Apache Software License, Version 2.0",
       licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
 
-      version: "2.0.2",
+      version: "2.0.4",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,

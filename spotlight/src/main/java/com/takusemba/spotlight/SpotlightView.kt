@@ -18,8 +18,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
+import androidx.annotation.ColorInt
 
 /**
  * [SpotlightView] starts/finishes [Spotlight], and starts/finishes a current [Target].
@@ -28,11 +27,11 @@ internal class SpotlightView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    @ColorRes backgroundColor: Int = R.color.background
+    @ColorInt backgroundColor: Int,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
   private val backgroundPaint by lazy {
-    Paint().apply { color = ContextCompat.getColor(context, backgroundColor) }
+    Paint().apply { color = backgroundColor }
   }
 
   private val shapePaint by lazy {

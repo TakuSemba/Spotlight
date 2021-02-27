@@ -1,11 +1,15 @@
 Release notes
 ==========
 
-Version 2.0.3 **(1021-2-27)**
+Version 2.0.4 **(1021-2-27)**
 ----------------------------
  - Update Kotlin to 1.4.31.
 
-Version 2.0.2 **(1020-10-26)**
+Version 2.0.3 **(1020-10-26)**
+----------------------------
+ - Accept ColorInt as background color. ([#108](https://github.com/TakuSemba/Spotlight/pull/108))
+
+Version 2.0.2 **(1020-9-4)**
 ----------------------------
  - Update dependencies.
  - Provide overloaded constructors for `Shape` and `Effect` implementations. ([#87](https://github.com/TakuSemba/Spotlight/issues/87))
