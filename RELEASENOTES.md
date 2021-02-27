@@ -1,7 +1,11 @@
 Release notes
 ==========
 
-Version 2.0.2 **(1020-xx-xx)**
+Version 2.0.3 **(1021-2-27)**
+----------------------------
+ - Update Kotlin to 1.4.31.
+
+Version 2.0.2 **(1020-10-26)**
 ----------------------------
  - Update dependencies.
  - Provide overloaded constructors for `Shape` and `Effect` implementations. ([#87](https://github.com/TakuSemba/Spotlight/issues/87))
