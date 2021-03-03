@@ -15,12 +15,14 @@ if (secretPropsFile.exists()) {
   ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
   ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
   ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
-  ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')
-  ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD')
-  ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID')
+  ext["sonatypeUsername"] = System.getenv('SONATYPE_USERNAME')
+  ext["sonatypePassword"] = System.getenv('SONATYPE_PASSWORD')
 }
 
 // https://gist.github.com/wasabeef/2f2ae8d97b429e7d967128125dc47854
+def sonatypeUsername = rootProject.hasProperty('sonatypeUsername')? rootProject.sonatypeUsername : ''
+def sonatypePassword = rootProject.hasProperty('sonatypePassword')? rootProject.sonatypePassword : ''
+
 version configs.version
 group configs.groupId
 
