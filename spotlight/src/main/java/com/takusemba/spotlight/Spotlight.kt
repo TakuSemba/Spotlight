@@ -95,11 +95,8 @@ class Spotlight private constructor(
     if (currentIndex == NO_POSITION) {
       val target = targets[index]
       currentIndex = index
-      spotlight.startTarget(target, object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator) {
-          target.listener?.onStarted()
-        }
-      })
+      spotlight.startTarget(target)
+      target.listener?.onStarted()
     } else {
       spotlight.finishTarget(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
@@ -109,11 +106,8 @@ class Spotlight private constructor(
           if (index < targets.size) {
             val target = targets[index]
             currentIndex = index
-            spotlight.startTarget(target, object : AnimatorListenerAdapter() {
-              override fun onAnimationStart(animation: Animator) {
-                target.listener?.onStarted()
-              }
-            })
+            spotlight.startTarget(target)
+            target.listener?.onStarted()
           } else {
             finishSpotlight()
           }

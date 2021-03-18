@@ -110,7 +110,7 @@ internal class SpotlightView @JvmOverloads constructor(
   /**
    * Starts the provided [Target].
    */
-  fun startTarget(target: Target, listener: Animator.AnimatorListener) {
+  fun startTarget(target: Target) {
     removeAllViews()
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
     this.target = target.apply {
@@ -127,7 +127,6 @@ internal class SpotlightView @JvmOverloads constructor(
       duration = target.shape.duration
       interpolator = target.shape.interpolator
       addUpdateListener(invalidator)
-      addListener(listener)
       addListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           removeAllListeners()
@@ -150,7 +149,6 @@ internal class SpotlightView @JvmOverloads constructor(
       repeatMode = target.effect.repeatMode
       repeatCount = INFINITE
       addUpdateListener(invalidator)
-      addListener(listener)
       addListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           removeAllListeners()
