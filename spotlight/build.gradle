@@ -2,16 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion configs.compileSdkVersion
+  compileSdkVersion 30
   defaultConfig {
-    minSdkVersion configs.minSdkVersion
-    targetSdkVersion configs.targetSdkVersion
+    minSdkVersion 14
+    targetSdkVersion 30
   }
 }
 
 dependencies {
-  implementation deps.kotlin.stdlib
-  implementation deps.androidx.appcompat
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.31"
+  implementation "androidx.appcompat:appcompat:1.2.0"
 }
-
-apply from: "../publish.gradle"
