@@ -22,6 +22,13 @@ interface Shape {
    */
   val interpolator: TimeInterpolator
 
+  val type:ShapeType
+
+  enum class ShapeType {
+    CIRCLE,
+    ROUNDED_RECTANGLE
+  }
+
   /**
    * Draws the Shape.
    *

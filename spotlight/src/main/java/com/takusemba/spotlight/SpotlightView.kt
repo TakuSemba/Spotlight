@@ -15,10 +15,14 @@ import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
+import com.takusemba.spotlight.shape.Shape
 
 /**
  * [SpotlightView] starts/finishes [Spotlight], and starts/finishes a current [Target].
@@ -27,7 +31,7 @@ internal class SpotlightView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    @ColorInt backgroundColor: Int,
+    @ColorInt backgroundColor: Int
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
   private val backgroundPaint by lazy {
@@ -49,6 +53,53 @@ internal class SpotlightView @JvmOverloads constructor(
   init {
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
+  }
+
+  override fun onTouchEvent(event: MotionEvent?): Boolean {
+    event?.action?.let {
+      val x = event.x.toInt()
+      val y = event.y.toInt()
+
+      if (it == MotionEvent.ACTION_DOWN) {
+        if (target?.shape?.type == Shape.ShapeType.CIRCLE) {
+          val shape = target?.shape as Circle
+          val radius = shape.radius
+          val xAnchor = target?.anchor?.x
+          val yAnchor = target?.anchor?.y
+
+          if (xAnchor != null && yAnchor != null) {
+            val leftX = (xAnchor - radius / 2)
+            val rightX = xAnchor + radius / 2
+
+            val topY = yAnchor - radius / 2
+            val bottomY = yAnchor + radius / 2
+
+            if (x.toFloat() in leftX..rightX &&
+                y.toFloat() in topY..bottomY) {
+              return false
+            }
+          }
+        }
+
+        if (target?.shape?.type == Shape.ShapeType.ROUNDED_RECTANGLE) {
+          val value = shapeAnimator?.animatedValue as Float
+          target?.anchor?.let {
+            val shape = target?.shape as RoundedRectangle
+            val halfWidth = shape.width / 2 * value
+            val halfHeight = shape.height / 2 * value
+            val left = it.x - halfWidth
+            val top = it.y - halfHeight
+            val right = it.x + halfWidth
+            val bottom = it.y + halfHeight
+
+            if (x.toFloat() in left..right && y.toFloat() in top..bottom) {
+              return false
+            }
+          }
+        }
+      }
+    }
+    return true
   }
 
   override fun onDraw(canvas: Canvas) {
