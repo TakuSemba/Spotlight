@@ -1,11 +1,6 @@
+
 buildscript {
   ext.configs = [
-      version: "2.0.5",
-      groupId: "com.github.takusemba",
-      artifactId: "spotlight",
-      description: "Android Library that lights items for tutorials or walk-throughs etc...",
-      siteUrl: "https://github.com/TakuSemba/Spotlight",
-      gitUrl: "https://github.com/TakuSemba/Spotlight.git",
       developerId: "takusemba",
       developerName: "TakuSemba",
       developerEmail: "takusemba.ele@gmail.com",
@@ -38,6 +33,7 @@ buildscript {
   dependencies {
     classpath deps.androidPlugin
     classpath deps.kotlin.plugin
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
   }
 }
 

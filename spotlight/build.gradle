@@ -12,4 +12,7 @@ android {
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.31"
   implementation "androidx.appcompat:appcompat:1.2.0"
+
+  apply plugin: 'com.github.dcendents.android-maven'
+  group='com.github.quipper'
 }
