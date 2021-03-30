@@ -42,6 +42,10 @@ class RoundedRectangle @JvmOverloads constructor(
     return rect.contains(point.x, point.y)
   }
 
+  override fun getMeasurements(): ShapeDimensions {
+    return ShapeDimensions(rect.height() / 2, rect.width() / 2)
+  }
+
   companion object {
 
     val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)

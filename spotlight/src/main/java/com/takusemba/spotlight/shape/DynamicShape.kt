@@ -20,6 +20,10 @@ class DynamicShape(val view: View, val padding: Padding = Padding()) : Shape {
     TODO("Not yet implemented")
   }
 
+  override fun getMeasurements(): ShapeDimensions {
+    TODO("Not yet implemented")
+  }
+
   class Padding(
       val left: Int = DEFAULT_PADDING, val top: Int = DEFAULT_PADDING,
       val right: Int = DEFAULT_PADDING, val bottom: Int = DEFAULT_PADDING,

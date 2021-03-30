@@ -29,6 +29,10 @@ class Circle @JvmOverloads constructor(
     return hypot(fl, fl1) <= radius
   }
 
+  override fun getMeasurements(): ShapeDimensions {
+    return ShapeDimensions(radius, radius)
+  }
+
   companion object {
 
     val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)

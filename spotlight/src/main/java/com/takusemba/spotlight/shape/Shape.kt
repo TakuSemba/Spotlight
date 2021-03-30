@@ -33,4 +33,9 @@ interface Shape {
    * Checks if a point is inside a shape.
    */
   fun contains(point: PointF, value: Float = 0f): Boolean
+
+  /**
+   * Returns [Shape]'s dimensions to help place captions.
+   */
+  fun getMeasurements(): ShapeDimensions
 }

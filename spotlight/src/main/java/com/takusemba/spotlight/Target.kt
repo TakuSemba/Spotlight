@@ -4,6 +4,7 @@ import android.graphics.PointF
 import android.view.View
 import com.takusemba.spotlight.effet.Effect
 import com.takusemba.spotlight.effet.EmptyEffect
+import com.takusemba.spotlight.shape.Caption
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.DynamicShape
 import com.takusemba.spotlight.shape.RoundedRectangle
@@ -17,6 +18,7 @@ class Target(
     val shape: Shape,
     val effect: Effect,
     val overlay: View?,
+    val captions: List<Caption>?,
     val listener: OnTargetListener?,
     val clickable: Boolean
 ) {
@@ -31,6 +33,7 @@ class Target(
     private var shape: Shape = DEFAULT_SHAPE
     private var effect: Effect = DEFAULT_EFFECT
     private var overlay: View? = null
+    private var captions: List<Caption>? = null
     private var listener: OnTargetListener? = null
     private var clickable: Boolean = true
 
@@ -92,6 +95,13 @@ class Target(
     }
 
     /**
+     * Sets [captions] for the [Target].
+     */
+    fun setCaptions(captions: List<Caption>): Builder = apply {
+      this.captions = captions
+    }
+
+    /**
      * Sets [OnTargetListener] to notify the state of [Target].
      */
     fun setOnTargetListener(listener: OnTargetListener): Builder = apply {
@@ -110,6 +120,7 @@ class Target(
         shape = shape,
         effect = effect,
         overlay = overlay,
+        captions = captions,
         listener = listener,
         clickable = clickable
     )
