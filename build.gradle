@@ -28,6 +28,7 @@ buildscript {
       androidx: [
           appcompat: "androidx.appcompat:appcompat:1.2.0",
           constraintLayout: "androidx.constraintlayout:constraintlayout:2.0.1",
+          cardview: "androidx.cardview:cardview:1.0.0",
       ],
       leakcanary: 'com.squareup.leakcanary:leakcanary-android:2.4'
   ]

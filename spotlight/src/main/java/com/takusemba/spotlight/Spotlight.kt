@@ -22,16 +22,20 @@ import java.util.concurrent.TimeUnit
  */
 class Spotlight private constructor(
     private val spotlight: SpotlightView,
-    private val targets: Array<Target>,
+    private var targets: Array<Target>,
     private val duration: Long,
     private val interpolator: TimeInterpolator,
     private val container: ViewGroup,
     private val spotlightListener: OnSpotlightListener?
 ) {
 
+  private var state: SpotlightState = SpotlightState.STOPPED
+
   private var currentIndex = NO_POSITION
 
-  init {
+  private var currentTarget: Target? = null
+
+  private fun initSpotlightOverlay() {
     container.addView(spotlight, MATCH_PARENT, MATCH_PARENT)
   }
 
@@ -39,6 +43,7 @@ class Spotlight private constructor(
    * Starts [SpotlightView] and show the first [Target].
    */
   fun start() {
+    initSpotlightOverlay()
     startSpotlight()
   }
 
@@ -74,18 +79,38 @@ class Spotlight private constructor(
   }
 
   /**
+   * Adds new targets to an existing [Spotlight].
+   */
+  fun addTarget(target: Target) {
+    targets = targets.plus(target)
+  }
+
+  /**
+   * Sets [Target]s to show on [Spotlight].
+   */
+  fun setTargets(targets: List<Target>) {
+    require(targets.isNotEmpty()) { "targets should not be empty. " }
+    this.targets = targets.toTypedArray()
+    if (isRunning()) show(0)
+  }
+
+  /**
    * Starts Spotlight.
    */
   private fun startSpotlight() {
-    spotlight.startSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
-      override fun onAnimationStart(animation: Animator) {
-        spotlightListener?.onStarted()
-      }
+    spotlight.apply {
+      state = SpotlightState.RUNNING
 
-      override fun onAnimationEnd(animation: Animator) {
-        showTarget(0)
-      }
-    })
+      startSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
+        override fun onAnimationStart(animation: Animator) {
+          spotlightListener?.onStarted()
+        }
+
+        override fun onAnimationEnd(animation: Animator) {
+          showTarget(0)
+        }
+      })
+    }
   }
 
   /**
@@ -93,16 +118,18 @@ class Spotlight private constructor(
    */
   private fun showTarget(index: Int) {
     if (currentIndex == NO_POSITION) {
-      val target = targets[index]
+      require(targets.isNotEmpty()) { "targets should not be empty. " }
       currentIndex = index
-      spotlight.startTarget(target)
-      target.listener?.onStarted()
+      currentTarget = targets[currentIndex]
+          .also {
+            spotlight.startTarget(it)
+            it.listener?.onStarted()
+          }
     } else {
       spotlight.finishTarget(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-          val previousIndex = currentIndex
-          val previousTarget = targets[previousIndex]
-          previousTarget.listener?.onEnded()
+          val previousTarget = currentTarget
+          previousTarget?.listener?.onEnded()
           if (index < targets.size) {
             val target = targets[index]
             currentIndex = index
@@ -120,14 +147,26 @@ class Spotlight private constructor(
    * Closes Spotlight.
    */
   private fun finishSpotlight() {
-    spotlight.finishSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
-      override fun onAnimationEnd(animation: Animator) {
-        spotlight.cleanup()
-        container.removeView(spotlight)
-        spotlightListener?.onEnded()
-      }
-    })
+    spotlight.apply {
+      state = SpotlightState.STOPPED
+      targets = emptyArray()
+      currentTarget = null
+      currentIndex = NO_POSITION
+
+      finishSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+          spotlight.cleanup()
+          container.removeView(spotlight)
+          spotlightListener?.onEnded()
+        }
+      })
+    }
   }
+
+  /**
+   * Convenience method for [Spotlight] state checks.
+   */
+  fun isRunning() = state == SpotlightState.RUNNING
 
   companion object {
 
@@ -146,6 +185,7 @@ class Spotlight private constructor(
     @ColorInt private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var container: ViewGroup? = null
     private var listener: OnSpotlightListener? = null
+    private var spotlightCoordinator: SpotlightCoordinator? = null
 
     /**
      * Sets [Target]s to show on [Spotlight].
@@ -205,20 +245,27 @@ class Spotlight private constructor(
       this.listener = listener
     }
 
+    /**
+     * Sets [SpotlightCoordinator] to keep reference to a [Spotlight].
+     */
+    fun setSpotlightCoordinator(spotlightCoordinator: SpotlightCoordinator): Builder = apply {
+      this.spotlightCoordinator = spotlightCoordinator
+    }
+
     fun build(): Spotlight {
 
       val spotlight = SpotlightView(activity, null, 0, backgroundColor)
-      val targets = requireNotNull(targets) { "targets should not be null. " }
       val container = container ?: activity.window.decorView as ViewGroup
 
       return Spotlight(
           spotlight = spotlight,
-          targets = targets,
+          targets = targets ?: emptyArray(),
           duration = duration,
           interpolator = interpolator,
           container = container,
           spotlightListener = listener
       )
+          .also { spotlightCoordinator?.spotlight = it }
     }
 
     companion object {
