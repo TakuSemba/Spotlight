@@ -17,7 +17,8 @@ class Target(
     val shape: Shape,
     val effect: Effect,
     val overlay: View?,
-    val listener: OnTargetListener?
+    val listener: OnTargetListener?,
+    val clickable: Boolean
 ) {
 
   /**
@@ -31,6 +32,7 @@ class Target(
     private var effect: Effect = DEFAULT_EFFECT
     private var overlay: View? = null
     private var listener: OnTargetListener? = null
+    private var clickable: Boolean = true
 
     /**
      * Sets a pointer to start a [Target].
@@ -96,12 +98,20 @@ class Target(
       this.listener = listener
     }
 
+    /**
+     * Defines if the [Target] is clickable.
+     */
+    fun setClickable(clickable: Boolean): Builder = apply {
+      this.clickable = clickable
+    }
+
     fun build() = Target(
         anchor = anchor,
         shape = shape,
         effect = effect,
         overlay = overlay,
-        listener = listener
+        listener = listener,
+        clickable = clickable
     )
 
     companion object {

@@ -28,4 +28,9 @@ interface Shape {
    * @param value the animated value from 0 to 1.
    */
   fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint)
+
+  /**
+   * Checks if a point is inside a shape.
+   */
+  fun contains(point: PointF, value: Float = 0f): Boolean
 }

@@ -19,15 +19,27 @@ class RoundedRectangle @JvmOverloads constructor(
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
 ) : Shape {
 
+  private lateinit var rect: RectF
+
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
+    rect = constructRectF(value, point)
+    canvas.drawRoundRect(rect, radius, radius, paint)
+  }
+
+  private fun constructRectF(
+      value: Float, point: PointF
+  ): RectF {
     val halfWidth = width / 2 * value
     val halfHeight = height / 2 * value
     val left = point.x - halfWidth
     val top = point.y - halfHeight
     val right = point.x + halfWidth
     val bottom = point.y + halfHeight
-    val rect = RectF(left, top, right, bottom)
-    canvas.drawRoundRect(rect, radius, radius, paint)
+    return RectF(left, top, right, bottom)
+  }
+
+  override fun contains(point: PointF, value: Float): Boolean {
+    return rect.contains(point.x, point.y)
   }
 
   companion object {
