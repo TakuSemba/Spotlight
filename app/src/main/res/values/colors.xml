@@ -5,4 +5,5 @@
   <color name="colorAccent">#FF4081</color>
 
   <color name="spotlightBackground">#BF000000</color>
+  <color name="colorText">#FEFEFE</color>
 </resources>

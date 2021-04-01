@@ -7,4 +7,10 @@
   <string name="start_spotlight">Start Spotlight</string>
   <string name="close_spotlight">Close Spotlight</string>
   <string name="next_target">Next Target</string>
+  <string name="long_text">"CLICK ON ME! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sit amet sem quis augue hendrerit volutpat non ac enim. Aenean feugiat finibus tempus. Aliquam sit amet egestas nunc. Suspendisse suscipit arcu ac malesuada iaculis. Quisque imperdiet risus rutrum, vulputate tortor in, dignissim magna. Aliquam a feugiat arcu. Maecenas nec varius ante, vel pretium ligula. Proin nec est placerat diam ultrices imperdiet. "</string>
+  <string name="this_is_the_second_fragment">This is the second fragment</string>
+  <string name="a_descriptive_caption">A descriptive caption that describes a description</string>
+  <string name="an_underscriptive_caption">A way too long and a totally underscriptive caption not intended to help with anything</string>
+  <string name="cyclic_item">Cyclic item</string>
+  <string name="hi">Hi</string>
 </resources>

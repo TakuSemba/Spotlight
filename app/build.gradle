@@ -13,6 +13,8 @@ dependencies {
   implementation deps.kotlin.stdlib
   implementation deps.androidx.appcompat
   implementation deps.androidx.constraintLayout
+  implementation deps.androidx.cardview
+  implementation deps.androidx.recyclerview
   implementation project(':spotlight')
   debugImplementation deps.leakcanary
 }

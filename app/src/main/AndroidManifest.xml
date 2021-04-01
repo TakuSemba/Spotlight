@@ -28,6 +28,14 @@
       android:name=".FragmentSampleActivity"
       android:theme="@style/AppTheme.Demo"
       />
+    <activity
+      android:name=".MultiFragmentSampleActivity"
+      android:theme="@style/AppTheme.Demo"
+      />
+    <activity
+      android:name=".hiddentarget.HiddenTargetSampleActivity"
+      android:theme="@style/AppTheme.Demo"
+      />
   </application>
 
 </manifest>

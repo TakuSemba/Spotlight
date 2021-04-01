@@ -15,10 +15,14 @@ import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
+import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import com.takusemba.spotlight.shape.CaptionOrientation
 
 /**
  * [SpotlightView] starts/finishes [Spotlight], and starts/finishes a current [Target].
@@ -49,6 +53,32 @@ internal class SpotlightView @JvmOverloads constructor(
   init {
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
+    /**
+     * Makes it possible to pass clicks through [SpotlightView] to underlying views.
+     */
+    setOnTouchListener(object : OnTouchListener {
+      override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        return if (target?.clickable == true) {
+          if (isInsideTarget(event)) {
+            v?.performClick()
+            false
+          } else {
+            true
+          }
+        } else true
+      }
+
+      private fun isInsideTarget(event: MotionEvent?): Boolean {
+        event?.let {
+          val pointF = PointF(it.x, it.y)
+          target?.let {
+            return it.shape.contains(pointF)
+          }
+        }
+        return false
+      }
+    })
   }
 
   override fun onDraw(canvas: Canvas) {
@@ -112,57 +142,133 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun startTarget(target: Target) {
     removeAllViews()
-    addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
-    this.target = target.apply {
-      // adjust anchor in case where custom container is set.
-      val location = IntArray(2)
-      getLocationInWindow(location)
-      val offset = PointF(location[0].toFloat(), location[1].toFloat())
-      anchor.offset(-offset.x, -offset.y)
-    }
-    this.shapeAnimator?.removeAllListeners()
-    this.shapeAnimator?.removeAllUpdateListeners()
-    this.shapeAnimator?.cancel()
-    this.shapeAnimator = ofFloat(0f, 1f).apply {
-      duration = target.shape.duration
-      interpolator = target.shape.interpolator
-      addUpdateListener(invalidator)
-      addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
+
+    /**
+     * Forces the [Target]'s view to appear on screen, also in the correct position.
+     */
+    when {
+      target.isNotVisible() -> {
+        target.visibilityEnforcer?.let { it() }
+      }
+      target.isNotCentered() -> {
+        target.anchorRebuilder?.let { it() }
+      }
+      else -> {
+        addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
+
+        this.target = target.apply {
+          // adjust anchor in case where custom container is set.
+          val location = IntArray(2)
+          getLocationInWindow(location)
+          val offset = PointF(location[0].toFloat(), location[1].toFloat())
+          anchor.offset(-offset.x, -offset.y)
         }
 
-        override fun onAnimationCancel(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
+        this.shapeAnimator?.removeAllListeners()
+        this.shapeAnimator?.removeAllUpdateListeners()
+        this.shapeAnimator?.cancel()
+        this.shapeAnimator = ofFloat(0f, 1f).apply {
+          duration = target.shape.duration
+          interpolator = target.shape.interpolator
+          addUpdateListener(invalidator)
+          addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+              showCaptions(target)
+
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+          })
         }
-      })
+        this.effectAnimator?.removeAllListeners()
+        this.effectAnimator?.removeAllUpdateListeners()
+        this.effectAnimator?.cancel()
+        this.effectAnimator = ofFloat(0f, 1f).apply {
+          startDelay = target.shape.duration
+          duration = target.effect.duration
+          interpolator = target.effect.interpolator
+          repeatMode = target.effect.repeatMode
+          repeatCount = INFINITE
+          addUpdateListener(invalidator)
+          addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+          })
+        }
+        shapeAnimator?.start()
+        effectAnimator?.start()
+      }
     }
-    this.effectAnimator?.removeAllListeners()
-    this.effectAnimator?.removeAllUpdateListeners()
-    this.effectAnimator?.cancel()
-    this.effectAnimator = ofFloat(0f, 1f).apply {
-      startDelay = target.shape.duration
-      duration = target.effect.duration
-      interpolator = target.effect.interpolator
-      repeatMode = target.effect.repeatMode
-      repeatCount = INFINITE
-      addUpdateListener(invalidator)
-      addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
+  }
+
+  private fun showCaptions(target: Target) {
+    target.captions?.forEach { caption ->
+      caption.view.apply {
+        val lp = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        layoutParams = lp
+
+        val availableWidth = this@SpotlightView.width - caption.totalParentMargin()
+        measure(
+            MeasureSpec.makeMeasureSpec(availableWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+        )
+
+        lp.apply {
+          width = availableWidth
+
+          if (caption.orientation == CaptionOrientation.HORIZONTAL) {
+            if (caption.margins.parentBefore == null) {
+              if (caption.margins.parentAfter == null) {
+                leftMargin = 0
+                rightMargin = 0
+                gravity = Gravity.CENTER_HORIZONTAL
+              } else {
+                leftMargin = (this@SpotlightView.width - caption.margins.parentAfter - caption.view.measuredWidth).coerceAtLeast(
+                    0)
+                rightMargin = caption.margins.parentAfter
+              }
+            } else {
+              if (caption.margins.parentAfter == null) {
+                leftMargin = caption.margins.parentBefore
+                rightMargin = (this@SpotlightView.width - caption.margins.parentBefore - caption.view.measuredWidth).coerceAtMost(
+                    this@SpotlightView.width)
+              } else {
+                leftMargin = caption.margins.parentBefore
+                rightMargin = caption.margins.parentAfter
+              }
+            }
+
+            val margin = 0 +
+                target.shape.getMeasurements().halfHeight +
+                caption.view.measuredHeight * (1 - caption.type.shiftCoefficient) / 2 +
+                caption.margins.target
+
+            topMargin = (target.anchor.y + margin * caption.type.shiftCoefficient).toInt()
+          }
         }
 
-        override fun onAnimationCancel(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
-        }
-      })
+        layoutParams = lp
+
+        /**
+         * Disables color blending.
+         */
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
+
+        addView(this)
+      }
     }
-    shapeAnimator?.start()
-    effectAnimator?.start()
   }
 
   /**
@@ -170,6 +276,9 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun finishTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
+
+    hideCaptions(currentTarget)
+
     val currentAnimatedValue = shapeAnimator?.animatedValue ?: return
     shapeAnimator?.removeAllListeners()
     shapeAnimator?.removeAllUpdateListeners()
@@ -196,6 +305,12 @@ internal class SpotlightView @JvmOverloads constructor(
     effectAnimator?.cancel()
     effectAnimator = null
     shapeAnimator?.start()
+  }
+
+  private fun hideCaptions(currentTarget: Target) {
+    currentTarget.captions?.forEach {
+      removeView(it.view)
+    }
   }
 
   fun cleanup() {
