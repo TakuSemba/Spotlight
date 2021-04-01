@@ -142,61 +142,75 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun startTarget(target: Target) {
     removeAllViews()
-    addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
 
-    this.target = target.apply {
-      // adjust anchor in case where custom container is set.
-      val location = IntArray(2)
-      getLocationInWindow(location)
-      val offset = PointF(location[0].toFloat(), location[1].toFloat())
-      anchor.offset(-offset.x, -offset.y)
+    /**
+     * Forces the [Target]'s view to appear on screen, also in the correct position.
+     */
+    when {
+      target.isNotVisible() -> {
+        target.visibilityEnforcer?.let { it() }
+      }
+      target.isNotCentered() -> {
+        target.anchorRebuilder?.let { it() }
+      }
+      else -> {
+        addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
+
+        this.target = target.apply {
+          // adjust anchor in case where custom container is set.
+          val location = IntArray(2)
+          getLocationInWindow(location)
+          val offset = PointF(location[0].toFloat(), location[1].toFloat())
+          anchor.offset(-offset.x, -offset.y)
+        }
+
+        this.shapeAnimator?.removeAllListeners()
+        this.shapeAnimator?.removeAllUpdateListeners()
+        this.shapeAnimator?.cancel()
+        this.shapeAnimator = ofFloat(0f, 1f).apply {
+          duration = target.shape.duration
+          interpolator = target.shape.interpolator
+          addUpdateListener(invalidator)
+          addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+              showCaptions(target)
+
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+          })
+        }
+        this.effectAnimator?.removeAllListeners()
+        this.effectAnimator?.removeAllUpdateListeners()
+        this.effectAnimator?.cancel()
+        this.effectAnimator = ofFloat(0f, 1f).apply {
+          startDelay = target.shape.duration
+          duration = target.effect.duration
+          interpolator = target.effect.interpolator
+          repeatMode = target.effect.repeatMode
+          repeatCount = INFINITE
+          addUpdateListener(invalidator)
+          addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+              removeAllListeners()
+              removeAllUpdateListeners()
+            }
+          })
+        }
+        shapeAnimator?.start()
+        effectAnimator?.start()
+      }
     }
-
-    this.shapeAnimator?.removeAllListeners()
-    this.shapeAnimator?.removeAllUpdateListeners()
-    this.shapeAnimator?.cancel()
-    this.shapeAnimator = ofFloat(0f, 1f).apply {
-      duration = target.shape.duration
-      interpolator = target.shape.interpolator
-      addUpdateListener(invalidator)
-      addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          showCaptions(target)
-
-          removeAllListeners()
-          removeAllUpdateListeners()
-        }
-
-        override fun onAnimationCancel(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
-        }
-      })
-    }
-    this.effectAnimator?.removeAllListeners()
-    this.effectAnimator?.removeAllUpdateListeners()
-    this.effectAnimator?.cancel()
-    this.effectAnimator = ofFloat(0f, 1f).apply {
-      startDelay = target.shape.duration
-      duration = target.effect.duration
-      interpolator = target.effect.interpolator
-      repeatMode = target.effect.repeatMode
-      repeatCount = INFINITE
-      addUpdateListener(invalidator)
-      addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
-        }
-
-        override fun onAnimationCancel(animation: Animator) {
-          removeAllListeners()
-          removeAllUpdateListeners()
-        }
-      })
-    }
-    shapeAnimator?.start()
-    effectAnimator?.start()
   }
 
   private fun showCaptions(target: Target) {

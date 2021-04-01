@@ -11,4 +11,6 @@
   <string name="this_is_the_second_fragment">This is the second fragment</string>
   <string name="a_descriptive_caption">A descriptive caption that describes a description</string>
   <string name="an_underscriptive_caption">A way too long and a totally underscriptive caption not intended to help with anything</string>
+  <string name="cyclic_item">Cyclic item</string>
+  <string name="hi">Hi</string>
 </resources>

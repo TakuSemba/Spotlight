@@ -72,6 +72,13 @@ class Spotlight private constructor(
   }
 
   /**
+   * Shows the current [Target], used to wait for invisible views to be drawn.
+   */
+  fun current() {
+    showCurrentTarget(currentIndex)
+  }
+
+  /**
    * Closes Spotlight and [SpotlightView] will remove all children and be removed from the [container].
    */
   fun finish() {
@@ -144,6 +151,26 @@ class Spotlight private constructor(
   }
 
   /**
+   * Only shows the current [Target].
+   */
+  private fun showCurrentTarget(index: Int) {
+    if (index == NO_POSITION) {
+      require(targets.isNotEmpty()) { "targets should not be empty. " }
+      currentIndex = FIRST_POSITION
+      currentTarget = targets[currentIndex]
+          .also {
+            spotlight.startTarget(it)
+            it.listener?.onStarted()
+          }
+    } else if (index < targets.size) {
+      val target = targets[index]
+      currentIndex = index
+      spotlight.startTarget(target)
+      target.listener?.onStarted()
+    }
+  }
+
+  /**
    * Closes Spotlight.
    */
   private fun finishSpotlight() {
@@ -171,6 +198,7 @@ class Spotlight private constructor(
   companion object {
 
     private const val NO_POSITION = -1
+    private const val FIRST_POSITION = 0
   }
 
   /**
