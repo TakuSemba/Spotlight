@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="wrap_content"
+  android:layout_height="@dimen/space_128dp"
+  android:background="@android:color/white"
+  android:padding="16dp"
+  >
+
+  <TextView
+    android:id="@+id/custom_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:text="this is a custom text"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    />
+
+  <Button
+    android:id="@+id/next_target"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="16dp"
+    android:text="Next"
+    app:layout_constraintTop_toBottomOf="@id/custom_text"
+    app:layout_constraintStart_toStartOf="parent"
+    />
+
+  <Button
+    android:id="@+id/close_spotlight"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="60dp"
+    android:text="Skip"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@id/next_target"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
