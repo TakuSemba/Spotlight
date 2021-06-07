@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit
  * [Shape] of RoundedRectangle with customizable height, width, and radius.
  */
 class RoundedRectangle @JvmOverloads constructor(
-    val height: Float,
-    val width: Float,
+    override val height: Float,
+    override val width: Float,
     private val radius: Float,
     override val type :Shape.ShapeType = Shape.ShapeType.ROUNDED_RECTANGLE,
     override val duration: Long = DEFAULT_DURATION,

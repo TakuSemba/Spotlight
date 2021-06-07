@@ -29,6 +29,10 @@ interface Shape {
     ROUNDED_RECTANGLE
   }
 
+  val width: Float
+
+  val height: Float
+
   /**
    * Draws the Shape.
    *

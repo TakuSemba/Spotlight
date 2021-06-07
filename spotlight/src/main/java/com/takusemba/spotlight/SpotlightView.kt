@@ -17,7 +17,6 @@ import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.takusemba.spotlight.shape.Circle
@@ -163,7 +162,35 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun startTarget(target: Target) {
     removeAllViews()
-    addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
+
+//    addView(target.overlay, WRAP_CONTENT, WRAP_CONTENT)
+
+    val targetView = target.overlay
+
+    val shapeWidth = target.shape.width
+    val shapeHeight = target.shape.height
+    val overlayWidth = target.overlayWidth
+    val overlayHeight = target.overlayHeight
+
+    val marginY = 32f
+
+    val shapeXStart = target.anchor.x - shapeWidth/2
+    val shapeYStart = target.anchor.y - shapeHeight/2
+
+    //set overlay x,y to top left
+    var overlayX = shapeXStart
+    var overlayY = shapeYStart - overlayHeight - marginY
+
+    targetView?.x = overlayX
+    targetView?.y = overlayY
+
+        //center of the anchor
+//    targetView?.x = target.anchor.x
+//    targetView?.y = target.anchor.y
+//    targetView?.layoutParams = layoutParams
+
+    addView(targetView)
+
     this.target = target.apply {
       // adjust anchor in case where custom container is set.
       val location = IntArray(2)
