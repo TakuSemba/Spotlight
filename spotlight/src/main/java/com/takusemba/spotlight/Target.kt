@@ -17,7 +17,8 @@ class Target(
     val overlay: View?,
     val listener: OnTargetListener?,
     val overlayWidth: Float,
-    val overlayHeight: Float
+    val overlayHeight: Float,
+    val overlayAlignment: OverlayAlignment
 ) {
 
     /**
@@ -31,8 +32,9 @@ class Target(
         private var effect: Effect = DEFAULT_EFFECT
         private var overlay: View? = null
         private var listener: OnTargetListener? = null
-      private var overlayWidth: Float = 0f
-      private var overlayHeight: Float = 0f
+        private var overlayWidth: Float = 0f
+        private var overlayHeight: Float = 0f
+        private var overlayAlignment: OverlayAlignment = OverlayAlignment.DEFAULT
 
         /**
          * Sets a pointer to start a [Target].
@@ -101,6 +103,13 @@ class Target(
           this.overlayHeight = overlayHeight
         }
 
+      /**
+       * Sets [OverlayAlignment] to notify the state of [OverlayAlignment].
+       */
+        fun setOverlayAlignment(overlayAlignment: OverlayAlignment): Builder = apply {
+          this.overlayAlignment = overlayAlignment
+        }
+
         /**
          * Sets [OnTargetListener] to notify the state of [Target].
          */
@@ -115,7 +124,8 @@ class Target(
             overlay = overlay,
             listener = listener,
             overlayHeight = overlayHeight,
-            overlayWidth = overlayWidth
+            overlayWidth = overlayWidth,
+            overlayAlignment = overlayAlignment
         )
 
         companion object {

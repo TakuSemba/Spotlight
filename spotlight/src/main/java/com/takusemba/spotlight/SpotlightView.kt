@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.takusemba.spotlight.shape.Circle
@@ -163,9 +164,7 @@ internal class SpotlightView @JvmOverloads constructor(
   fun startTarget(target: Target) {
     removeAllViews()
 
-//    addView(target.overlay, WRAP_CONTENT, WRAP_CONTENT)
-
-    val targetView = target.overlay
+    val overlayView = target.overlay
 
     val shapeWidth = target.shape.width
     val shapeHeight = target.shape.height
@@ -177,19 +176,39 @@ internal class SpotlightView @JvmOverloads constructor(
     val shapeXStart = target.anchor.x - shapeWidth/2
     val shapeYStart = target.anchor.y - shapeHeight/2
 
-    //set overlay x,y to top left
     var overlayX = shapeXStart
-    var overlayY = shapeYStart - overlayHeight - marginY
+    var overlayY = shapeYStart
 
-    targetView?.x = overlayX
-    targetView?.y = overlayY
+    when (target.overlayAlignment) {
+      OverlayAlignment.DEFAULT -> {
+        addView(target.overlay, WRAP_CONTENT, WRAP_CONTENT)
+      }
+      OverlayAlignment.TOP_LEFT -> {
+        overlayX = shapeXStart
+        overlayY = shapeYStart - overlayHeight - marginY
+      }
+      OverlayAlignment.TOP_CENTER -> {
 
-        //center of the anchor
-//    targetView?.x = target.anchor.x
-//    targetView?.y = target.anchor.y
-//    targetView?.layoutParams = layoutParams
+      }
+      OverlayAlignment.TOP_RIGHT -> {
 
-    addView(targetView)
+      }
+      OverlayAlignment.BOTTOM_LEFT -> {
+
+      }
+      OverlayAlignment.BOTTOM_CENTER -> {
+
+      }
+      OverlayAlignment.BOTTOM_RIGHT -> {
+
+      }
+    }
+
+    if (target.overlayAlignment!= OverlayAlignment.DEFAULT) {
+      overlayView?.x = overlayX
+      overlayView?.y = overlayY
+      addView(overlayView)
+    }
 
     this.target = target.apply {
       // adjust anchor in case where custom container is set.
