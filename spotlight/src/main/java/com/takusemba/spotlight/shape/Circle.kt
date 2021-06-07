@@ -15,8 +15,8 @@ class Circle @JvmOverloads constructor(
     override val type :Shape.ShapeType = Shape.ShapeType.CIRCLE,
     override val duration: Long = DEFAULT_DURATION,
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR,
-    override val width: Float = 0f,
-    override val height: Float = width
+    override val width: Float = 2*radius,
+    override val height: Float = 2*radius
 ) : Shape {
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
