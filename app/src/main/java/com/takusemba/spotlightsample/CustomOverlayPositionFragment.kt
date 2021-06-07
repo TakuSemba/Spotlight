@@ -13,7 +13,7 @@ import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.Target
 import com.takusemba.spotlight.shape.RoundedRectangle
 
-class FragmentSampleFragment2 : Fragment(R.layout.fragment_fragment_sample) {
+class CustomOverlayPositionFragment : Fragment(R.layout.fragment_fragment_sample) {
 
   private var currentToast: Toast? = null
 
@@ -23,10 +23,11 @@ class FragmentSampleFragment2 : Fragment(R.layout.fragment_fragment_sample) {
       val targets = ArrayList<Target>()
 
       val overlayHeight = resources.getDimensionPixelSize(R.dimen.space_128dp)
+      val overlayWidth = resources.getDimensionPixelSize(R.dimen.space_232dp)
 
       // first target
       val firstRoot = FrameLayout(requireContext())
-      val first = layoutInflater.inflate(R.layout.layout_target2, firstRoot)
+      val first = layoutInflater.inflate(R.layout.custom_overlay, firstRoot)
       val anchor1 = view.findViewById<View>(R.id.one)
       val firstTarget = Target.Builder()
           .setAnchor(anchor1)
@@ -60,13 +61,13 @@ class FragmentSampleFragment2 : Fragment(R.layout.fragment_fragment_sample) {
 
       // second target
       val secondRoot = FrameLayout(requireActivity())
-      val second = layoutInflater.inflate(R.layout.layout_target2, secondRoot)
+      val second = layoutInflater.inflate(R.layout.custom_overlay, secondRoot)
       val anchor2 = view.findViewById<View>(R.id.two)
       val secondTarget = Target.Builder()
           .setAnchor(anchor2)
           .setShape(RoundedRectangle(1.5f*anchor2.height.toFloat(), 2*anchor2.width.toFloat(), 15f))
-          .setOverlay(second,overlayHeight = overlayHeight.toFloat())
-//          .setOverlayAlignment(OverlayAlignment.TOP_LEFT)
+          .setOverlay(second,overlayHeight = overlayHeight.toFloat(), overlayWidth = overlayWidth.toFloat())
+          .setOverlayAlignment(OverlayAlignment.BOTTOM_RIGHT)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
@@ -94,13 +95,13 @@ class FragmentSampleFragment2 : Fragment(R.layout.fragment_fragment_sample) {
 
       // third target
       val thirdRoot = FrameLayout(requireContext())
-      val third = layoutInflater.inflate(R.layout.layout_target2, thirdRoot)
+      val third = layoutInflater.inflate(R.layout.custom_overlay, thirdRoot)
       val anchor3 = view.findViewById<View>(R.id.three)
       val thirdTarget = Target.Builder()
           .setAnchor(anchor3)
           .setShape(RoundedRectangle(1.5f*anchor3.height.toFloat(), 2*anchor3.width.toFloat(), 15f))
-          .setOverlay(third, overlayHeight = overlayHeight.toFloat())
-          .setOverlayAlignment(OverlayAlignment.TOP_LEFT)
+          .setOverlay(third, overlayHeight = overlayHeight.toFloat(), overlayWidth = overlayWidth.toFloat())
+          .setOverlayAlignment(OverlayAlignment.TOP_CENTER)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
