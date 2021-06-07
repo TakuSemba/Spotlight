@@ -17,7 +17,7 @@ import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.takusemba.spotlight.shape.Circle
@@ -175,36 +175,43 @@ internal class SpotlightView @JvmOverloads constructor(
 
     val shapeXStart = target.anchor.x - shapeWidth/2
     val shapeYStart = target.anchor.y - shapeHeight/2
+    val shapeXEnd = shapeXStart + shapeWidth
+    val shapeYEnd = shapeYStart + shapeHeight
 
     var overlayX = shapeXStart
     var overlayY = shapeYStart
 
     when (target.overlayAlignment) {
       OverlayAlignment.DEFAULT -> {
-        addView(target.overlay, WRAP_CONTENT, WRAP_CONTENT)
+        addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
       }
       OverlayAlignment.TOP_LEFT -> {
         overlayX = shapeXStart
         overlayY = shapeYStart - overlayHeight - marginY
       }
       OverlayAlignment.TOP_CENTER -> {
-
+        overlayX = target.anchor.x - (overlayWidth/2)
+        overlayY = shapeYStart - overlayHeight - marginY
       }
       OverlayAlignment.TOP_RIGHT -> {
-
+        overlayX = shapeXEnd - overlayWidth
+        overlayY = shapeYStart - overlayHeight - marginY
       }
       OverlayAlignment.BOTTOM_LEFT -> {
-
+        overlayX = shapeXStart
+        overlayY = shapeYEnd + marginY
       }
       OverlayAlignment.BOTTOM_CENTER -> {
-
+        overlayX = target.anchor.x - overlayWidth/2
+        overlayY = shapeYEnd + marginY
       }
       OverlayAlignment.BOTTOM_RIGHT -> {
-
+        overlayX = shapeXEnd - overlayWidth
+        overlayY = shapeYEnd + marginY
       }
     }
 
-    if (target.overlayAlignment!= OverlayAlignment.DEFAULT) {
+    if (target.overlayAlignment != OverlayAlignment.DEFAULT) {
       overlayView?.x = overlayX
       overlayView?.y = overlayY
       addView(overlayView)
