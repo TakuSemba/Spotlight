@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -163,7 +164,59 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun startTarget(target: Target) {
     removeAllViews()
-    addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
+
+    val overlayView = target.overlay
+    overlayView?.measure(0,0)
+
+    val shapeWidth = target.shape.width
+    val shapeHeight = target.shape.height
+    val overlayWidth = (overlayView as ViewGroup).measuredWidth
+    val overlayHeight = overlayView.measuredHeight
+
+    val shapeXStart = target.anchor.x - shapeWidth/2
+    val shapeYStart = target.anchor.y - shapeHeight/2
+    val shapeXEnd = shapeXStart + shapeWidth
+    val shapeYEnd = shapeYStart + shapeHeight
+
+    var overlayX = shapeXStart
+    var overlayY = shapeYStart
+
+    when (target.overlayAlignment) {
+      OverlayAlignment.DEFAULT -> {
+        addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
+      }
+      OverlayAlignment.TOP_LEFT -> {
+        overlayX = shapeXStart
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
+      }
+      OverlayAlignment.TOP_CENTER -> {
+        overlayX = target.anchor.x - (overlayWidth/2)
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
+      }
+      OverlayAlignment.TOP_RIGHT -> {
+        overlayX = shapeXEnd - overlayWidth
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
+      }
+      OverlayAlignment.BOTTOM_LEFT -> {
+        overlayX = shapeXStart
+        overlayY = shapeYEnd + target.verticalMargin
+      }
+      OverlayAlignment.BOTTOM_CENTER -> {
+        overlayX = target.anchor.x - overlayWidth/2
+        overlayY = shapeYEnd + target.verticalMargin
+      }
+      OverlayAlignment.BOTTOM_RIGHT -> {
+        overlayX = shapeXEnd - overlayWidth
+        overlayY = shapeYEnd + target.verticalMargin
+      }
+    }
+
+    if (target.overlayAlignment != OverlayAlignment.DEFAULT) {
+      overlayView.x = overlayX
+      overlayView.y = overlayY
+      addView(overlayView)
+    }
+
     this.target = target.apply {
       // adjust anchor in case where custom container is set.
       val location = IntArray(2)
