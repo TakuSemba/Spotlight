@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.takusemba.spotlight.OnSpotlightListener
@@ -22,18 +23,17 @@ class CustomOverlayPositionFragment : Fragment(R.layout.fragment_fragment_sample
     view.findViewById<View>(R.id.start).setOnClickListener { startButton ->
       val targets = ArrayList<Target>()
 
-      val overlayHeight = resources.getDimensionPixelSize(R.dimen.space_128dp)
-      val overlayWidth = resources.getDimensionPixelSize(R.dimen.space_232dp)
-
       // first target
       val firstRoot = FrameLayout(requireContext())
+
       val first = layoutInflater.inflate(R.layout.custom_overlay, firstRoot)
       val anchor1 = view.findViewById<View>(R.id.one)
       val firstTarget = Target.Builder()
           .setAnchor(anchor1)
           .setShape(RoundedRectangle(1.5f*anchor1.height.toFloat(), 2*anchor1.width.toFloat(), 15f))
-          .setOverlay(first, overlayHeight = overlayHeight.toFloat())
+          .setOverlay(first)
           .setOverlayAlignment(OverlayAlignment.TOP_LEFT)
+          .setVerticalMargin(16f)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
@@ -62,12 +62,14 @@ class CustomOverlayPositionFragment : Fragment(R.layout.fragment_fragment_sample
       // second target
       val secondRoot = FrameLayout(requireActivity())
       val second = layoutInflater.inflate(R.layout.custom_overlay, secondRoot)
+      second.findViewById<TextView>(R.id.custom_text).text = "this is very very very long long text "
       val anchor2 = view.findViewById<View>(R.id.two)
       val secondTarget = Target.Builder()
           .setAnchor(anchor2)
           .setShape(RoundedRectangle(1.5f*anchor2.height.toFloat(), 2*anchor2.width.toFloat(), 15f))
-          .setOverlay(second,overlayHeight = overlayHeight.toFloat(), overlayWidth = overlayWidth.toFloat())
+          .setOverlay(second)
           .setOverlayAlignment(OverlayAlignment.BOTTOM_RIGHT)
+          .setVerticalMargin(16f)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
@@ -100,8 +102,9 @@ class CustomOverlayPositionFragment : Fragment(R.layout.fragment_fragment_sample
       val thirdTarget = Target.Builder()
           .setAnchor(anchor3)
           .setShape(RoundedRectangle(1.5f*anchor3.height.toFloat(), 2*anchor3.width.toFloat(), 15f))
-          .setOverlay(third, overlayHeight = overlayHeight.toFloat(), overlayWidth = overlayWidth.toFloat())
+          .setOverlay(third)
           .setOverlayAlignment(OverlayAlignment.TOP_CENTER)
+          .setVerticalMargin(16f)
           .setOnTargetListener(object : OnTargetListener {
             override fun onStarted() {
               currentToast?.cancel()
