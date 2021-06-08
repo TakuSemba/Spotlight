@@ -173,8 +173,6 @@ internal class SpotlightView @JvmOverloads constructor(
     val overlayWidth = (overlayView as ViewGroup).measuredWidth
     val overlayHeight = overlayView.measuredHeight
 
-    val marginY = 32f
-
     val shapeXStart = target.anchor.x - shapeWidth/2
     val shapeYStart = target.anchor.y - shapeHeight/2
     val shapeXEnd = shapeXStart + shapeWidth
@@ -189,33 +187,33 @@ internal class SpotlightView @JvmOverloads constructor(
       }
       OverlayAlignment.TOP_LEFT -> {
         overlayX = shapeXStart
-        overlayY = shapeYStart - overlayHeight - marginY
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
       }
       OverlayAlignment.TOP_CENTER -> {
         overlayX = target.anchor.x - (overlayWidth/2)
-        overlayY = shapeYStart - overlayHeight - marginY
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
       }
       OverlayAlignment.TOP_RIGHT -> {
         overlayX = shapeXEnd - overlayWidth
-        overlayY = shapeYStart - overlayHeight - marginY
+        overlayY = shapeYStart - overlayHeight - target.verticalMargin
       }
       OverlayAlignment.BOTTOM_LEFT -> {
         overlayX = shapeXStart
-        overlayY = shapeYEnd + marginY
+        overlayY = shapeYEnd + target.verticalMargin
       }
       OverlayAlignment.BOTTOM_CENTER -> {
         overlayX = target.anchor.x - overlayWidth/2
-        overlayY = shapeYEnd + marginY
+        overlayY = shapeYEnd + target.verticalMargin
       }
       OverlayAlignment.BOTTOM_RIGHT -> {
         overlayX = shapeXEnd - overlayWidth
-        overlayY = shapeYEnd + marginY
+        overlayY = shapeYEnd + target.verticalMargin
       }
     }
 
     if (target.overlayAlignment != OverlayAlignment.DEFAULT) {
-      overlayView?.x = overlayX
-      overlayView?.y = overlayY
+      overlayView.x = overlayX
+      overlayView.y = overlayY
       addView(overlayView)
     }
 

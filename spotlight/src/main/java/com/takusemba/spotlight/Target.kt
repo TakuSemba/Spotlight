@@ -16,7 +16,8 @@ class Target(
     val effect: Effect,
     val overlay: View?,
     val listener: OnTargetListener?,
-    val overlayAlignment: OverlayAlignment
+    val overlayAlignment: OverlayAlignment,
+    val verticalMargin: Float
 ) {
 
     /**
@@ -31,6 +32,7 @@ class Target(
         private var overlay: View? = null
         private var listener: OnTargetListener? = null
         private var overlayAlignment: OverlayAlignment = OverlayAlignment.DEFAULT
+        private var verticalMargin: Float = 0f
 
         /**
          * Sets a pointer to start a [Target].
@@ -103,6 +105,13 @@ class Target(
         }
 
         /**
+         * Sets vertical Margin between shape and overlay
+         */
+        fun setVerticalMargin(verticalMargin: Float): Builder = apply {
+            this.verticalMargin = verticalMargin
+        }
+
+        /**
          * Sets [OnTargetListener] to notify the state of [Target].
          */
         fun setOnTargetListener(listener: OnTargetListener): Builder = apply {
@@ -115,7 +124,8 @@ class Target(
             effect = effect,
             overlay = overlay,
             listener = listener,
-            overlayAlignment = overlayAlignment
+            overlayAlignment = overlayAlignment,
+            verticalMargin = verticalMargin
         )
 
         companion object {
