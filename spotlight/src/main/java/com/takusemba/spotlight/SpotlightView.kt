@@ -17,6 +17,7 @@ import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
@@ -165,11 +166,12 @@ internal class SpotlightView @JvmOverloads constructor(
     removeAllViews()
 
     val overlayView = target.overlay
+    overlayView?.measure(0,0)
 
     val shapeWidth = target.shape.width
     val shapeHeight = target.shape.height
-    val overlayWidth = target.overlayWidth
-    val overlayHeight = target.overlayHeight
+    val overlayWidth = (overlayView as ViewGroup).measuredWidth
+    val overlayHeight = overlayView.measuredHeight
 
     val marginY = 32f
 

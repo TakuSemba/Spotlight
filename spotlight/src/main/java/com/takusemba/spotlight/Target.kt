@@ -16,8 +16,6 @@ class Target(
     val effect: Effect,
     val overlay: View?,
     val listener: OnTargetListener?,
-    val overlayWidth: Float,
-    val overlayHeight: Float,
     val overlayAlignment: OverlayAlignment
 ) {
 
@@ -32,8 +30,6 @@ class Target(
         private var effect: Effect = DEFAULT_EFFECT
         private var overlay: View? = null
         private var listener: OnTargetListener? = null
-        private var overlayWidth: Float = 0f
-        private var overlayHeight: Float = 0f
         private var overlayAlignment: OverlayAlignment = OverlayAlignment.DEFAULT
 
         /**
@@ -94,13 +90,9 @@ class Target(
          * Sets [overlay] to be laid out to describe [Target].
          */
         fun setOverlay(
-            overlay: View,
-            overlayWidth: Float = 0f,
-            overlayHeight: Float = 0f
+            overlay: View
         ): Builder = apply {
           this.overlay = overlay
-          this.overlayWidth = overlayWidth
-          this.overlayHeight = overlayHeight
         }
 
       /**
@@ -123,8 +115,6 @@ class Target(
             effect = effect,
             overlay = overlay,
             listener = listener,
-            overlayHeight = overlayHeight,
-            overlayWidth = overlayWidth,
             overlayAlignment = overlayAlignment
         )
 
