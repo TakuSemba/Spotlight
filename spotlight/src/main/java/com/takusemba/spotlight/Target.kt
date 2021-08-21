@@ -17,6 +17,10 @@ class Target(
     val overlay: View?,
     val listener: OnTargetListener?
 ) {
+  /**
+   * This variable is to prevent multiple times anchor adjustment.
+   */
+  var isAnchorAdjusted: Boolean = false
 
   /**
    * [Builder] to build a [Target].
