@@ -19,11 +19,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.shape.Shape
+import android.util.TypedValue
 
 /**
  * [SpotlightView] starts/finishes [Spotlight], and starts/finishes a current [Target].
@@ -50,6 +52,11 @@ internal class SpotlightView @JvmOverloads constructor(
   private var shapeAnimator: ValueAnimator? = null
   private var effectAnimator: ValueAnimator? = null
   private var target: Target? = null
+  private val space16Dp = TypedValue.applyDimension(
+      TypedValue.COMPLEX_UNIT_DIP,
+      16f,
+      resources.displayMetrics
+  ).toInt()
 
   init {
     setWillNotDraw(false)
@@ -209,9 +216,15 @@ internal class SpotlightView @JvmOverloads constructor(
         overlayX = shapeXEnd - overlayWidth
         overlayY = shapeYEnd + target.verticalMargin
       }
+      OverlayAlignment.DEFAULT_BOTTOM_CENTER -> {
+        overlayView.y = shapeYEnd + target.verticalMargin
+        val layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        layoutParams.setMargins(space16Dp,0,space16Dp,0)
+        addView(overlayView, layoutParams)
+      }
     }
 
-    if (target.overlayAlignment != OverlayAlignment.DEFAULT) {
+    if (target.overlayAlignment != OverlayAlignment.DEFAULT && target.overlayAlignment!= OverlayAlignment.DEFAULT_BOTTOM_CENTER) {
       overlayView.x = overlayX
       overlayView.y = overlayY
       addView(overlayView)

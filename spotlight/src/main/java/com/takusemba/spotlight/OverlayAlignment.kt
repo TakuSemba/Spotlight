@@ -7,5 +7,6 @@ enum class OverlayAlignment {
   TOP_RIGHT,
   BOTTOM_LEFT,
   BOTTOM_CENTER,
-  BOTTOM_RIGHT
+  BOTTOM_RIGHT,
+  DEFAULT_BOTTOM_CENTER
 }
