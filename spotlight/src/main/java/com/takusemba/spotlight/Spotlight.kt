@@ -146,6 +146,8 @@ class Spotlight private constructor(
     @ColorInt private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var container: ViewGroup? = null
     private var listener: OnSpotlightListener? = null
+    // Finish on touch outside of current target feature is disabled by default
+    private var finishOnTouchOutsideOfCurrentTarget: Boolean = false
 
     /**
      * Sets [Target]s to show on [Spotlight].
@@ -203,6 +205,16 @@ class Spotlight private constructor(
      */
     fun setOnSpotlightListener(listener: OnSpotlightListener): Builder = apply {
       this.listener = listener
+    }
+
+    /**
+     * Sets [finishOnTouchOutsideOfCurrentTarget] flag
+     * to enable/disable (true/false) finishing on touch outside feature.
+     */
+    fun setFinishOnTouchOutsideOfCurrentTarget(
+        finishOnTouchOutsideOfCurrentTarget: Boolean
+    ): Builder = apply {
+      this.finishOnTouchOutsideOfCurrentTarget = finishOnTouchOutsideOfCurrentTarget
     }
 
     fun build(): Spotlight {
