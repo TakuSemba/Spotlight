@@ -146,6 +146,7 @@ class Spotlight private constructor(
     @ColorInt private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var container: ViewGroup? = null
     private var listener: OnSpotlightListener? = null
+
     // Finish on touch outside of current target feature is disabled by default
     private var finishOnTouchOutsideOfCurrentTarget: Boolean = false
 
@@ -218,19 +219,25 @@ class Spotlight private constructor(
     }
 
     fun build(): Spotlight {
-
-      val spotlight = SpotlightView(activity, null, 0, backgroundColor)
+      val spotlightView = SpotlightView(activity, null, 0, backgroundColor)
       val targets = requireNotNull(targets) { "targets should not be null. " }
       val container = container ?: activity.window.decorView as ViewGroup
-
       return Spotlight(
-          spotlightView = spotlight,
+          spotlightView = spotlightView,
           targets = targets,
           duration = duration,
           interpolator = interpolator,
           container = container,
           spotlightListener = listener
-      )
+      ).apply {
+        if (this@Builder.finishOnTouchOutsideOfCurrentTarget) {
+          spotlightView.setOnTouchOutsideOfCurrentTargetListener(
+              object : OnTouchOutsideOfCurrentTargetListener {
+                override fun onEvent() = finishSpotlight()
+              }
+          )
+        }
+      }
     }
 
     companion object {
