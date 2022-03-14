@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit
  * [Shape] of RoundedRectangle with customizable height, width, and radius.
  */
 class RoundedRectangle @JvmOverloads constructor(
-    private val height: Float,
-    private val width: Float,
-    private val radius: Float,
+    val height: Float,
+    val width: Float,
+    val radius: Float,
     override val duration: Long = DEFAULT_DURATION,
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
 ) : Shape {

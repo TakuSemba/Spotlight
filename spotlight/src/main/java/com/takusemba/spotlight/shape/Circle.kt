@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
  * [Shape] of Circle with customizable radius.
  */
 class Circle @JvmOverloads constructor(
-    private val radius: Float,
+    val radius: Float,
     override val duration: Long = DEFAULT_DURATION,
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
 ) : Shape {

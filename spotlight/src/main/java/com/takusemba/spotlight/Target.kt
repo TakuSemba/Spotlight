@@ -5,7 +5,9 @@ import android.view.View
 import com.takusemba.spotlight.effet.Effect
 import com.takusemba.spotlight.effet.EmptyEffect
 import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.shape.Shape
+import kotlin.math.abs
 
 /**
  * Target represents the spot that Spotlight will cast.
@@ -17,6 +19,28 @@ class Target(
     val overlay: View?,
     val listener: OnTargetListener?
 ) {
+
+  /**
+   * Checks if point on edge or inside of the Shape.
+   *
+   * @param point point to check against contains
+   * @return true if contains, false - otherwise
+   */
+  fun contains(point: PointF): Boolean {
+    val xNorm = point.x - anchor.x
+    val yNorm = point.y - anchor.y
+    return when (shape) {
+      is Circle -> {
+        (xNorm * xNorm + yNorm * yNorm) <= shape.radius * shape.radius
+      }
+      // Rounded corners are not took into account
+      // TODO calculate more precisely
+      is RoundedRectangle -> {
+        (abs(xNorm) <= shape.width / 2) && (abs(yNorm) <= shape.height / 2)
+      }
+      else -> throw IllegalStateException("Unknown shape: ${shape::class.qualifiedName}")
+    }
+  }
 
   /**
    * [Builder] to build a [Target].
