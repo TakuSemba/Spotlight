@@ -8,6 +8,7 @@ import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.shape.Shape
 import kotlin.math.abs
+import kotlin.math.pow
 
 /**
  * Target represents the spot that Spotlight will cast.
@@ -33,10 +34,16 @@ class Target(
       is Circle -> {
         (xNorm * xNorm + yNorm * yNorm) <= shape.radius * shape.radius
       }
-      // Rounded corners are not took into account
-      // TODO calculate more precisely
       is RoundedRectangle -> {
-        (abs(xNorm) <= shape.width / 2) && (abs(yNorm) <= shape.height / 2)
+        // Ellipsis function is used to check if point is in rounded rectangle
+        // Ellipsis doesn't guarantee ideal precision. Check https://en.wikipedia.org/wiki/Squircle
+        val widthHalf = shape.width / 2
+        val heightHalf = shape.height / 2
+        // r = [0; widthHalf], where 0 - rectangle, widthHalf - "smooth" ellipse
+        val r = shape.radius.coerceIn(minimumValue = 0f, maximumValue = widthHalf)
+        // n = [2; inf], where - "smooth" ellipse, inf - rectangle
+        val n = shape.width / r
+        abs((xNorm / widthHalf)).pow(n) + abs((yNorm / heightHalf)).pow(n) <= 1
       }
       else -> throw IllegalStateException("Unknown shape: ${shape::class.qualifiedName}")
     }
