@@ -5,10 +5,7 @@ import android.view.View
 import com.takusemba.spotlight.effet.Effect
 import com.takusemba.spotlight.effet.EmptyEffect
 import com.takusemba.spotlight.shape.Circle
-import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.shape.Shape
-import kotlin.math.abs
-import kotlin.math.pow
 
 /**
  * Target represents the spot that Spotlight will cast.
@@ -24,30 +21,10 @@ class Target(
   /**
    * Checks if point on edge or inside of the Shape.
    *
-   * @param point point to check against contains
-   * @return true if contains, false - otherwise
+   * @param point point to check against contains.
+   * @return true if contains, false - otherwise.
    */
-  fun contains(point: PointF): Boolean {
-    val xNorm = point.x - anchor.x
-    val yNorm = point.y - anchor.y
-    return when (shape) {
-      is Circle -> {
-        (xNorm * xNorm + yNorm * yNorm) <= shape.radius * shape.radius
-      }
-      is RoundedRectangle -> {
-        // Ellipsis function is used to check if point is in rounded rectangle
-        // Ellipsis doesn't guarantee ideal precision. Check https://en.wikipedia.org/wiki/Squircle
-        val widthHalf = shape.width / 2
-        val heightHalf = shape.height / 2
-        // r = [0; widthHalf], where 0 - rectangle, widthHalf - "smooth" ellipse
-        val r = shape.radius.coerceIn(minimumValue = 0f, maximumValue = widthHalf)
-        // n = [2; inf], where - "smooth" ellipse, inf - rectangle
-        val n = shape.width / r
-        abs((xNorm / widthHalf)).pow(n) + abs((yNorm / heightHalf)).pow(n) <= 1
-      }
-      else -> throw IllegalStateException("Unknown shape: ${shape::class.qualifiedName}")
-    }
-  }
+  fun contains(point: PointF): Boolean = shape.contains(anchor, point)
 
   /**
    * [Builder] to build a [Target].

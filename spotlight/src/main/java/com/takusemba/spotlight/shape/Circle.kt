@@ -11,13 +11,19 @@ import java.util.concurrent.TimeUnit
  * [Shape] of Circle with customizable radius.
  */
 class Circle @JvmOverloads constructor(
-    val radius: Float,
+    private val radius: Float,
     override val duration: Long = DEFAULT_DURATION,
     override val interpolator: TimeInterpolator = DEFAULT_INTERPOLATOR
 ) : Shape {
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
     canvas.drawCircle(point.x, point.y, value * radius, paint)
+  }
+
+  override fun contains(anchor: PointF, point: PointF): Boolean {
+    val xNorm = point.x - anchor.x
+    val yNorm = point.y - anchor.y
+    return (xNorm * xNorm + yNorm * yNorm) <= radius * radius
   }
 
   companion object {
