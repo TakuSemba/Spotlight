@@ -39,7 +39,7 @@ class RoundedRectangle @JvmOverloads constructor(
    *
    * Calculated values:
    * - r = [0; widthHalf], where 0 - rectangle, widthHalf - "smooth" ellipse
-   * - n = [2; inf], where - "smooth" ellipse, inf - rectangle
+   * - n = [2; inf], where 2 - "smooth" ellipse, inf - rectangle
    */
   override fun contains(anchor: PointF, point: PointF): Boolean {
     val xNorm = point.x - anchor.x
@@ -47,7 +47,7 @@ class RoundedRectangle @JvmOverloads constructor(
     val widthHalf = width / 2
     val heightHalf = height / 2
     val r = radius.coerceIn(minimumValue = 0f, maximumValue = widthHalf)
-    val n = width / r
+    val n = maxOf(width, height) / r
     return abs((xNorm / widthHalf)).pow(n) + abs((yNorm / heightHalf)).pow(n) <= 1
   }
 
