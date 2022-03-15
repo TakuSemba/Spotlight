@@ -15,6 +15,7 @@ import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
@@ -46,6 +47,8 @@ internal class SpotlightView @JvmOverloads constructor(
   private var effectAnimator: ValueAnimator? = null
   private var target: Target? = null
 
+  private var onTouchOutsideOfCurrentTargetListener: OnTouchOutsideOfCurrentTargetListener? = null
+
   init {
     setWillNotDraw(false)
     setLayerType(View.LAYER_TYPE_HARDWARE, null)
@@ -73,6 +76,38 @@ internal class SpotlightView @JvmOverloads constructor(
           paint = shapePaint
       )
     }
+  }
+
+  /**
+   * Based on guide:
+   * https://developer.android.com/guide/topics/ui/accessibility/custom-views#custom-click-events
+   */
+  override fun onTouchEvent(event: MotionEvent): Boolean {
+    super.onTouchEvent(event)
+    return when (event.action) {
+      MotionEvent.ACTION_UP -> {
+        performClick() // Call this method to handle the response, and
+        // thereby enable accessibility services to
+        // perform this action for a user who cannot
+        // click the touchscreen.
+        true
+      }
+      MotionEvent.ACTION_DOWN -> {
+        val currentTarget = this.target ?: return false
+        val touchPoint = PointF(event.x, event.y)
+        if (!currentTarget.contains(touchPoint)) onTouchOutsideOfCurrentTargetListener?.onEvent()
+        true
+      }
+      else -> false
+    }
+  }
+
+  override fun performClick(): Boolean {
+    // Calls the super implementation, which generates an AccessibilityEvent
+    // and calls the onClick() listener on the view, if any
+    super.performClick()
+    // Handle the action for the custom click here
+    return true
   }
 
   /**
@@ -208,5 +243,9 @@ internal class SpotlightView @JvmOverloads constructor(
     shapeAnimator?.cancel()
     shapeAnimator = null
     removeAllViews()
+  }
+
+  fun setOnTouchOutsideOfCurrentTargetListener(listener: OnTouchOutsideOfCurrentTargetListener) {
+    onTouchOutsideOfCurrentTargetListener = listener
   }
 }

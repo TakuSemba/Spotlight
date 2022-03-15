@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
  * unless you create a new [Spotlight] to start again.
  */
 class Spotlight private constructor(
-    private val spotlight: SpotlightView,
+    private val spotlightView: SpotlightView,
     private val targets: Array<Target>,
     private val duration: Long,
     private val interpolator: TimeInterpolator,
@@ -32,7 +32,7 @@ class Spotlight private constructor(
   private var currentIndex = NO_POSITION
 
   init {
-    container.addView(spotlight, MATCH_PARENT, MATCH_PARENT)
+    container.addView(spotlightView, MATCH_PARENT, MATCH_PARENT)
   }
 
   /**
@@ -77,7 +77,7 @@ class Spotlight private constructor(
    * Starts Spotlight.
    */
   private fun startSpotlight() {
-    spotlight.startSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
+    spotlightView.startSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
       override fun onAnimationStart(animation: Animator) {
         spotlightListener?.onStarted()
       }
@@ -95,10 +95,10 @@ class Spotlight private constructor(
     if (currentIndex == NO_POSITION) {
       val target = targets[index]
       currentIndex = index
-      spotlight.startTarget(target)
+      spotlightView.startTarget(target)
       target.listener?.onStarted()
     } else {
-      spotlight.finishTarget(object : AnimatorListenerAdapter() {
+      spotlightView.finishTarget(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
           val previousIndex = currentIndex
           val previousTarget = targets[previousIndex]
@@ -106,7 +106,7 @@ class Spotlight private constructor(
           if (index < targets.size) {
             val target = targets[index]
             currentIndex = index
-            spotlight.startTarget(target)
+            spotlightView.startTarget(target)
             target.listener?.onStarted()
           } else {
             finishSpotlight()
@@ -120,10 +120,10 @@ class Spotlight private constructor(
    * Closes Spotlight.
    */
   private fun finishSpotlight() {
-    spotlight.finishSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
+    spotlightView.finishSpotlight(duration, interpolator, object : AnimatorListenerAdapter() {
       override fun onAnimationEnd(animation: Animator) {
-        spotlight.cleanup()
-        container.removeView(spotlight)
+        spotlightView.cleanup()
+        container.removeView(spotlightView)
         spotlightListener?.onEnded()
       }
     })
@@ -146,6 +146,9 @@ class Spotlight private constructor(
     @ColorInt private var backgroundColor: Int = DEFAULT_OVERLAY_COLOR
     private var container: ViewGroup? = null
     private var listener: OnSpotlightListener? = null
+
+    // Finish on touch outside of current target feature is disabled by default
+    private var finishOnTouchOutsideOfCurrentTarget: Boolean = false
 
     /**
      * Sets [Target]s to show on [Spotlight].
@@ -205,20 +208,36 @@ class Spotlight private constructor(
       this.listener = listener
     }
 
-    fun build(): Spotlight {
+    /**
+     * Sets [finishOnTouchOutsideOfCurrentTarget] flag
+     * to enable/disable (true/false) finishing on touch outside feature.
+     */
+    fun setFinishOnTouchOutsideOfCurrentTarget(
+        finishOnTouchOutsideOfCurrentTarget: Boolean
+    ): Builder = apply {
+      this.finishOnTouchOutsideOfCurrentTarget = finishOnTouchOutsideOfCurrentTarget
+    }
 
-      val spotlight = SpotlightView(activity, null, 0, backgroundColor)
+    fun build(): Spotlight {
+      val spotlightView = SpotlightView(activity, null, 0, backgroundColor)
       val targets = requireNotNull(targets) { "targets should not be null. " }
       val container = container ?: activity.window.decorView as ViewGroup
-
       return Spotlight(
-          spotlight = spotlight,
+          spotlightView = spotlightView,
           targets = targets,
           duration = duration,
           interpolator = interpolator,
           container = container,
           spotlightListener = listener
-      )
+      ).apply {
+        if (this@Builder.finishOnTouchOutsideOfCurrentTarget) {
+          spotlightView.setOnTouchOutsideOfCurrentTargetListener(
+              object : OnTouchOutsideOfCurrentTargetListener {
+                override fun onEvent() = finishSpotlight()
+              }
+          )
+        }
+      }
     }
 
     companion object {

@@ -43,6 +43,16 @@ If you want to show Spotlight immediately, you have to wait until views are laid
 view.doOnPreDraw { Spotlight.Builder(this)...start() }
 ```
 
+If you want to enable (disabled by default) finishing Spotlight on touch outside of current target:
+
+```kt
+val spotlight = Spotlight.Builder(this)
+    ...
+    .setFinishOnTouchOutsideOfCurrentTarget(true)
+    ...
+    .build()    
+```
+
 <br/>
 <br/>
 
@@ -107,6 +117,10 @@ class CustomShape(
 
   override fun draw(canvas: Canvas, point: PointF, value: Float, paint: Paint) {
     // draw your shape here.
+  }
+  
+  override fun contains(anchor: PointF, point: PointF): Boolean {
+    // check if point is inside of shape here.
   }
 }
 ```

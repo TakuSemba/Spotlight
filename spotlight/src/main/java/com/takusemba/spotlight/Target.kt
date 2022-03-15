@@ -19,6 +19,14 @@ class Target(
 ) {
 
   /**
+   * Checks if point on edge or inside of the Shape.
+   *
+   * @param point point to check against contains.
+   * @return true if contains, false - otherwise.
+   */
+  fun contains(point: PointF): Boolean = shape.contains(anchor, point)
+
+  /**
    * [Builder] to build a [Target].
    * All parameters should be set in this [Builder].
    */

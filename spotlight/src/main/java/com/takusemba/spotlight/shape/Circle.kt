@@ -20,6 +20,12 @@ class Circle @JvmOverloads constructor(
     canvas.drawCircle(point.x, point.y, value * radius, paint)
   }
 
+  override fun contains(anchor: PointF, point: PointF): Boolean {
+    val xNorm = point.x - anchor.x
+    val yNorm = point.y - anchor.y
+    return (xNorm * xNorm + yNorm * yNorm) <= radius * radius
+  }
+
   companion object {
 
     val DEFAULT_DURATION = TimeUnit.MILLISECONDS.toMillis(500)
