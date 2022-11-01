@@ -1,0 +1,16 @@
+load("@rules_jvm_external//:defs.bzl", "artifact")
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_android_library")
+
+kt_android_library(
+    name = "spotlight",
+    custom_package = "com.takusemba.spotlight",
+    srcs = glob(["src/main/java/**/*.kt"]),
+    resource_files = glob(["src/main/res/**"]),
+    manifest = "src/main/AndroidManifest.xml",
+    exports_manifest = True,
+    visibility = ["//visibility:public"],
+    deps = [
+        artifact("androidx.appcompat:appcompat"),
+        artifact("androidx.constraintlayout:constraintlayout"),
+    ],
+)

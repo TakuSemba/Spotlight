@@ -1,0 +1,31 @@
+load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_android_library")
+load("@rules_jvm_external//:defs.bzl", "artifact")
+
+kt_android_library(
+    name = "spotlightsample",
+    custom_package = "com.takusemba.spotlightsample",
+    srcs = glob(["src/main/java/**/*.kt"]),
+    resource_files = glob(["src/main/res/**"]),
+    manifest = "src/main/AndroidManifest.xml",
+    exports_manifest = True,
+    deps = [
+        "//spotlight",
+        artifact("androidx.appcompat:appcompat"),
+        artifact("androidx.constraintlayout:constraintlayout"),
+    ],
+)
+
+android_binary(
+    name = "app",
+    custom_package = "com.takusemba.spotlightsample",
+    srcs = glob(["src/main/java/**/*.java"]),
+    manifest = "src/main/AndroidManifest.xml",
+    manifest_values = {
+        "minSdkVersion": "19",
+        "targetSdkVersion": "30",
+    },
+    visibility = ["//visibility:public"],
+    deps = [
+        ":spotlightsample",
+    ],
+)
