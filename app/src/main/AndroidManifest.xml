@@ -28,6 +28,10 @@
       android:name=".FragmentSampleActivity"
       android:theme="@style/AppTheme.Demo"
       />
+    <activity
+      android:name=".OnStartSampleActivity"
+      android:theme="@style/AppTheme.Demo"
+      />
   </application>
 
 </manifest>

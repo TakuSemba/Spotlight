@@ -10,7 +10,8 @@ class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
 
   private val samples: Array<String> = arrayOf(
       SAMPLE_SPOTLIGHT_ON_ACTIVITY,
-      SAMPLE_SPOTLIGHT_ON_FRAGMENT
+      SAMPLE_SPOTLIGHT_ON_FRAGMENT,
+      SAMPLE_SPOTLIGHT_ON_START
   )
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,10 @@ class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
           val intent = Intent(this, FragmentSampleActivity::class.java)
           startActivity(intent)
         }
+        SAMPLE_SPOTLIGHT_ON_START -> {
+          val intent = Intent(this, OnStartSampleActivity::class.java)
+          startActivity(intent)
+        }
       }
     }
   }
@@ -35,5 +40,6 @@ class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
   companion object {
     private const val SAMPLE_SPOTLIGHT_ON_ACTIVITY = "Spotlight on Activity"
     private const val SAMPLE_SPOTLIGHT_ON_FRAGMENT = "Spotlight on Fragment"
+    private const val SAMPLE_SPOTLIGHT_ON_START = "Spotlight on Activity Start"
   }
 }

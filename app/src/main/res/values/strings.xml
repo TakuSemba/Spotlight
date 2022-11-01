@@ -7,4 +7,6 @@
   <string name="start_spotlight">Start Spotlight</string>
   <string name="close_spotlight">Close Spotlight</string>
   <string name="next_target">Next Target</string>
+  <string name="randomize_position">Randomize text position</string>
+  <string name="add_dynamic_text">Add dynamic text view</string>
 </resources>
