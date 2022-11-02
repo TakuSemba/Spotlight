@@ -38,10 +38,9 @@ class OnStartSampleActivity : AppCompatActivity(R.layout.activity_on_start_sampl
   private fun showSpotlight(anchor: View) {
     val targetOverlay = layoutInflater.inflate(R.layout.layout_overlay_with_randomization, /* parent= */ null)
     val target = Target.Builder()
-        .setAnchor(anchor)
         .setShape(Circle(100f))
         .setOverlay(targetOverlay)
-        .build()
+        .build(anchor)
     val spotlight = Spotlight.Builder(this)
       .setTargets(listOf(target))
       .setBackgroundColorRes(R.color.spotlightBackground)

@@ -45,6 +45,7 @@ internal class SpotlightView @JvmOverloads constructor(
   private var shapeAnimator: ValueAnimator? = null
   private var effectAnimator: ValueAnimator? = null
   private var target: Target? = null
+  private var anchorOnLayoutChangeListener: View.OnLayoutChangeListener? = null
 
   init {
     setWillNotDraw(false)
@@ -60,7 +61,7 @@ internal class SpotlightView @JvmOverloads constructor(
     if (currentTarget != null && currentEffectAnimator != null && currentShapeAnimator != null && !currentShapeAnimator.isRunning) {
       currentTarget.effect.draw(
           canvas = canvas,
-          point = currentTarget.anchor,
+          point = currentTarget.anchorPosition,
           value = currentEffectAnimator.animatedValue as Float,
           paint = effectPaint
       )
@@ -68,7 +69,7 @@ internal class SpotlightView @JvmOverloads constructor(
     if (currentTarget != null && currentShapeAnimator != null) {
       currentTarget.shape.draw(
           canvas = canvas,
-          point = currentTarget.anchor,
+          point = currentTarget.anchorPosition,
           value = currentShapeAnimator.animatedValue as Float,
           paint = shapePaint
       )
@@ -113,12 +114,12 @@ internal class SpotlightView @JvmOverloads constructor(
   fun startTarget(target: Target) {
     removeAllViews()
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
-    this.target = target.apply {
-      // adjust anchor in case where custom container is set.
-      val location = IntArray(2)
-      getLocationInWindow(location)
-      val offset = PointF(location[0].toFloat(), location[1].toFloat())
-      anchor.offset(-offset.x, -offset.y)
+    anchorOnLayoutChangeListener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+      // Force a re-draw since the anchor may have moved and/or been resized.
+      this@SpotlightView.invalidate()
+    }
+    this.target = target.also {
+      target.anchor.addOnLayoutChangeListener(anchorOnLayoutChangeListener)
     }
     this.shapeAnimator?.removeAllListeners()
     this.shapeAnimator?.removeAllUpdateListeners()
@@ -170,6 +171,7 @@ internal class SpotlightView @JvmOverloads constructor(
    */
   fun finishTarget(listener: Animator.AnimatorListener) {
     val currentTarget = target ?: return
+    currentTarget.anchor.removeOnLayoutChangeListener(anchorOnLayoutChangeListener)
     val currentAnimatedValue = shapeAnimator?.animatedValue ?: return
     shapeAnimator?.removeAllListeners()
     shapeAnimator?.removeAllUpdateListeners()

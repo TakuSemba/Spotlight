@@ -28,7 +28,6 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
       val firstRoot = FrameLayout(this)
       val first = layoutInflater.inflate(R.layout.layout_target, firstRoot)
       val firstTarget = Target.Builder()
-          .setAnchor(findViewById<View>(R.id.one))
           .setShape(Circle(100f))
           .setOverlay(first)
           .setOnTargetListener(object : OnTargetListener {
@@ -52,7 +51,7 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
               currentToast?.show()
             }
           })
-          .build()
+          .build(findViewById<View>(R.id.one))
 
       targets.add(firstTarget)
 
@@ -60,7 +59,6 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
       val secondRoot = FrameLayout(this)
       val second = layoutInflater.inflate(R.layout.layout_target, secondRoot)
       val secondTarget = Target.Builder()
-          .setAnchor(findViewById<View>(R.id.two))
           .setShape(Circle(150f))
           .setOverlay(second)
           .setOnTargetListener(object : OnTargetListener {
@@ -84,7 +82,7 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
               currentToast?.show()
             }
           })
-          .build()
+          .build(findViewById<View>(R.id.two))
 
       targets.add(secondTarget)
 
@@ -92,7 +90,6 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
       val thirdRoot = FrameLayout(this)
       val third = layoutInflater.inflate(R.layout.layout_target, thirdRoot)
       val thirdTarget = Target.Builder()
-          .setAnchor(findViewById<View>(R.id.three))
           .setShape(Circle(200f))
           .setOverlay(third)
           .setOnTargetListener(object : OnTargetListener {
@@ -116,7 +113,7 @@ class ActivitySampleActivity : AppCompatActivity(R.layout.activity_activity_samp
               currentToast?.show()
             }
           })
-          .build()
+          .build(findViewById<View>(R.id.three))
 
       targets.add(thirdTarget)
 
