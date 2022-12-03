@@ -11,6 +11,7 @@ import com.takusemba.spotlight.shape.Shape
  * Target represents the spot that Spotlight will cast.
  */
 class Target(
+    var isNeedOffset: Boolean = false,
     val anchor: PointF,
     val shape: Shape,
     val effect: Effect,
@@ -24,6 +25,7 @@ class Target(
    */
   class Builder {
 
+    private var isNeedOffset: Boolean = false
     private var anchor: PointF = DEFAULT_ANCHOR
     private var shape: Shape = DEFAULT_SHAPE
     private var effect: Effect = DEFAULT_EFFECT
@@ -38,6 +40,7 @@ class Target(
       view.getLocationInWindow(location)
       val x = location[0] + view.width / 2f
       val y = location[1] + view.height / 2f
+      isNeedOffset = true
       setAnchor(x, y)
     }
 
@@ -84,6 +87,7 @@ class Target(
     }
 
     fun build() = Target(
+        isNeedOffset = isNeedOffset,
         anchor = anchor,
         shape = shape,
         effect = effect,
