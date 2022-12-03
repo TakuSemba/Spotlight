@@ -115,10 +115,12 @@ internal class SpotlightView @JvmOverloads constructor(
     addView(target.overlay, MATCH_PARENT, MATCH_PARENT)
     this.target = target.apply {
       // adjust anchor in case where custom container is set.
-      val location = IntArray(2)
-      getLocationInWindow(location)
-      val offset = PointF(location[0].toFloat(), location[1].toFloat())
-      anchor.offset(-offset.x, -offset.y)
+      if (isNeedOffset) {
+        val location = IntArray(2)
+        getLocationInWindow(location)
+        val offset = PointF(location[0].toFloat(), location[1].toFloat())
+        anchor.offset(-offset.x, -offset.y)
+      }
     }
     this.shapeAnimator?.removeAllListeners()
     this.shapeAnimator?.removeAllUpdateListeners()
